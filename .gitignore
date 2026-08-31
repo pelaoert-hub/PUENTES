@@ -1,0 +1,46 @@
+node_modules/
+.DS_Store
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# iOS
+ios/App/Pods/
+ios/App/build/
+ios/App/App/public/
+ios/DerivedData/
+xcuserdata/
+
+# Assets copiados automaticamente por Capacitor
+android/app/src/main/assets/public/
+
+.vercel/
+
+# Firma de Android (NUNCA subir)
+android/key.properties
+*.jks
+*.keystore
+
+# Claves de firma de las notificaciones push. NO subir a ningun repositorio.
+vapid-claves.txt
+supabase/.temp/
+
+# Contiene la SERVICE_ROLE de Supabase, que se salta todas las politicas RLS:
+# quien la tenga puede leer y escribir la base de datos entera. NUNCA subir.
+FUNCION-AVISOS-copiar-esto.txt
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Temporales de Claude Code
+.claude/settings.local.json

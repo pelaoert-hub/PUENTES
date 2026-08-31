@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Icono de Puentes como vector: nitido en cualquier densidad de pantalla.
+
+  Lienzo adaptativo de Android: 108x108, de los cuales solo los 72x72
+  centrales estan garantizados (el resto lo puede recortar el lanzador
+  segun la forma que use: circulo, cuadrado redondeado, gota...).
+
+  El logo mide 40x31 y se escala x1.4 y se centra para quedar dentro de
+  esa zona segura.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <group
+        android:translateX="26"
+        android:translateY="32.3"
+        android:scaleX="1.4"
+        android:scaleY="1.4">
+
+        <!-- Insignia de banderas, con las esquinas redondeadas -->
+        <group>
+            <clip-path android:pathData="M7,0 L33,0 A7,7 0 0 1 40,7 L40,27 A7,7 0 0 1 33,34 L7,34 A7,7 0 0 1 0,27 L0,7 A7,7 0 0 1 7,0 Z" />
+
+            <!-- Bandera de Cespedes (La Demajagua, 1868) -->
+            <path android:pathData="M0,0 h10 v14 h-10 z"  android:fillColor="#F5EFE1" />
+            <path android:pathData="M10,0 h10 v14 h-10 z" android:fillColor="#CC1126" />
+            <path android:pathData="M0,14 h20 v10 h-20 z" android:fillColor="#6FA8C9" />
+
+            <!-- Bandera actual de Cuba -->
+            <path android:pathData="M20,0 h20 v8 h-20 z"  android:fillColor="#0A3161" />
+            <path android:pathData="M20,8 h20 v8 h-20 z"  android:fillColor="#F5EFE1" />
+            <path android:pathData="M20,16 h20 v8 h-20 z" android:fillColor="#0A3161" />
+            <path android:pathData="M20,0 L20,24 L30,12 Z" android:fillColor="#CC1126" />
+        </group>
+
+        <!-- Puente del Yayabo, estilizado -->
+        <path android:pathData="M13,24 h2.6 v7 h-2.6 z"   android:fillColor="#0E2A2E" />
+        <path android:pathData="M24.4,24 h2.6 v7 h-2.6 z" android:fillColor="#0E2A2E" />
+        <path
+            android:pathData="M5,21 L35,21 A1,1 0 0 1 36,22 L36,23 A1,1 0 0 1 35,24 L5,24 A1,1 0 0 1 4,23 L4,22 A1,1 0 0 1 5,21 Z"
+            android:fillColor="#0E2A2E" />
+
+        <!-- El arco que une las dos orillas.
+             Los vectores de Android no admiten lineas punteadas, asi que
+             a este tamanio va continuo: mas legible que un punteado borroso. -->
+        <path
+            android:pathData="M10,20 C16,16.5 24,16.5 30,20"
+            android:fillColor="#00000000"
+            android:strokeColor="#F5EFE1"
+            android:strokeWidth="1.1"
+            android:strokeLineCap="round" />
+
+        <!-- Los dos extremos: el que se va y el que ya esta afuera -->
+        <path android:pathData="M9,17.4 a2.6,2.6 0 1 0 0,5.2 a2.6,2.6 0 1 0 0,-5.2 z"  android:fillColor="#E2604B" />
+        <path android:pathData="M31,17.4 a2.6,2.6 0 1 0 0,5.2 a2.6,2.6 0 1 0 0,-5.2 z" android:fillColor="#D9A441" />
+    </group>
+</vector>

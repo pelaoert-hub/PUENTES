@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Generador de iconos Puentes</title>
+<style>
+  body { background:#0E2A2E; color:#F5EFE1; font:14px system-ui,sans-serif; padding:20px; }
+  canvas { background:#123339; margin:8px; vertical-align:top; border:1px solid #2A5560; }
+  h1 { font-size:15px; margin-bottom:12px; }
+</style>
+</head>
+<body>
+<h1>Iconos Puentes &mdash; previsualizacion</h1>
+<div id="preview"></div>
+
+<script>
+/* Logo Puentes en coordenadas 40 x 31:
+   - Insignia con la bandera de La Demajagua (1868) y la bandera actual de Cuba
+   - Puente del Yayabo estilizado debajo
+   - Dos puntos (coral y oro) unidos por un arco punteado: el puente entre cubanos */
+const LOGO_W = 40, LOGO_H = 31;
+
+const C = {
+  bg:     '#0E2A2E',
+  cream:  '#F5EFE1',
+  red:    '#CC1126',
+  blue:   '#6FA8C9',
+  navy:   '#0A3161',
+  dark:   '#0E2A2E',
+  coral:  '#E2604B',
+  gold:   '#D9A441'
+};
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+/**
+ * Dibuja el icono.
+ * @param size  lado del icono en px
+ * @param frac  fraccion del lado que ocupa el ancho del logo (0-1).
+ *              Usar ~0.62 para iconos "maskable" (zona segura) y ~0.80 para el resto.
+ * @param bg    color de fondo, o null para fondo transparente
+ */
+function draw(ctx, size, frac, bg) {
+  ctx.clearRect(0, 0, size, size);
+  if (bg) { ctx.fillStyle = bg; ctx.fillRect(0, 0, size, size); }
+
+  const s  = (size * frac) / LOGO_W;
+  const ox = (size - LOGO_W * s) / 2;
+  const oy = (size - LOGO_H * s) / 2;
+
+  ctx.save();
+  ctx.translate(ox, oy);
+  ctx.scale(s, s);
+
+  // --- Insignia de banderas (recortada con esquinas superiores redondeadas) ---
+  ctx.save();
+  roundRect(ctx, 0, 0, 40, 34, 7);
+  ctx.clip();
+
+  // Bandera de Cespedes / La Demajagua (1868)
+  ctx.fillStyle = C.cream; ctx.fillRect(0, 0, 10, 14);
+  ctx.fillStyle = C.red;   ctx.fillRect(10, 0, 10, 14);
+  ctx.fillStyle = C.blue;  ctx.fillRect(0, 14, 20, 10);
+
+  // Bandera actual de Cuba
+  ctx.fillStyle = C.navy;  ctx.fillRect(20, 0, 20, 8);
+  ctx.fillStyle = C.cream; ctx.fillRect(20, 8, 20, 8);
+  ctx.fillStyle = C.navy;  ctx.fillRect(20, 16, 20, 8);
+  ctx.fillStyle = C.red;
+  ctx.beginPath();
+  ctx.moveTo(20, 0); ctx.lineTo(20, 24); ctx.lineTo(30, 12);
+  ctx.closePath(); ctx.fill();
+
+  ctx.restore();
+
+  // --- Puente del Yayabo, estilizado ---
+  ctx.fillStyle = C.dark;
+  ctx.fillRect(13, 24, 2.6, 7);
+  ctx.fillRect(24.4, 24, 2.6, 7);
+  roundRect(ctx, 4, 21, 32, 3, 1); ctx.fill();
+
+  // Arco punteado: la union entre las dos orillas
+  ctx.strokeStyle = C.cream;
+  ctx.lineWidth = 1.1;
+  ctx.lineCap = 'round';
+  ctx.setLineDash([1.4, 2.4]);
+  ctx.beginPath();
+  ctx.moveTo(10, 20);
+  ctx.bezierCurveTo(16, 16.5, 24, 16.5, 30, 20);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Los dos extremos
+  ctx.fillStyle = C.coral;
+  ctx.beginPath(); ctx.arc(9, 20, 2.6, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = C.gold;
+  ctx.beginPath(); ctx.arc(31, 20, 2.6, 0, Math.PI * 2); ctx.fill();
+
+  ctx.restore();
+}
+
+/** Devuelve el PNG en base64 (sin el prefijo data:) */
+function makeIcon(size, frac, bg) {
+  const cv = document.createElement('canvas');
+  cv.width = cv.height = size;
+  draw(cv.getContext('2d'), size, frac, bg);
+  return cv.toDataURL('image/png').split(',')[1];
+}
+window.makeIcon = makeIcon;
+
+// Previsualizacion en pantalla
+[[192, 0.80, C.bg], [512, 0.80, C.bg], [512, 0.62, C.bg], [180, 0.78, C.bg]].forEach(([sz, fr, bg]) => {
+  const cv = document.createElement('canvas');
+  cv.width = cv.height = sz;
+  cv.style.width = cv.style.height = Math.min(sz, 160) + 'px';
+  draw(cv.getContext('2d'), sz, fr, bg);
+  document.getElementById('preview').appendChild(cv);
+});
+</script>
+</body>
+</html>

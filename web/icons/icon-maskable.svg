@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Puentes">
+  <title>Puentes</title>
+  <!-- Version "maskable": el contenido queda dentro de la zona segura (circulo del 80%)
+       para que Android pueda recortarlo en circulo, cuadrado redondeado, gota, etc. -->
+  <rect width="512" height="512" fill="#0E2A2E"/>
+  <g transform="translate(98 133.5) scale(7.9)">
+    <defs>
+      <clipPath id="badgeM"><rect x="0" y="0" width="40" height="34" rx="7"/></clipPath>
+    </defs>
+    <g clip-path="url(#badgeM)">
+      <rect x="0" y="0" width="10" height="14" fill="#F5EFE1"/>
+      <rect x="10" y="0" width="10" height="14" fill="#CC1126"/>
+      <rect x="0" y="14" width="20" height="10" fill="#6FA8C9"/>
+      <rect x="20" y="0" width="20" height="8" fill="#0A3161"/>
+      <rect x="20" y="8" width="20" height="8" fill="#F5EFE1"/>
+      <rect x="20" y="16" width="20" height="8" fill="#0A3161"/>
+      <polygon points="20,0 20,24 30,12" fill="#CC1126"/>
+    </g>
+    <rect x="13" y="24" width="2.6" height="7" fill="#0E2A2E"/>
+    <rect x="24.4" y="24" width="2.6" height="7" fill="#0E2A2E"/>
+    <rect x="4" y="21" width="32" height="3" rx="1" fill="#0E2A2E"/>
+    <path d="M10 20 C 16 16.5, 24 16.5, 30 20" stroke="#F5EFE1" stroke-width="1.1" stroke-dasharray="1.4 2.4" stroke-linecap="round" fill="none"/>
+    <circle cx="9" cy="20" r="2.6" fill="#E2604B"/>
+    <circle cx="31" cy="20" r="2.6" fill="#D9A441"/>
+  </g>
+</svg>

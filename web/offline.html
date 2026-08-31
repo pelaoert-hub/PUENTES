@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sin conexión — Puentes</title>
+<meta name="theme-color" content="#0D5257">
+<link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+<style>
+  :root {
+    --bg:#0D5257; --surface:#173C43; --line:#2A5560;
+    --cream:#F5EFE1; --cream-dim:#C9C3B4; --gold:#D9A441; --coral:#E2604B;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:var(--bg); color:var(--cream); padding:24px;
+    font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+    text-align:center;
+  }
+  .caja { max-width:420px; }
+  svg.logo { width:88px; height:auto; margin-bottom:24px; }
+  h1 { font-size:22px; margin-bottom:12px; letter-spacing:.01em; }
+  p { color:var(--cream-dim); margin-bottom:10px; }
+  .nota {
+    margin-top:24px; padding:14px 16px; background:var(--surface);
+    border:1px solid var(--line); border-radius:14px;
+    font-size:14px; color:var(--cream-dim); text-align:left;
+  }
+  button {
+    margin-top:24px; padding:12px 26px; cursor:pointer;
+    background:var(--gold); color:#0A3438; border:0; border-radius:10px;
+    font:inherit; font-weight:600; font-size:15px;
+  }
+  button:hover { filter:brightness(1.08); }
+  .estado { margin-top:14px; font-size:13px; color:var(--coral); min-height:1.4em; }
+</style>
+</head>
+<body>
+  <div class="caja">
+    <svg class="logo" viewBox="0 0 40 31" xmlns="http://www.w3.org/2000/svg" aria-label="Puentes">
+      <defs><clipPath id="b"><rect x="0" y="0" width="40" height="34" rx="7"/></clipPath></defs>
+      <g clip-path="url(#b)">
+        <rect x="0" y="0" width="10" height="14" fill="#F5EFE1"/>
+        <rect x="10" y="0" width="10" height="14" fill="#CC1126"/>
+        <rect x="0" y="14" width="20" height="10" fill="#6FA8C9"/>
+        <rect x="20" y="0" width="20" height="8" fill="#0A3161"/>
+        <rect x="20" y="8" width="20" height="8" fill="#F5EFE1"/>
+        <rect x="20" y="16" width="20" height="8" fill="#0A3161"/>
+        <polygon points="20,0 20,24 30,12" fill="#CC1126"/>
+      </g>
+      <rect x="13" y="24" width="2.6" height="7" fill="#0D5257"/>
+      <rect x="24.4" y="24" width="2.6" height="7" fill="#0D5257"/>
+      <rect x="4" y="21" width="32" height="3" rx="1" fill="#0D5257"/>
+      <path d="M10 20 C 16 16.5, 24 16.5, 30 20" stroke="#F5EFE1" stroke-width="1.1" stroke-dasharray="1.4 2.4" stroke-linecap="round" fill="none"/>
+      <circle cx="9" cy="20" r="2.6" fill="#E2604B"/>
+      <circle cx="31" cy="20" r="2.6" fill="#D9A441"/>
+    </svg>
+
+    <h1>Sin conexión</h1>
+    <p>No pudimos conectarnos. Puentes sigue acá cuando vuelva la señal.</p>
+
+    <div class="nota">
+      Lo que ya habías abierto queda guardado en el teléfono y podés consultarlo
+      sin datos. Lo que publiques se enviará cuando vuelva la conexión.
+    </div>
+
+    <button id="reintentar" type="button">Reintentar</button>
+    <div class="estado" id="estado"></div>
+  </div>
+
+<script>
+  const boton = document.getElementById('reintentar');
+  const estado = document.getElementById('estado');
+
+  boton.addEventListener('click', () => {
+    estado.textContent = '';
+    if (navigator.onLine) {
+      location.replace('/');
+    } else {
+      estado.textContent = 'Todavía no hay conexión.';
+    }
+  });
+
+  // Si la conexión vuelve sola, entramos sin que tenga que tocar nada.
+  window.addEventListener('online', () => location.replace('/'));
+</script>
+</body>
+</html>

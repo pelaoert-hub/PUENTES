@@ -1,0 +1,3 @@
+# original/ es la copia intacta de lo que hay en produccion: debe quedar
+# byte a byte igual. Sin esto, autocrlf la reescribiria.
+* -text

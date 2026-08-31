@@ -1,0 +1,42 @@
+{
+  "appId": "com.puentescuba.app",
+  "appName": "Puentes",
+  "webDir": "web",
+  "backgroundColor": "#0E2A2E",
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "https",
+    "allowNavigation": [
+      "www.puentescuba.com",
+      "puentescuba.com",
+      "*.supabase.co",
+      "cdn.jsdelivr.net"
+    ]
+  },
+  "android": {
+    "backgroundColor": "#0E2A2E",
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "ios": {
+    "backgroundColor": "#0E2A2E",
+    "contentInset": "always",
+    "limitsNavigationsToAppBoundDomains": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1200,
+      "launchAutoHide": true,
+      "backgroundColor": "#0E2A2E",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false,
+      "splashFullScreen": true,
+      "splashImmersive": false
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#0E2A2E"
+    }
+  }
+}

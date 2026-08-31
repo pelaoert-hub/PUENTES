@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- CONFIGURACIÓN DE VISIBILIDAD DE BUSCADORES (SEO) -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="description" content="Puentes: Trámites, ayudas y prestaciones de tu país de residencia, cambios legales en Cuba, aduana, remesas y una comunidad unida en un solo lugar.">
+<meta name="keywords" content="puentes cuba, puentescuba.com, cubanos en el mundo, ley de migracion cuba, pasaporte cubano, remesas a cuba, tramites cubanos españa">
+<link rel="canonical" href="https://www.puentescuba.com/">
+
+<!-- CONFIGURACIÓN DE VISTA PREVIA PARA WHATSAPP Y FACEBOOK -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Puentes — Cubanos en el mundo, informados y conectados">
+<meta property="og:description" content="Trámites, ayudas de tu país de residencia, cambios legales en Cuba, y una comunidad unida. Todo en un solo lugar.">
+<meta property="og:url" content="https://www.puentescuba.com/">
+<meta property="og:site_name" content="Puentes Cuba">
+<meta property="og:image" content="https://www.puentescuba.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- MARCADORES DE TWITTER/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Puentes — Cubanos en el mundo, informados">
+<meta name="twitter:description" content="Plataforma interactiva de apoyo e información para la diáspora y cubanos dentro de la isla.">
+<meta name="twitter:image" content="https://www.puentescuba.com/og-image.png">
+
+<title>Puentes — Cubanos en el mundo, informados</title>
+<style>
+  :root{
+    --bg:#0E2A2E;
+    --bg-alt:#123339;
+    --surface:#173C43;
+    --surface-hi:#1E4750;
+    --line:#2A5560;
+    --cream:#F5EFE1;
+    --cream-dim:#C9C3B4;
+    --gold:#D9A441;
+    --coral:#E2604B;
+    --muted:#8FAEB0;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background-color:#0E2A2E !important;min-height:100%;}
+  html{min-height:100vh;}
+  body{
+    background:var(--bg) !important;
+    min-height:100vh;
+    color:var(--cream);
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:Georgia, 'Times New Roman', serif;font-weight:600;margin:0;letter-spacing:-0.01em;color:#FFFFFF;}
+  .mono{font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;}
+  a{color:inherit;}
+
+  /* ---- Header ---- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(14,42,46,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-wrap{
+    max-width:1120px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-size:1.15rem;}
+  .header-left{display:flex;align-items:center;gap:20px;}
+  .logo svg{width:34px;height:29px;flex-shrink:0;}
+  nav{display:flex;gap:4px;flex-wrap:wrap;}
+  nav button{
+    background:none;border:none;color:var(--cream-dim);
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:0.92rem;font-weight:500;
+    padding:8px 14px;border-radius:999px;cursor:pointer;
+    transition:all .15s ease;
+  }
+  nav button:hover{color:var(--cream);background:var(--surface);}
+  nav button.active{color:var(--bg);background:var(--gold);}
+
+  /* ---- Explorar todo (panel desplegable en el header) ---- */
+  .explore-wrap{position:relative;}
+  .explore-btn{
+    display:flex;align-items:center;gap:6px;
+    background:var(--gold);border:none;color:var(--bg);
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:0.9rem;font-weight:700;
+    padding:9px 16px;border-radius:999px;cursor:pointer;
+    transition:opacity .15s ease;
+  }
+  .explore-btn:hover{opacity:0.88;}
+  .explore-btn .chevron{font-size:0.65rem;transition:transform .15s ease;}
+  .explore-btn.open .chevron{transform:rotate(180deg);}
+  .explore-panel{
+    display:none;position:absolute;top:calc(100% + 12px);left:0;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;gap:36px;box-shadow:0 24px 60px rgba(0,0,0,.45);z-index:60;
+    min-width:540px;
+  }
+  .explore-panel.open{display:flex;}
+  .explore-col{display:flex;flex-direction:column;gap:2px;min-width:220px;}
+  .explore-heading{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.7rem;
+    text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:10px;
+  }
+  .explore-link{
+    background:none;border:none;color:var(--cream-dim);text-decoration:none;
+    text-align:left;padding:9px 10px;border-radius:8px;cursor:pointer;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:0.92rem;
+    display:block;width:100%;
+  }
+  .explore-link:hover{background:var(--bg-alt);color:var(--cream);}
+  .explore-link .sub{display:block;font-size:0.76rem;color:var(--muted);margin-top:2px;}
+  .explore-empty{color:var(--muted);font-size:0.85rem;padding:9px 10px;}
+
+  /* ---- Hero ---- */
+  .hero{max-width:1120px;margin:0 auto;padding:64px 24px 40px;}
+  .hero .eyebrow{
+    color:var(--gold);font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;
+    font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;
+    display:block;margin-bottom:14px;
+  }
+  .hero h1{font-size:clamp(2.2rem,5vw,3.4rem);max-width:780px;line-height:1.08;}
+  .hero p.sub{color:var(--cream-dim);max-width:560px;margin-top:18px;font-size:1.05rem;}
+
+  /* horizon signature element — puente del Yayabo sobre las dos banderas */
+  .horizon{position:relative;width:100%;max-width:1120px;aspect-ratio:1120/260;margin:36px auto 0;padding:0 24px;}
+  .horizon svg{width:100%;height:100%;display:block;}
+
+  /* ---- Sections generic ---- */
+  main{max-width:1120px;margin:0 auto;padding:12px 24px 100px;}
+  section{display:none;}
+  section.active{display:block;}
+  .section-head{margin-bottom:28px;}
+  .section-head h2{font-size:1.7rem;margin-bottom:8px;}
+  .section-head p{color:var(--cream-dim);max-width:640px;font-size:0.97rem;}
+
+  .updated-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.72rem;
+    color:var(--muted);border:1px solid var(--line);
+    padding:4px 10px;border-radius:999px;margin-top:10px;
+  }
+  .updated-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+
+  /* ---- Country selector ---- */
+  .country-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+  .quick-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+  .btn-quick{
+    display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    background:var(--surface);border:1px solid var(--gold);color:var(--gold);
+    padding:9px 16px;border-radius:999px;font-size:0.88rem;font-weight:600;
+    transition:all .15s ease;
+  }
+  .btn-quick:hover{background:var(--gold);color:var(--bg);}
+  .chip{
+    background:var(--surface);border:1px solid var(--line);color:var(--cream-dim);
+    padding:8px 16px;border-radius:999px;font-size:0.9rem;cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip:hover{border-color:var(--gold);}
+  .chip.active{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600;}
+
+  /* ---- Cards ---- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;transition:border-color .15s ease;
+  }
+  .card:hover{border-color:var(--gold);}
+  .card .tag{
+    display:inline-block;font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.7rem;
+    text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:10px;
+  }
+  .card h3{font-size:1.1rem;margin-bottom:8px;}
+  .card p{color:var(--cream-dim);font-size:0.9rem;margin:0 0 12px;}
+  .card .meta{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.72rem;color:var(--muted);
+    border-top:1px solid var(--line);padding-top:12px;margin-top:4px;
+  }
+  .verify-link{color:var(--coral);text-decoration:none;font-weight:500;}
+  .verify-link:hover{text-decoration:underline;}
+
+  /* ---- Feed (Cambios en Cuba) ---- */
+  .feed-item{
+    display:grid;grid-template-columns:100px 1fr;gap:20px;
+    padding:22px 0;border-bottom:1px solid var(--line);
+  }
+  .feed-item:last-child{border-bottom:none;}
+  .feed-date{font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;color:var(--muted);font-size:0.8rem;padding-top:4px;}
+  .feed-cat{
+    display:inline-block;font-size:0.7rem;font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;
+    text-transform:uppercase;letter-spacing:.05em;padding:3px 9px;border-radius:6px;
+    margin-bottom:8px;
+  }
+  .feed-cat.migracion{background:rgba(217,164,65,.15);color:var(--gold);}
+  .feed-cat.economia{background:rgba(226,96,75,.15);color:var(--coral);}
+  .feed-cat.aduana{background:rgba(143,174,176,.2);color:var(--muted);}
+  .feed-item h3{font-size:1.05rem;margin-bottom:6px;}
+  .feed-item p{color:var(--cream-dim);font-size:0.92rem;margin:0;}
+
+  /* ---- Disclaimer box ---- */
+  .disclaimer{
+    background:var(--bg-alt);border:1px dashed var(--line);border-radius:var(--radius);
+    padding:18px 20px;margin-bottom:32px;font-size:0.88rem;color:var(--cream-dim);
+  }
+  .disclaimer strong{color:var(--cream);}
+
+  /* ---- Comunidad ---- */
+  .community-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+  .community-grid .card p.count{font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;color:var(--muted);font-size:0.78rem;}
+
+  /* ---- Table (remesas) ---- */
+  table{width:100%;border-collapse:collapse;font-size:0.9rem;}
+  thead th{
+    text-align:left;font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.72rem;
+    text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+    padding:0 14px 12px;border-bottom:1px solid var(--line);
+  }
+  tbody td{padding:16px 14px;border-bottom:1px solid var(--line);color:var(--cream-dim);}
+  tbody tr:hover{background:var(--surface);}
+  tbody td:first-child{color:var(--cream);font-weight:600;}
+  .pill{
+    display:inline-block;padding:3px 10px;border-radius:999px;font-size:0.75rem;
+    background:rgba(217,164,65,.15);color:var(--gold);
+  }
+
+  /* ---- Subnav (Comunidad) ---- */
+  .subnav{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--line);}
+  .subtab{
+    background:none;border:none;color:var(--cream-dim);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size:0.92rem;font-weight:500;padding:10px 4px;margin-right:20px;cursor:pointer;
+    border-bottom:2px solid transparent;transition:all .15s ease;
+  }
+  .subtab:hover{color:var(--cream);}
+  .subtab.active{color:var(--gold);border-bottom-color:var(--gold);}
+  .subpanel{display:none;}
+  .subpanel.active{display:block;}
+
+  /* ---- Forms ---- */
+  .post-form{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;margin-bottom:28px;display:flex;flex-direction:column;gap:10px;
+  }
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+  .location-block{
+    background:var(--bg-alt);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;margin-top:2px;
+  }
+  .location-block .lbl{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.68rem;text-transform:uppercase;
+    letter-spacing:.06em;color:var(--gold);display:block;margin-bottom:4px;
+  }
+  .location-block p{margin:0;color:var(--cream);font-size:0.9rem;}
+  .map-link{
+    display:inline-flex;align-items:center;gap:4px;color:var(--coral);
+    text-decoration:none;font-size:0.82rem;font-weight:600;margin-top:6px;
+  }
+  .map-link:hover{text-decoration:underline;}
+  .post-form input, .post-form select, .post-form textarea{
+    background:var(--bg-alt);border:1px solid var(--line);color:var(--cream);
+    border-radius:8px;padding:10px 12px;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:0.9rem;
+    width:100%;
+  }
+  .post-form input::placeholder, .post-form textarea::placeholder{color:var(--muted);}
+  .post-form textarea{min-height:80px;resize:vertical;}
+  .post-form input:focus, .post-form select:focus, .post-form textarea:focus{
+    outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold);
+  }
+  .btn-primary{
+    align-self:flex-start;background:var(--gold);color:var(--bg);border:none;
+    padding:10px 20px;border-radius:999px;font-weight:600;font-size:0.9rem;
+    cursor:pointer;transition:opacity .15s ease;
+  }
+  .btn-primary:hover{opacity:0.88;}
+  .btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
+  .btn-outline{
+    background:none;border:1px solid var(--gold);color:var(--gold);
+    padding:9px 18px;border-radius:999px;font-weight:600;font-size:0.88rem;
+    cursor:pointer;margin:20px 0 8px;transition:all .15s ease;
+  }
+  .btn-outline:hover{background:var(--gold);color:var(--bg);}
+  .community-sub-head{margin:32px 0 14px;display:flex;align-items:center;gap:10px;}
+  .community-sub-head h3{font-size:1.05rem;color:var(--cream);display:flex;align-items:center;gap:10px;}
+  .unverified-pill{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.65rem;text-transform:uppercase;
+    letter-spacing:.04em;background:rgba(226,96,75,.15);color:var(--coral);
+    padding:3px 9px;border-radius:999px;
+  }
+  .verified-pill{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.65rem;text-transform:uppercase;
+    letter-spacing:.04em;background:rgba(140,198,120,.15);color:#8CC678;
+    padding:3px 9px;border-radius:999px;
+  }
+  .filter-chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+  .form-note{font-size:0.78rem;color:var(--muted);margin-top:-4px;}
+
+  /* ---- Post list (anuncios / encuentros) ---- */
+  .post-list{display:flex;flex-direction:column;gap:12px;}
+  .post-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 20px;display:flex;gap:16px;align-items:flex-start;position:relative;
+  }
+  .delete-btn{
+    background:none;border:1px solid var(--line);color:var(--muted);
+    border-radius:8px;padding:5px 10px;font-size:0.75rem;cursor:pointer;
+    margin-left:auto;flex-shrink:0;transition:all .15s ease;
+  }
+  .delete-btn:hover{border-color:var(--coral);color:var(--coral);}
+  .post-card-row{display:flex;width:100%;gap:16px;}
+  .filter-row{margin-bottom:16px;}
+  .filter-row input{
+    background:var(--surface);border:1px solid var(--line);color:var(--cream);
+    border-radius:8px;padding:9px 14px;font-size:0.88rem;width:100%;max-width:280px;
+  }
+  .filter-row input::placeholder{color:var(--muted);}
+  .filter-row input:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold);}
+  .post-date-badge{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.72rem;color:var(--bg);
+    background:var(--gold);border-radius:8px;padding:6px 10px;text-align:center;
+    min-width:56px;flex-shrink:0;line-height:1.2;
+  }
+  .post-body h3{font-size:1.02rem;margin-bottom:4px;}
+  .post-body p{color:var(--cream-dim);font-size:0.9rem;margin:0 0 8px;}
+  .post-meta{font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.75rem;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;}
+  .empty-state{color:var(--muted);font-size:0.9rem;padding:24px 0;text-align:center;}
+
+  footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center;color:var(--muted);font-size:0.82rem;}
+
+  @media (max-width:640px){
+    .feed-item{grid-template-columns:1fr;gap:6px;}
+    nav{width:100%;overflow-x:auto;}
+    .nav-wrap{flex-wrap:wrap;}
+    .header-left{width:100%;justify-content:space-between;}
+    .explore-panel{flex-direction:column;gap:20px;min-width:unset;width:calc(100vw - 48px);left:-8px;}
+  }
+</style>
+</head>
+<body>
+<div id="app-shell" style="background-color:#0E2A2E !important; min-height:100vh; color:#F5EFE1;">
+
+<header>
+  <div class="nav-wrap">
+    <div class="header-left">
+    <div class="logo">
+      <svg viewBox="0 0 40 34" aria-hidden="true">
+        <defs><clipPath id="logoBadge"><rect x="0" y="0" width="40" height="34" rx="7"/></clipPath></defs>
+        <g clip-path="url(#logoBadge)">
+          <!-- Bandera de Céspedes (La Demajagua, 1868) -->
+          <rect x="0" y="0" width="10" height="14" fill="#F5EFE1"/>
+          <rect x="10" y="0" width="10" height="14" fill="#CC1126"/>
+          <rect x="0" y="14" width="20" height="10" fill="#6FA8C9"/>
+          <!-- Bandera actual de Cuba -->
+          <rect x="20" y="0" width="20" height="8" fill="#0A3161"/>
+          <rect x="20" y="8" width="20" height="8" fill="#F5EFE1"/>
+          <rect x="20" y="16" width="20" height="8" fill="#0A3161"/>
+          <polygon points="20,0 20,24 30,12" fill="#CC1126"/>
+        </g>
+        <!-- Puente del Yayabo, estilizado -->
+        <rect x="13" y="24" width="2.6" height="7" fill="#0E2A2E"/>
+        <rect x="24.4" y="24" width="2.6" height="7" fill="#0E2A2E"/>
+        <rect x="4" y="21" width="32" height="3" rx="1" fill="#0E2A2E"/>
+        <path d="M10 20 C 16 16.5, 24 16.5, 30 20" stroke="#F5EFE1" stroke-width="1.1" stroke-dasharray="1.4 2.4" stroke-linecap="round" fill="none"/>
+        <circle cx="9" cy="20" r="2.6" fill="#E2604B"/>
+        <circle cx="31" cy="20" r="2.6" fill="#D9A441"/>
+      </svg>
+      <span><strong>Puentes</strong></span>
+    </div>
+    <div class="explore-wrap">
+      <button id="explore-toggle" class="explore-btn" type="button" aria-expanded="false">☰ Explorar todo <span class="chevron">▾</span></button>
+      <div id="explore-panel" class="explore-panel">
+        <div class="explore-col">
+          <span class="explore-heading">Servicios</span>
+          <button class="explore-link" data-section="tramites">Trámites y ayudas</button>
+          <button class="explore-link" data-section="antes-salir">Antes de salir de Cuba</button>
+          <button class="explore-link" data-section="cuba">Cambios en Cuba</button>
+          <button class="explore-link" data-section="comunidad">Comunidad</button>
+          <button class="explore-link" data-section="remesas">Remesas y recargas</button>
+        </div>
+        <div class="explore-col">
+          <span class="explore-heading">Artículos y publicaciones</span>
+          <div id="explore-articles"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <nav id="nav">
+      <button data-section="tramites" class="active">Trámites y ayudas</button>
+      <button data-section="antes-salir">Antes de salir de Cuba</button>
+      <button data-section="cuba">Cambios en Cuba</button>
+      <button data-section="comunidad">Comunidad</button>
+      <button data-section="remesas">Remesas y recargas</button>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <span class="eyebrow">Para cubanos fuera de Cuba</span>
+  <h1 style="color:#FFFFFF !important;">Un puente entre donde estás y donde empezaste.</h1>
+  <p class="sub">Trámites, ayudas y prestaciones de tu país de residencia, cambios legales en Cuba, y una comunidad — todo en un solo lugar, actualizado con frecuencia. También para quien todavía está en la isla y se prepara para salir.</p>
+</div>
+
+<div class="horizon">
+  <svg viewBox="0 0 1120 260" role="img" aria-label="El Puente del Yayabo uniendo la bandera de Céspedes de 1868 con la bandera actual de Cuba, con el nombre Puentes">
+    <defs>
+      <clipPath id="flagPanel"><rect x="60" y="40" width="1000" height="160" rx="18"/></clipPath>
+      <mask id="archMask">
+        <rect x="140" y="75" width="840" height="120" fill="#fff"/>
+        <ellipse cx="240" cy="175" rx="65" ry="42" fill="#000"/>
+        <ellipse cx="400" cy="175" rx="65" ry="54" fill="#000"/>
+        <ellipse cx="560" cy="175" rx="65" ry="66" fill="#000"/>
+        <ellipse cx="720" cy="175" rx="65" ry="54" fill="#000"/>
+        <ellipse cx="880" cy="175" rx="65" ry="42" fill="#000"/>
+      </mask>
+      <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.4"/>
+      </filter>
+    </defs>
+
+    <!-- Las dos banderas cubanas, de fondo -->
+    <g clip-path="url(#flagPanel)">
+      <!-- Bandera de Céspedes / La Demajagua, 10 de octubre de 1868 -->
+      <rect x="60" y="40" width="250" height="80" fill="#F5EFE1"/>
+      <rect x="310" y="40" width="250" height="80" fill="#CC1126"/>
+      <rect x="60" y="120" width="500" height="80" fill="#6FA8C9"/>
+      <polygon points="0,-14 3.3,-4.5 13.3,-4.3 5.3,1.7 8.2,11.3 0,5.6 -8.2,11.3 -5.3,1.7 -13.3,-4.3 -3.3,-4.5" fill="#F5EFE1" transform="translate(435,80)"/>
+
+      <!-- Bandera actual de la República de Cuba -->
+      <rect x="560" y="40" width="500" height="32" fill="#0A3161"/>
+      <rect x="560" y="72" width="500" height="32" fill="#F5EFE1"/>
+      <rect x="560" y="104" width="500" height="32" fill="#0A3161"/>
+      <rect x="560" y="136" width="500" height="32" fill="#F5EFE1"/>
+      <rect x="560" y="168" width="500" height="32" fill="#0A3161"/>
+      <polygon points="560,40 560,200 760,120" fill="#CC1126"/>
+      <polygon points="0,-16 3.8,-5.2 15.2,-4.9 6.1,2.0 9.4,12.9 0,6.4 -9.4,12.9 -6.1,2.0 -15.2,-4.9 -3.8,-5.2" fill="#F5EFE1" transform="translate(620,120)"/>
+    </g>
+
+    <!-- reflejo tenue en el agua -->
+    <g fill="#0E2A2E" opacity="0.14">
+      <ellipse cx="240" cy="184" rx="50" ry="9"/>
+      <ellipse cx="400" cy="185" rx="50" ry="12"/>
+      <ellipse cx="560" cy="186" rx="50" ry="15"/>
+      <ellipse cx="720" cy="185" rx="50" ry="12"/>
+      <ellipse cx="880" cy="184" rx="50" ry="9"/>
+    </g>
+
+    <!-- Puente del Yayabo — cinco arcos de altura decreciente hacia las orillas, perfil real -->
+    <path d="M160,175 L160,110 C 300,95 420,90 560,90 C 700,90 820,95 960,110 L960,175 Z" fill="#0E2A2E" mask="url(#archMask)"/>
+
+    <!-- tajamares (pilastras que cortan la corriente) -->
+    <polygon points="308,173 332,173 320,192" fill="#0E2A2E"/>
+    <polygon points="468,173 492,173 480,192" fill="#0E2A2E"/>
+    <polygon points="628,173 652,173 640,192" fill="#0E2A2E"/>
+    <polygon points="788,173 812,173 800,192" fill="#0E2A2E"/>
+
+    <!-- pretil / calzada, siguiendo el perfil jorobado real del puente -->
+    <path d="M155,108 C 300,92 420,87 560,87 C 700,87 820,92 965,108" fill="none" stroke="#0E2A2E" stroke-width="10" stroke-linecap="round"/>
+    <path d="M155,108 C 300,92 420,87 560,87 C 700,87 820,92 965,108" fill="none" stroke="#D9A441" stroke-width="2.2" stroke-linecap="round"/>
+
+    <!-- Los dos puntos: uno viene hacia el otro, por encima de todo el puente -->
+    <path d="M60 34 Q 560 -30 1060 34" fill="none" stroke="#F5EFE1" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/>
+    <circle cx="60" cy="34" r="8" fill="#E2604B"/>
+    <circle cx="1060" cy="34" r="8" fill="#D9A441"/>
+
+    <!-- Nombre, en la base, con filigranas -->
+    <g filter="url(#softShadow)">
+      <line x1="300" y1="229" x2="405" y2="229" stroke="#D9A441" stroke-width="2" stroke-linecap="round"/>
+      <polygon points="408,229 415,222 422,229 415,236" fill="#D9A441"/>
+      <polygon points="698,229 705,222 712,229 705,236" fill="#D9A441"/>
+      <line x1="715" y1="229" x2="820" y2="229" stroke="#D9A441" stroke-width="2" stroke-linecap="round"/>
+      <text x="560" y="245" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="42" font-weight="700" letter-spacing="5" fill="#D9A441" stroke="#0E2A2E" stroke-width="0.8">PUENTES</text>
+    </g>
+    <line x1="260" y1="258" x2="860" y2="258" stroke="#D9A441" stroke-width="1" opacity="0.35"/>
+  </svg>
+</div>
+
+<main>
+
+  <!-- ===== TRÁMITES Y AYUDAS ===== -->
+  <section id="tramites" class="active">
+    <div class="section-head">
+      <h2>Trámites y ayudas por país</h2>
+      <p>Residencia, sanidad, empleo, vivienda y prestaciones sociales — organizado por el país donde vives.</p>
+      <span class="updated-badge"><span class="dot"></span>revisado semanalmente por el equipo editorial</span>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Cómo leer esto:</strong> las tarjetas con el sello <span class="verified-pill" style="vertical-align:middle;">✓ verificado</span> están confirmadas contra la fuente oficial del gobierno o ministerio correspondiente, con enlace directo. Las marcadas <span class="unverified-pill" style="vertical-align:middle;">ejemplo</span> todavía no tienen fuente oficial confirmada — no las tomes como información definitiva.
+    </div>
+
+    <div class="country-row" id="country-row">
+      <button class="chip active" data-country="España">🇪🇸 España</button>
+      <button class="chip" data-country="EEUU">🇺🇸 Estados Unidos</button>
+      <button class="chip" data-country="México">🇲🇽 México</button>
+      <button class="chip" data-country="Rusia">🇷🇺 Rusia</button>
+      <button class="chip" data-country="Otro">🌍 Otro país</button>
+    </div>
+
+    <div class="quick-actions" id="quick-actions">
+      <a id="btn-cita" class="btn-quick" target="_blank" rel="noopener" style="display:none;">📅 Pedir cita previa</a>
+      <a id="btn-gaceta" class="btn-quick" target="_blank" rel="noopener" style="display:none;">📜 Ver Boletín/Gaceta Oficial</a>
+    </div>
+    <p id="quick-actions-empty" class="form-note" style="display:none;margin:-6px 0 20px;">Todavía no tenemos un enlace oficial verificado de cita previa para este país.</p>
+
+    <div class="grid" id="tramites-grid"></div>
+
+    <div class="community-sub-head">
+      <h3>Sugerido por la comunidad <span class="unverified-pill">sin verificar</span></h3>
+    </div>
+    <div class="grid" id="tramites-sugeridos"></div>
+
+    <button type="button" id="toggle-tramite-form" class="btn-outline">+ Sugerir un trámite o corregir uno existente</button>
+    <form id="tramite-form" class="post-form" style="display:none;">
+      <div class="form-row">
+        <input type="text" id="tr-titulo" placeholder="Título del trámite" required maxlength="80">
+        <select id="tr-categoria">
+          <option>Residencia</option><option>Sanidad</option><option>Empleo</option>
+          <option>Vivienda</option><option>Ayudas sociales</option><option>Otros</option>
+        </select>
+      </div>
+      <textarea id="tr-desc" placeholder="Describe el trámite, requisitos o corrección…" required maxlength="500"></textarea>
+      <div class="form-row">
+        <input type="text" id="tr-autor" placeholder="Tu nombre (opcional)" maxlength="40">
+        <input type="url" id="tr-fuente" placeholder="Enlace a fuente oficial (opcional)" maxlength="200">
+      </div>
+      <p class="form-note">Se publicará para <strong id="tr-form-country">España</strong>, marcado como sin verificar hasta revisión.</p>
+      <button type="submit" class="btn-primary">Enviar sugerencia</button>
+    </form>
+  </section>
+
+  <!-- ===== ANTES DE SALIR DE CUBA ===== -->
+  <section id="antes-salir">
+    <div class="section-head">
+      <h2>Antes de salir de Cuba</h2>
+      <p>Para quien todavía está en la isla y se está preparando: el marco legal migratorio actual y qué esperar al llegar a otro país. Cuando decidas destino, revisa la sección "Trámites y ayudas" de ese país.</p>
+      <span class="updated-badge"><span class="dot"></span>basado en la Gaceta Oficial de Cuba</span>
+    </div>
+
+    <div class="quick-actions">
+      <a href="https://www.gacetaoficial.gob.cu" target="_blank" rel="noopener" class="btn-quick">📜 Ver Gaceta Oficial de Cuba</a>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="post-card-row"><span class="tag">Marco legal</span><span class="verified-pill">✓ verificado</span></div>
+        <h3>Ley 171 "Ley de Migración" y su reglamento</h3>
+        <p>Aprobada el 19 de julio de 2024. Su reglamento es el Decreto 136/2025. Es el marco vigente que regula pasaportes, permisos y condiciones migratorias (residente en el exterior, emigrado, etc.).</p>
+        <div class="meta"><span>Verificado: 2026</span><a class="verify-link" href="https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-o39.pdf" target="_blank" rel="noopener">Ver fuente oficial →</a></div>
+      </div>
+      <div class="card">
+        <div class="post-card-row"><span class="tag">Pasaporte</span><span class="verified-pill">✓ verificado</span></div>
+        <h3>Pasaporte cubano: vigencia y trámite</h3>
+        <p>Desde julio de 2023 el pasaporte tiene una vigencia de 10 años para adultos y 5 para menores — ya no se necesitan prórrogas. Se tramita en las oficinas de la Dirección de Identificación, Migración y Extranjería (DIME) en Cuba, o en el consulado si ya estás en el exterior.</p>
+        <div class="meta"><span>Verificado: 2026</span><a class="verify-link" href="https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-o39.pdf" target="_blank" rel="noopener">Ver fuente oficial →</a></div>
+      </div>
+      <div class="card">
+        <div class="post-card-row"><span class="tag">Menores</span><span class="verified-pill">✓ verificado</span></div>
+        <h3>Menores de edad viajando solos o con un progenitor</h3>
+        <p>Si un menor de 18 años viaja con un solo padre o con un tercero, hace falta el permiso de salida del otro progenitor, tramitado ante el consulado o la DIME, con pasaporte del menor vigente.</p>
+        <div class="meta"><span>Verificado: 2025</span><a class="verify-link" href="https://opapeleo.com/en/immigration/guide-to-cuban-consular-procedures-abroad/" target="_blank" rel="noopener">Ver fuente →</a></div>
+      </div>
+    </div>
+
+    <div class="community-sub-head">
+      <h3>Checklist general de documentos a preparar</h3>
+    </div>
+    <div class="disclaimer">
+      Esto es una guía práctica general, no asesoría legal. Los documentos exactos dependen del país de destino y de la vía migratoria — revisa la sección de ese país en "Trámites y ayudas".
+    </div>
+    <div class="grid">
+      <div class="card"><span class="tag">Identidad</span><h3>Pasaporte vigente</h3><p>Con al menos 6 meses de vigencia antes de viajar.</p></div>
+      <div class="card"><span class="tag">Civil</span><h3>Certificados de nacimiento y matrimonio</h3><p>Originales o copias certificadas, del Registro Civil.</p></div>
+      <div class="card"><span class="tag">Académico</span><h3>Títulos y certificados de estudio</h3><p>Para homologar estudios o buscar empleo en el país de destino.</p></div>
+      <div class="card"><span class="tag">Salud</span><h3>Historial médico y vacunas</h3><p>Útil para trámites de sanidad al llegar.</p></div>
+      <div class="card"><span class="tag">Menores</span><h3>Permiso de salida (si aplica)</h3><p>Si viaja un menor sin ambos padres.</p></div>
+    </div>
+
+    <div class="community-sub-head">
+      <h3>Países con visado libre (sin necesidad de visa) para el pasaporte cubano</h3>
+    </div>
+    <div class="disclaimer">
+      <strong>Importante:</strong> esto no viene de una sola fuente gubernamental — ningún gobierno publica una lista así. Está compilado de índices de viaje especializados (Henley Passport Index, Wikipedia) que se actualizan mensualmente y a veces no coinciden entre sí. Antes de viajar, confirma siempre con la embajada o consulado del país de destino.
+    </div>
+    <table id="visado-table">
+      <thead><tr><th>País</th><th>Estancia permitida</th></tr></thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="community-sub-head">
+      <h3>Visa a la llegada o electrónica <span class="unverified-pill">no es visado libre</span></h3>
+    </div>
+    <p style="color:var(--cream-dim);font-size:0.88rem;margin:-6px 0 14px;">Estos países sí exigen visa, pero se tramita en el momento de llegar o por internet, sin pasar por consulado antes de viajar.</p>
+    <table id="visado-llegada-table">
+      <thead><tr><th>País</th><th>Tipo</th><th>Estancia permitida</th></tr></thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="community-sub-head">
+      <h3>Corregido por la comunidad <span class="unverified-pill">sin verificar</span></h3>
+    </div>
+    <div id="visado-sugeridos" class="post-list"></div>
+
+    <button type="button" id="toggle-visado-form" class="btn-outline">+ Agregar o corregir un país</button>
+    <form id="visado-form" class="post-form" style="display:none;">
+      <div class="form-row">
+        <input type="text" id="vi-pais" placeholder="País" required maxlength="60">
+        <select id="vi-tipo">
+          <option value="Visado libre">Visado libre (sin visa)</option>
+          <option value="Visa a la llegada">Visa a la llegada</option>
+          <option value="eVisa">eVisa</option>
+        </select>
+      </div>
+      <input type="text" id="vi-duracion" placeholder="Estancia permitida (ej. 30 días)" maxlength="40">
+      <input type="url" id="vi-fuente" placeholder="Enlace a fuente (opcional)" maxlength="200">
+      <button type="submit" class="btn-primary">Enviar</button>
+    </form>
+
+    <div class="community-sub-head">
+      <h3>Pregunta a la comunidad</h3>
+    </div>
+    <p style="color:var(--cream-dim);font-size:0.92rem;">Si tienes dudas específicas, publícalas en <strong>Comunidad → Anuncios</strong> con la categoría "Antes de salir de Cuba" — cubanos que ya vivieron el proceso pueden responderte.</p>
+  </section>
+
+  <!-- ===== CAMBIOS EN CUBA ===== -->
+  <section id="cuba">
+    <div class="section-head">
+      <h2>Cambios legislativos y regulatorios en Cuba</h2>
+      <p>Un registro cronológico de modificaciones a leyes, aduana, migración y economía que afectan a quienes viven fuera.</p>
+      <span class="updated-badge"><span class="dot"></span>monitoreo continuo de Gaceta Oficial y fuentes de prensa</span>
+    </div>
+    <div class="disclaimer">
+      <strong>Fuente:</strong> las entradas de arriba están tomadas directamente de la Gaceta Oficial de la República de Cuba, con enlace a cada resolución. Las leyes y regulaciones cambian con frecuencia — siempre verifica la fecha y el enlace antes de actuar.
+    </div>
+    <div class="filter-chip-row" id="cuba-filtros">
+      <button class="chip active" data-cat="todos">Todos</button>
+      <button class="chip" data-cat="migracion">Migración</button>
+      <button class="chip" data-cat="economia">Economía</button>
+      <button class="chip" data-cat="aduana">Aduana</button>
+    </div>
+    <div id="cuba-feed"></div>
+
+    <div class="community-sub-head">
+      <h3>Raíces legislativas</h3>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <span class="tag">Serie · Legislación</span>
+        <h3>1940: el año en que Cuba puso el trabajo en la Constitución</h3>
+        <p>De dónde vienen la jornada de 8 horas, el salario mínimo y el derecho a la huelga en Cuba — y por qué siguen citándose hoy.</p>
+        <div class="meta"><span>Fuente: Gaceta Oficial, 1940</span><a class="verify-link" href="/1940-constitucion-trabajo.html" target="_blank" rel="noopener">Leer el artículo →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMUNIDAD ===== -->
+  <section id="comunidad">
+    <div class="section-head">
+      <h2>Comunidad</h2>
+      <p>Publica anuncios, organiza encuentros y encuentra grupos por país o tema. Lo que publiques aquí lo ve toda la comunidad que use esta app.</p>
+    </div>
+
+    <div class="subnav" id="comunidad-subnav">
+      <button class="subtab active" data-sub="grupos">Grupos</button>
+      <button class="subtab" data-sub="anuncios">Anuncios</button>
+      <button class="subtab" data-sub="encuentros">Encuentros</button>
+    </div>
+
+    <div id="sub-grupos" class="subpanel active">
+      <div class="community-grid" id="community-grid"></div>
+    </div>
+
+    <div id="sub-anuncios" class="subpanel">
+      <form id="anuncio-form" class="post-form">
+        <div class="form-row">
+          <input type="text" id="an-titulo" placeholder="Título del anuncio" required maxlength="80">
+          <select id="an-categoria">
+            <option>Vivienda</option>
+            <option>Empleo</option>
+            <option>Trámites</option>
+            <option>Compra/venta</option>
+            <option>Antes de salir de Cuba</option>
+            <option>Otros</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <input type="text" id="an-ciudad" placeholder="Ciudad, país" maxlength="60">
+          <input type="text" id="an-autor" placeholder="Tu nombre (opcional)" maxlength="40">
+        </div>
+        <textarea id="an-mensaje" placeholder="Escribe tu anuncio..." required maxlength="500"></textarea>
+        <p class="form-note">Visible para todos los que usen esta app.</p>
+        <button type="submit" class="btn-primary">Publicar anuncio</button>
+      </form>
+      <div id="anuncios-list" class="post-list"><p class="empty-state">Cargando anuncios…</p></div>
+    </div>
+
+    <div id="sub-encuentros" class="subpanel">
+      <form id="evento-form" class="post-form">
+        <input type="text" id="ev-titulo" placeholder="Título del encuentro" required maxlength="80">
+        <div class="form-row-3">
+          <input type="text" id="ev-pais" placeholder="País" required maxlength="40">
+          <input type="text" id="ev-ciudad" placeholder="Ciudad" required maxlength="40">
+          <input type="text" id="ev-pueblo" placeholder="Pueblo / municipio / barrio (opcional)" maxlength="40">
+        </div>
+        <input type="text" id="ev-direccion" placeholder="Dirección exacta (calle, número, punto de referencia)" required maxlength="120">
+        <div class="form-row">
+          <input type="date" id="ev-fecha" required>
+          <input type="time" id="ev-hora">
+        </div>
+        <textarea id="ev-desc" placeholder="Describe el encuentro (qué llevar, cómo reconocer el lugar, etc.)" maxlength="500"></textarea>
+        <input type="text" id="ev-organizador" placeholder="Organiza (tu nombre, opcional)" maxlength="40">
+        <p class="form-note">El país, la ciudad y la dirección exacta son obligatorios para que nadie se pierda. Visible para todos los que usen esta app.</p>
+        <button type="submit" class="btn-primary">Crear encuentro</button>
+      </form>
+      <div class="filter-row">
+        <input type="text" id="ev-filtro-ciudad" placeholder="Filtrar por ciudad…">
+      </div>
+      <div id="eventos-list" class="post-list"><p class="empty-state">Cargando encuentros…</p></div>
+    </div>
+  </section>
+
+  <!-- ===== REMESAS ===== -->
+  <section id="remesas">
+    <div class="section-head">
+      <h2>Remesas y recargas</h2>
+      <p>Directorio comparativo de servicios para enviar dinero, recargas y paquetes de datos a Cuba. Puentes no procesa pagos — te dirige a cada proveedor.</p>
+    </div>
+    <div class="disclaimer">
+      <strong>Nota:</strong> comisiones y tasas de cambio cambian a diario. Esta tabla es solo referencia estructural; los valores reales deben actualizarse mediante fuente automatizada o revisión manual frecuente.
+    </div>
+    <div class="filter-chip-row" id="remesas-filtros">
+      <button class="chip active" data-tipo="todos">Todos</button>
+      <button class="chip" data-tipo="Dinero en efectivo">Dinero en efectivo</button>
+      <button class="chip" data-tipo="Recarga móvil">Recarga móvil</button>
+      <button class="chip" data-tipo="Dinero a MLC/tarjeta">Tarjeta / MLC</button>
+    </div>
+    <table id="remesas-table">
+      <thead>
+        <tr><th>Servicio</th><th>Tipo</th><th>Comisión aprox.</th><th>Tiempo de entrega</th><th></th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="community-sub-head">
+      <h3>Sugerido por la comunidad <span class="unverified-pill">sin verificar</span></h3>
+    </div>
+    <div id="remesas-sugeridos" class="post-list"></div>
+
+    <button type="button" id="toggle-remesa-form" class="btn-outline">+ Sugerir un servicio</button>
+    <form id="remesa-form" class="post-form" style="display:none;">
+      <div class="form-row">
+        <input type="text" id="re-nombre" placeholder="Nombre del servicio" required maxlength="60">
+        <select id="re-tipo">
+          <option>Dinero en efectivo</option>
+          <option>Recarga móvil</option>
+          <option>Dinero a MLC/tarjeta</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <input type="text" id="re-comision" placeholder="Comisión aprox. (ej. 3-5%)" maxlength="40">
+        <input type="text" id="re-tiempo" placeholder="Tiempo de entrega (ej. 24h)" maxlength="40">
+      </div>
+      <input type="url" id="re-enlace" placeholder="Enlace al servicio (opcional)" maxlength="200">
+      <input type="text" id="re-autor" placeholder="Tu nombre (opcional)" maxlength="40">
+      <button type="submit" class="btn-primary">Enviar sugerencia</button>
+    </form>
+  </section>
+
+</main>
+
+<footer>
+  Puentes — prototipo funcional. Contenido de ejemplo pendiente de verificación con fuentes oficiales.
+</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ===== Conexión a Supabase (base de datos real, independiente de Claude) =====
+const SUPABASE_URL = 'https://ggehkwinqlhsdbimovzx.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnZWhrd2lucWxoc2RiaW1vdnp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NzI0MzksImV4cCI6MjEwMjE0ODQzOX0.iSlP9Tr1pBoTh7R5GhZN0FEVVQNYBAMZE41EV3RxDLo';
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function getDeviceId(){
+  let id = localStorage.getItem('puente_device_id');
+  if(!id){
+    id = (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).slice(2));
+    localStorage.setItem('puente_device_id', id);
+  }
+  return id;
+}
+const DEVICE_ID = getDeviceId();
+
+async function fetchTable(table, orderCol, ascending){
+  try{
+    const { data, error } = await db.from(table).select('*').order(orderCol || 'created_at', {ascending: !!ascending});
+    if(error) throw error;
+    return data || [];
+  }catch(err){
+    console.error('Error leyendo', table, err);
+    return [];
+  }
+}
+
+let lastInsertError = null;
+
+async function insertRow(table, row){
+  lastInsertError = null;
+  try{
+    const { error } = await db.from(table).insert({ ...row, device_id: DEVICE_ID });
+    if(error) throw error;
+    return true;
+  }catch(err){
+    console.error('Error guardando en', table, err);
+    // Si Supabase rechazó el envío por el filtro de moderación, el mensaje viene en err.message
+    lastInsertError = (err && err.message) ? err.message.replace('Publicación rechazada: ', '') : null;
+    return false;
+  }
+}
+
+async function deleteRow(table, id){
+  try{
+    const { error } = await db.from(table).delete().eq('id', id);
+    if(error) throw error;
+    return true;
+  }catch(err){
+    console.error('Error borrando de', table, err);
+    return false;
+  }
+}
+
+const RENDER_MAP = {}; // se completa más abajo, según cada tabla
+
+async function deletePost(table, id){
+  if(!confirm('¿Borrar esta publicación?')) return;
+  const ok = await deleteRow(table, id);
+  if(ok && RENDER_MAP[table]) RENDER_MAP[table]();
+}
+window.deletePost = deletePost;
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+
+function formatDate(iso){
+  if(!iso) return '—';
+  const [y,m,d] = iso.split('-');
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return { day:d, label:`${d} ${meses[parseInt(m,10)-1]}` };
+}
+
+const tramitesData = {
+  "España": [
+    {tag:"Residencia", title:"Regularización migratoria extraordinaria 2026", desc:"Real Decreto que abre un proceso de regularización para quienes estaban en España antes del 1 de enero de 2026 y acreditan 5 meses de estancia ininterrumpida. La autorización da derecho a trabajar un año.", date:"21 abr 2026", source:"https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/inclusion/paginas/2026/proceso-regularizacion-migratoria.aspx", verificado:true},
+    {tag:"Residencia", title:"Nacionalidad — Ley de Memoria Democrática (PLAZO CERRADO)", desc:"El plazo para solicitar cita para esta vía de nacionalidad (nietos de españoles) se cerró el 22 de octubre de 2025. Solo se atienden quienes ya tenían cita solicitada antes de esa fecha.", date:"22 oct 2025", source:"https://www.exteriores.gob.es/es/Comunicacion/Exteriores-Explica/Paginas/2026_Articulos/La-Ley-de-Memoria-Democratica.aspx", verificado:true},
+    {tag:"Residencia", title:"Arraigo social", desc:"Autorización para extranjeros con mínimo 2 años en España, con vínculos familiares o un informe de integración social emitido por el ayuntamiento o comunidad autónoma correspondiente.", date:"abr 2026", source:"https://www.inclusion.gob.es/en/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social", verificado:true},
+  ],
+  "EEUU": [
+    {tag:"Migración", title:"Ley de Ajuste Cubano (Green Card)", desc:"Cubanos admitidos o con parole en EEUU, con un año y un día de presencia física, pueden solicitar la residencia permanente mediante el Formulario I-485. Permite pedir autorización de empleo (I-765) en simultáneo.", date:"jul 2025", source:"https://www.uscis.gov/green-card/green-card-eligibility/green-card-for-a-cuban-native-or-citizen", verificado:true},
+    {tag:"Ayudas", title:"Refugee Cash Assistance (ejemplo)", desc:"Asistencia económica temporal disponible según el estado. Contenido de ejemplo — falta confirmar con la fuente oficial de cada estado.", date:"—", source:null, verificado:false},
+  ],
+  "México": [
+    {tag:"Migración", title:"Visa / condición por razones humanitarias", desc:"Trámite ante el INM para regularizar estancia por motivos humanitarios. El INM ha señalado públicamente que no todos los casos cubanos cumplen el carácter humanitario exigido — se evalúa individualmente.", date:"2026", source:"https://www.gob.mx/tramites/ficha/visa-por-razones-humanitarias/INM74", verificado:true},
+  ],
+  "Rusia": [
+    {tag:"Migración", title:"Permiso de residencia temporal (ejemplo)", desc:"Contenido de ejemplo — pendiente de verificar con la fuente oficial del Servicio de Migración de Rusia.", date:"—", source:null, verificado:false},
+  ],
+  "Otro": [
+    {tag:"General", title:"Selecciona o solicita tu país", desc:"Si tu país no aparece, sugiérelo con el formulario de abajo.", date:"—", source:null, verificado:false},
+  ],
+};
+
+const cubaFeed = [
+  {date:"ene 2026", cat:"Aduana", title:"Resolución 9/2026 (Ministerio de Finanzas y Precios)", desc:"Autoriza excepcionalmente la importación sin carácter comercial, sin límite de valor y exenta de impuesto aduanero, de alimentos, aseo, medicamentos e insumos médicos como equipaje acompañado.", label:"aduana", source:"https://www.gacetaoficial.gob.cu/es/resolucion-9-de-2026-de-ministerio-de-finanzas-y-precios"},
+  {date:"jun 2026", cat:"Aduana", title:"Resolución 150/2026 (Ministerio de Finanzas y Precios)", desc:"Exonera del pago del impuesto aduanero a las importaciones de determinados productos, según las subpartidas arancelarias listadas en el anexo.", label:"aduana", source:"https://www.gacetaoficial.gob.cu/es/resolucion-150-de-2026-de-ministerio-de-finanzas-y-precios"},
+];
+
+const community = [
+  {tag:"España", title:"Cubanos en Madrid", count:"3,214 miembros"},
+  {tag:"EEUU", title:"Cubanos en Miami / Florida", count:"8,902 miembros"},
+  {tag:"General", title:"Trámites y papeleo — dudas", count:"5,110 miembros"},
+  {tag:"General", title:"Recién llegados", count:"2,340 miembros"},
+];
+
+const remesas = [
+  ["Servicio A", "Dinero en efectivo", "3–5%", "24–48h"],
+  ["Servicio B", "Recarga móvil", "Fija por paquete", "Instantáneo"],
+  ["Servicio C", "Dinero a MLC/tarjeta", "2–4%", "1–3 días"],
+];
+
+function renderTramites(country){
+  const grid = document.getElementById('tramites-grid');
+  grid.innerHTML = tramitesData[country].map(item => `
+    <div class="card">
+      <div class="post-card-row"><span class="tag">${item.tag}</span>${item.verificado ? '<span class="verified-pill">✓ verificado</span>' : '<span class="unverified-pill">ejemplo</span>'}</div>
+      <h3>${item.title}</h3>
+      <p>${item.desc}</p>
+      <div class="meta">
+        <span>${item.verificado ? 'Verificado: ' + item.date : 'Sin fuente oficial aún'}</span>
+        ${item.source ? `<a class="verify-link" href="${item.source}" target="_blank" rel="noopener">Ver fuente oficial →</a>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+const TRAMITES_SUG_KEY = 'tramites_sugeridos';
+let paisActivo = 'España';
+
+// Enlaces oficiales verificados (agosto 2026). No se inventan enlaces para países sin fuente confirmada.
+const citaPreviaData = {
+  "España": "https://icp.administracionelectronica.gob.es/icpplus/index.html",
+  "EEUU": "https://my.uscis.gov/en/appointment/v2",
+  "México": "https://www.inm.gob.mx/mpublic/publico/inm-tramites.html",
+  "Rusia": null,
+  "Otro": null,
+};
+
+const gacetaOficialData = {
+  "España": { nombre: "BOE (Boletín Oficial del Estado)", url: "https://www.boe.es" },
+  "EEUU": { nombre: "Federal Register", url: "https://www.federalregister.gov" },
+  "México": { nombre: "DOF (Diario Oficial de la Federación)", url: "https://www.dof.gob.mx" },
+  "Rusia": { nombre: "Portal Oficial de Información Jurídica", url: "http://publication.pravo.gov.ru" },
+  "Otro": null,
+};
+
+function updateQuickActions(country){
+  const btnCita = document.getElementById('btn-cita');
+  const btnGaceta = document.getElementById('btn-gaceta');
+  const emptyNote = document.getElementById('quick-actions-empty');
+
+  const citaUrl = citaPreviaData[country];
+  if(citaUrl){
+    btnCita.href = citaUrl;
+    btnCita.style.display = 'inline-flex';
+  }else{
+    btnCita.style.display = 'none';
+  }
+
+  const gaceta = gacetaOficialData[country];
+  if(gaceta){
+    btnGaceta.href = gaceta.url;
+    btnGaceta.textContent = `📜 Ver ${gaceta.nombre}`;
+    btnGaceta.style.display = 'inline-flex';
+  }else{
+    btnGaceta.style.display = 'none';
+  }
+
+  emptyNote.style.display = (!citaUrl && !gaceta) ? 'block' : 'none';
+}
+
+async function renderTramitesSugeridos(){
+  const all = await fetchTable(TRAMITES_SUG_KEY, 'created_at', false);
+  const list = all.filter(t => t.pais === paisActivo);
+  const el = document.getElementById('tramites-sugeridos');
+  if(!list.length){ el.innerHTML = '<p class="empty-state" style="grid-column:1/-1;">Nadie ha sugerido nada para este país todavía.</p>'; return; }
+  el.innerHTML = list.map(t => `
+    <div class="card">
+      <div class="post-card-row"><span class="tag">${escapeHtml(t.categoria)}</span></div>
+      <h3>${escapeHtml(t.titulo)}</h3>
+      <p>${escapeHtml(t.descripcion)}</p>
+      <div class="meta">
+        <span>${t.autor ? escapeHtml(t.autor) : 'Anónimo'} · ${new Date(t.created_at).toLocaleDateString('es-ES', {day:'2-digit', month:'short', year:'numeric'})}</span>
+        ${t.fuente ? `<a class="verify-link" href="${escapeHtml(t.fuente)}" target="_blank" rel="noopener">Fuente →</a>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+RENDER_MAP[TRAMITES_SUG_KEY] = renderTramitesSugeridos;
+
+document.getElementById('toggle-tramite-form').addEventListener('click', () => {
+  const form = document.getElementById('tramite-form');
+  form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+});
+
+document.getElementById('tramite-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+  const nuevo = {
+    pais: paisActivo,
+    categoria: document.getElementById('tr-categoria').value,
+    titulo: document.getElementById('tr-titulo').value.trim(),
+    descripcion: document.getElementById('tr-desc').value.trim(),
+    autor: document.getElementById('tr-autor').value.trim(),
+    fuente: document.getElementById('tr-fuente').value.trim(),
+  };
+  const ok = await insertRow(TRAMITES_SUG_KEY, nuevo);
+  btn.disabled = false; btn.textContent = 'Enviar sugerencia';
+  if(ok){
+    e.target.reset();
+    e.target.style.display = 'none';
+    renderTramitesSugeridos();
+  }else{
+    alert(lastInsertError || 'No se pudo enviar la sugerencia. Inténtalo de nuevo.');
+  }
+});
+
+let filtroCubaCat = 'todos';
+
+function renderCuba(){
+  const filtrado = filtroCubaCat === 'todos' ? cubaFeed : cubaFeed.filter(i => i.label === filtroCubaCat);
+  const el = document.getElementById('cuba-feed');
+  if(!filtrado.length){ el.innerHTML = '<p class="empty-state">No hay entradas en esta categoría.</p>'; return; }
+  el.innerHTML = filtrado.map(item => `
+    <div class="feed-item">
+      <div class="feed-date">${item.date}</div>
+      <div>
+        <span class="feed-cat ${item.label}">${item.cat}</span>
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+        <a class="verify-link" href="${item.source}" target="_blank" rel="noopener">Ver en Gaceta Oficial →</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('cuba-filtros').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  document.querySelectorAll('#cuba-filtros .chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filtroCubaCat = btn.dataset.cat;
+  renderCuba();
+});
+
+// "Cambios en Cuba" solo muestra el feed oficial (cubaFeed, arriba). Ya no se acepta
+// contenido de la comunidad en esta sección — decisión explícita para evitar que se
+// use como canal de campaña política/ideológica. Para añadir un cambio real de la
+// Gaceta Oficial, se edita el array cubaFeed directamente en este archivo.
+
+const paisesVisadoLibre = [
+  ["Dominica", "21 días"],
+  ["Santa Lucía", "42 días"],
+  ["Barbados", "Estancia corta (turismo)"],
+  ["Antigua y Barbuda", "Estancia corta (turismo)"],
+  ["San Vicente y las Granadinas", "Estancia corta (turismo)"],
+  ["Guyana", "Tiempo limitado"],
+  ["Malasia", "90 días"],
+  ["Tailandia", "60 días"],
+  ["Rusia", "Según acuerdo bilateral"],
+];
+
+const paisesVisaLlegada = [
+  ["Laos", "Visa a la llegada / eVisa", "30 días"],
+  ["Camboya", "Visa a la llegada / eVisa", "30 días"],
+  ["Indonesia", "eVisa", "30 días (prorrogable)"],
+];
+
+function renderVisado(){
+  document.querySelector('#visado-table tbody').innerHTML = paisesVisadoLibre.map(p => `
+    <tr><td>${p[0]}</td><td>${p[1]}</td></tr>
+  `).join('');
+  document.querySelector('#visado-llegada-table tbody').innerHTML = paisesVisaLlegada.map(p => `
+    <tr><td>${p[0]}</td><td><span class="pill">${p[1]}</span></td><td>${p[2]}</td></tr>
+  `).join('');
+}
+
+const VISADO_SUG_KEY = 'visado_sugeridos';
+
+async function renderVisadoSugeridos(){
+  const list = await fetchTable(VISADO_SUG_KEY, 'created_at', false);
+  const el = document.getElementById('visado-sugeridos');
+  if(!list.length){ el.innerHTML = '<p class="empty-state">Nadie ha corregido ni agregado un país todavía.</p>'; return; }
+  el.innerHTML = list.map(v => `
+    <div class="post-card">
+      <div class="post-date-badge">${escapeHtml((v.tipo||'').slice(0,3).toUpperCase())}</div>
+      <div class="post-body" style="flex:1;">
+        <div class="post-card-row">
+          <h3 style="flex:1;">${escapeHtml(v.pais)}</h3>
+        </div>
+        <div class="post-meta">
+          <span class="pill">${escapeHtml(v.tipo)}</span>
+          ${v.duracion ? `<span>${escapeHtml(v.duracion)}</span>` : ''}
+          ${v.fuente ? `<a class="verify-link" href="${escapeHtml(v.fuente)}" target="_blank" rel="noopener">Fuente →</a>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+RENDER_MAP[VISADO_SUG_KEY] = renderVisadoSugeridos;
+
+document.getElementById('toggle-visado-form').addEventListener('click', () => {
+  const form = document.getElementById('visado-form');
+  form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+});
+
+document.getElementById('visado-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+  const nuevo = {
+    pais: document.getElementById('vi-pais').value.trim(),
+    tipo: document.getElementById('vi-tipo').value,
+    duracion: document.getElementById('vi-duracion').value.trim(),
+    fuente: document.getElementById('vi-fuente').value.trim(),
+  };
+  const ok = await insertRow(VISADO_SUG_KEY, nuevo);
+  btn.disabled = false; btn.textContent = 'Enviar';
+  if(ok){
+    e.target.reset();
+    e.target.style.display = 'none';
+    renderVisadoSugeridos();
+  }else{
+    alert(lastInsertError || 'No se pudo enviar. Inténtalo de nuevo.');
+  }
+});
+
+function renderCommunity(){
+  document.getElementById('community-grid').innerHTML = community.map(item => `
+    <div class="card">
+      <span class="tag">${item.tag}</span>
+      <h3>${item.title}</h3>
+      <p class="count">${item.count}</p>
+    </div>
+  `).join('');
+}
+
+let filtroRemesaTipo = 'todos';
+
+function renderRemesas(){
+  const filtradas = filtroRemesaTipo === 'todos' ? remesas : remesas.filter(r => r[1] === filtroRemesaTipo);
+  document.querySelector('#remesas-table tbody').innerHTML = filtradas.map(r => `
+    <tr>
+      <td>${r[0]}</td>
+      <td><span class="pill">${r[1]}</span></td>
+      <td>${r[2]}</td>
+      <td>${r[3]}</td>
+      <td><a class="verify-link" href="#">Ir al servicio →</a></td>
+    </tr>
+  `).join('');
+}
+
+document.getElementById('remesas-filtros').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  document.querySelectorAll('#remesas-filtros .chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filtroRemesaTipo = btn.dataset.tipo;
+  renderRemesas();
+});
+
+const REMESA_SUG_KEY = 'remesas_sugeridos';
+
+async function renderRemesasSugeridos(){
+  const list = await fetchTable(REMESA_SUG_KEY, 'created_at', false);
+  const el = document.getElementById('remesas-sugeridos');
+  if(!list.length){ el.innerHTML = '<p class="empty-state">Nadie ha sugerido un servicio todavía.</p>'; return; }
+  el.innerHTML = list.map(s => `
+    <div class="post-card">
+      <div class="post-date-badge">${escapeHtml((s.tipo||'').slice(0,3).toUpperCase())}</div>
+      <div class="post-body" style="flex:1;">
+        <div class="post-card-row">
+          <h3 style="flex:1;">${escapeHtml(s.nombre)}</h3>
+        </div>
+        <div class="post-meta">
+          <span class="pill">${escapeHtml(s.tipo)}</span>
+          ${s.comision ? `<span>Comisión: ${escapeHtml(s.comision)}</span>` : ''}
+          ${s.tiempo ? `<span>Entrega: ${escapeHtml(s.tiempo)}</span>` : ''}
+          ${s.autor ? `<span>${escapeHtml(s.autor)}</span>` : ''}
+          ${s.enlace ? `<a class="verify-link" href="${escapeHtml(s.enlace)}" target="_blank" rel="noopener">Ir al servicio →</a>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+RENDER_MAP[REMESA_SUG_KEY] = renderRemesasSugeridos;
+
+document.getElementById('toggle-remesa-form').addEventListener('click', () => {
+  const form = document.getElementById('remesa-form');
+  form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+});
+
+document.getElementById('remesa-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+  const nuevo = {
+    nombre: document.getElementById('re-nombre').value.trim(),
+    tipo: document.getElementById('re-tipo').value,
+    comision: document.getElementById('re-comision').value.trim(),
+    tiempo: document.getElementById('re-tiempo').value.trim(),
+    enlace: document.getElementById('re-enlace').value.trim(),
+    autor: document.getElementById('re-autor').value.trim(),
+  };
+  const ok = await insertRow(REMESA_SUG_KEY, nuevo);
+  btn.disabled = false; btn.textContent = 'Enviar sugerencia';
+  if(ok){
+    e.target.reset();
+    e.target.style.display = 'none';
+    renderRemesasSugeridos();
+  }else{
+    alert(lastInsertError || 'No se pudo enviar la sugerencia. Inténtalo de nuevo.');
+  }
+});
+
+// ===== Anuncios y Encuentros =====
+const ANUNCIOS_KEY = 'anuncios';
+const EVENTOS_KEY = 'eventos';
+
+async function renderAnuncios(){
+  const list = await fetchTable(ANUNCIOS_KEY, 'created_at', false);
+  const el = document.getElementById('anuncios-list');
+  if(!list.length){ el.innerHTML = '<p class="empty-state">Todavía no hay anuncios. Sé el primero en publicar.</p>'; return; }
+  el.innerHTML = list.map(a => `
+    <div class="post-card">
+      <div class="post-date-badge">${escapeHtml(a.categoria || 'Aviso')}</div>
+      <div class="post-body" style="flex:1;">
+        <div class="post-card-row">
+          <h3 style="flex:1;">${escapeHtml(a.titulo)}</h3>
+        </div>
+        <p>${escapeHtml(a.mensaje)}</p>
+        <div class="post-meta">
+          ${a.ciudad ? `<span>📍 ${escapeHtml(a.ciudad)}</span>` : ''}
+          <span>${a.autor ? escapeHtml(a.autor) : 'Anónimo'}</span>
+          <span>${new Date(a.created_at).toLocaleDateString('es-ES', {day:'2-digit', month:'short', year:'numeric'})}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+RENDER_MAP[ANUNCIOS_KEY] = renderAnuncios;
+
+let ultimosEventos = [];
+
+async function renderEventos(){
+  const list = await fetchTable(EVENTOS_KEY, 'fecha', true);
+  ultimosEventos = list;
+  aplicarFiltroEventos();
+}
+RENDER_MAP[EVENTOS_KEY] = renderEventos;
+
+function aplicarFiltroEventos(){
+  const el = document.getElementById('eventos-list');
+  const filtro = (document.getElementById('ev-filtro-ciudad').value || '').trim().toLowerCase();
+  const list = ultimosEventos;
+  const filtrados = filtro ? list.filter(ev => (ev.ciudad || '').toLowerCase().includes(filtro)) : list;
+
+  if(!list.length){ el.innerHTML = '<p class="empty-state">Todavía no hay encuentros programados. Crea el primero.</p>'; return; }
+  if(!filtrados.length){ el.innerHTML = `<p class="empty-state">Ningún encuentro en "${escapeHtml(filtro)}" todavía.</p>`; return; }
+
+  el.innerHTML = filtrados.map(ev => {
+    const f = formatDate(ev.fecha);
+    const ubicacionCompleta = [ev.direccion, ev.pueblo, ev.ciudad, ev.pais].filter(Boolean).join(', ');
+    const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(ubicacionCompleta);
+    return `
+    <div class="post-card">
+      <div class="post-date-badge">${typeof f === 'string' ? f : f.label}</div>
+      <div class="post-body" style="flex:1;">
+        <div class="post-card-row">
+          <h3 style="flex:1;">${escapeHtml(ev.titulo)}</h3>
+        </div>
+        ${ev.descripcion ? `<p>${escapeHtml(ev.descripcion)}</p>` : ''}
+        <div class="location-block">
+          <span class="lbl">Lugar exacto</span>
+          <p>${escapeHtml(ev.direccion)}${ev.pueblo ? ', ' + escapeHtml(ev.pueblo) : ''}, ${escapeHtml(ev.ciudad)}, ${escapeHtml(ev.pais)}</p>
+          <a class="map-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Ver en el mapa →</a>
+        </div>
+        <div class="post-meta">
+          ${ev.hora ? `<span>🕒 ${escapeHtml(ev.hora)}</span>` : ''}
+          ${ev.organizador ? `<span>Organiza: ${escapeHtml(ev.organizador)}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `}).join('');
+}
+document.getElementById('ev-filtro-ciudad').addEventListener('input', aplicarFiltroEventos);
+
+document.getElementById('anuncio-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.disabled = true; btn.textContent = 'Publicando…';
+  const nuevo = {
+    titulo: document.getElementById('an-titulo').value.trim(),
+    categoria: document.getElementById('an-categoria').value,
+    ciudad: document.getElementById('an-ciudad').value.trim(),
+    autor: document.getElementById('an-autor').value.trim(),
+    mensaje: document.getElementById('an-mensaje').value.trim(),
+  };
+  const ok = await insertRow(ANUNCIOS_KEY, nuevo);
+  btn.disabled = false; btn.textContent = 'Publicar anuncio';
+  if(ok){
+    e.target.reset();
+    renderAnuncios();
+  }else{
+    alert(lastInsertError || 'No se pudo publicar el anuncio. Inténtalo de nuevo.');
+  }
+});
+
+document.getElementById('evento-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.disabled = true; btn.textContent = 'Creando…';
+  const nuevo = {
+    titulo: document.getElementById('ev-titulo').value.trim(),
+    pais: document.getElementById('ev-pais').value.trim(),
+    ciudad: document.getElementById('ev-ciudad').value.trim(),
+    pueblo: document.getElementById('ev-pueblo').value.trim(),
+    direccion: document.getElementById('ev-direccion').value.trim(),
+    fecha: document.getElementById('ev-fecha').value,
+    hora: document.getElementById('ev-hora').value || null,
+    descripcion: document.getElementById('ev-desc').value.trim(),
+    organizador: document.getElementById('ev-organizador').value.trim(),
+  };
+  const ok = await insertRow(EVENTOS_KEY, nuevo);
+  btn.disabled = false; btn.textContent = 'Crear encuentro';
+  if(ok){
+    e.target.reset();
+    renderEventos();
+  }else{
+    alert(lastInsertError || 'No se pudo crear el encuentro. Inténtalo de nuevo.');
+  }
+});
+
+// subnav de Comunidad
+document.getElementById('comunidad-subnav').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  document.querySelectorAll('#comunidad-subnav .subtab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#comunidad .subpanel').forEach(p => p.classList.remove('active'));
+  document.getElementById('sub-' + btn.dataset.sub).classList.add('active');
+});
+
+renderAnuncios();
+renderEventos();
+
+// nav
+document.getElementById('nav').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
+  document.getElementById(btn.dataset.section).classList.add('active');
+});
+
+// country chips
+document.getElementById('country-row').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  document.querySelectorAll('#country-row .chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  paisActivo = btn.dataset.country;
+  document.getElementById('tr-form-country').textContent = paisActivo;
+  renderTramites(paisActivo);
+  renderTramitesSugeridos();
+  updateQuickActions(paisActivo);
+});
+
+// fecha mínima = hoy, para no permitir crear encuentros en el pasado
+(function setMinDateEventos(){
+  const hoy = new Date().toISOString().split('T')[0];
+  const campoFecha = document.getElementById('ev-fecha');
+  if(campoFecha) campoFecha.min = hoy;
+})();
+
+renderTramites('España');
+renderTramitesSugeridos();
+updateQuickActions('España');
+renderCuba();
+renderVisado();
+renderVisadoSugeridos();
+renderCommunity();
+renderRemesas();
+renderRemesasSugeridos();
+
+// ===== Panel "Explorar todo" (servicios + artículos, visible desde que se abre la página) =====
+// Para añadir un artículo nuevo en el futuro, solo hay que agregar un objeto aquí.
+const articulos = [
+  {
+    titulo: '1940: el año en que Cuba puso el trabajo en la Constitución',
+    sub: 'Serie · Raíces legislativas',
+    href: '/1940-constitucion-trabajo.html',
+  },
+];
+
+function renderExploreArticles(){
+  const el = document.getElementById('explore-articles');
+  if(!articulos.length){ el.innerHTML = '<p class="explore-empty">Todavía no hay artículos publicados.</p>'; return; }
+  el.innerHTML = articulos.map(a => `
+    <a class="explore-link" href="${escapeHtml(a.href)}" target="_blank" rel="noopener">
+      ${escapeHtml(a.titulo)}
+      <span class="sub">${escapeHtml(a.sub)}</span>
+    </a>
+  `).join('');
+}
+renderExploreArticles();
+
+const exploreToggle = document.getElementById('explore-toggle');
+const explorePanel = document.getElementById('explore-panel');
+
+exploreToggle.addEventListener('click', e => {
+  e.stopPropagation();
+  const isOpen = explorePanel.classList.toggle('open');
+  exploreToggle.classList.toggle('open', isOpen);
+  exploreToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+
+document.querySelectorAll('.explore-panel .explore-link[data-section]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
+    const navBtn = document.querySelector(`#nav button[data-section="${btn.dataset.section}"]`);
+    if(navBtn) navBtn.classList.add('active');
+    document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(btn.dataset.section);
+    if(target) target.classList.add('active');
+    explorePanel.classList.remove('open');
+    exploreToggle.classList.remove('open');
+    exploreToggle.setAttribute('aria-expanded', 'false');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+
+document.addEventListener('click', e => {
+  if(!explorePanel.contains(e.target) && e.target !== exploreToggle){
+    explorePanel.classList.remove('open');
+    exploreToggle.classList.remove('open');
+    exploreToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+</script>
+
+</body>
+</html>
