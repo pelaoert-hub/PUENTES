@@ -36,6 +36,9 @@ APP PUENTES/
 │   ├── vercel.json             ← cabeceras de despliegue
 │   ├── robots.txt
 │   ├── sitemap.xml
+│   ├── guias/                  ← una pagina por pregunta real (SEO)
+│   │   ├── index.html          ← el indice de respuestas rapidas
+│   │   └── <pregunta>/index.html
 │   └── icons/
 │       ├── icon-192.png        ← requisito de instalación en Chrome
 │       ├── icon-512.png        ← alta densidad y pantalla de arranque
@@ -49,6 +52,10 @@ APP PUENTES/
 ├── ios/                        ← proyecto nativo iOS (necesita una Mac)
 ├── capacitor.config.json
 ├── package.json
+│
+├── supabase/
+│   ├── functions/              ← funciones desplegadas (avisos push)
+│   └── migraciones/            ← SQL para aplicar a mano en el editor
 │
 ├── original/                   ← copia intacta del sitio publicado (referencia)
 ├── tools/
@@ -261,6 +268,201 @@ la próxima vez que abran la app.
 
 Si cambiás `sw.js`, subí la constante `VERSION` (`'v1'` → `'v2'`). Eso descarta
 todos los cachés viejos.
+
+## Cinco mejoras de producto (2026-09-01)
+
+Cinco cambios que van juntos: la app deja de ser la misma para todo el mundo, y
+deja de esperar a que alguien vuelva por su cuenta.
+
+### 1. La portada pregunta, no enumera
+
+**Antes:** la portada era "aquí están todas nuestras secciones" — el menú
+arriba, y debajo la lista de artículos. Quien entraba con un problema concreto
+("necesito enviar dinero", "me caduca el pasaporte") tenía que traducir su
+problema al nombre de una sección.
+
+**Ahora:** la portada pregunta **¿Qué necesitas?** y muestra siete tarjetas
+escritas como lo diría la persona, no como lo llamamos nosotros:
+
+| La tarjeta dice | Lleva a |
+|---|---|
+| Arreglar mis papeles | Trámites, ya abierto en su país |
+| Buscar trabajo | Empleos, filtrado si sigue en Cuba |
+| Enviar dinero o recargar | Remesas |
+| Conocer cubanos cerca | Comunidad → Encuentros, filtrado por su ciudad |
+| Comprar a un cubano | Negocios |
+| Saber qué cambió en Cuba | Cambios en Cuba |
+| Prepararme para salir de Cuba | Antes de salir |
+
+El menú de arriba sigue igual: quien prefiera navegar a mano, puede.
+
+La cabecera se apretó para que la primera tarjeta se vea sin bajar: el `hero`
+pasó de 64px de margen superior a 34 (16 en móvil) y el puente tiene ahora techo
+de altura (190px, 104 en móvil). El cartel sigue ahí, ocupando lo justo.
+
+Los artículos y la encuesta no desaparecen: bajan. Siguen en la portada, debajo
+de lo que alguien necesita resolver primero.
+
+### 2. Perfil sin cuenta — "cubano en Madrid"
+
+Nadie tiene que registrarse. La portada pregunta **dónde estás** (país y, si
+quiere, ciudad) y guarda esas dos cosas en `localStorage`, bajo
+`puentes_perfil`. **No viaja a ningún servidor.**
+
+Con eso:
+
+- La cabecera saluda: *"Puentes desde Madrid, España"*.
+- Las siete tarjetas se **reordenan**. Quien está en Cuba ve primero "Prepararme
+  para salir"; quien está fuera, "Arreglar mis papeles". La primera lleva el
+  sello **para ti**.
+- Los textos hablan de su sitio: *"Ofertas en Madrid y en el resto"*.
+- **Trámites abre directamente en su país** — antes siempre abría en España.
+- Encuentros se filtra por su ciudad al entrar desde la portada.
+- Las respuestas rápidas se ordenan poniendo delante las de su país, y entre
+  esas, las más concretas.
+
+Se puede cambiar en cualquier momento ("Cambiar") y borrar del todo ("Olvidar
+mis datos"). Si no lo rellena, todo funciona exactamente como antes.
+
+### 3. Respuestas rápidas — una página por pregunta real
+
+Google no busca "Puentes": busca *"cómo enviar dinero a Cuba"*. Una app de una
+sola página no puede posicionar para eso, porque para un buscador es una única
+dirección.
+
+Se crearon páginas propias en `web/guias/`, una por pregunta, con las cuatro
+formas en que la gente escribe:
+
+| Página | Pregunta |
+|---|---|
+| `guias/como-enviar-dinero-a-cuba/` | **Cómo** envío dinero a Cuba |
+| `guias/donde-renovar-pasaporte-cubano/` | **Dónde** renuevo el pasaporte cubano |
+| `guias/que-necesito-arraigo-social-espana/` | **Qué necesito** para el arraigo social |
+| `guias/como-pedir-residencia-eeuu-cubano/` | **Cómo** pido la residencia en EE.UU. |
+| `guias/que-puedo-llevar-a-cuba/` | **Qué puedo** llevar sin pagar aduana |
+
+Más `guias/index.html`, que las lista y es la puerta de entrada.
+
+Cada página lleva `canonical`, Open Graph, Twitter Card y **datos estructurados
+`FAQPage` + `BreadcrumbList`** — que es lo que hace que Google pueda mostrarlas
+como respuesta directa. El índice lleva `ItemList`. Todas están en el
+`sitemap.xml`.
+
+**Regla que se respetó:** ninguna guía afirma nada que no estuviera ya
+verificado dentro de la app. Salen de `tramitesData`, `tramitesEnlaces`,
+`cubaFeed` y la tabla de remesas, con el mismo enlace oficial. No se inventó
+ningún dato ni ningún enlace.
+
+Son HTML plano, sin fuentes externas ni JavaScript: cargan con una conexión
+mala. Usan la paleta caribeña de la app para que se note que son de Puentes.
+
+**Para agregar una guía:** crear `web/guias/<pregunta>/index.html`, sumarla al
+array `guias` de `index.html` (para que salga en la portada), a
+`web/guias/index.html` y al `sitemap.xml`.
+
+### 4. Los tres sellos de Puentes
+
+Antes había dos estados: verificado o no. Eso metía en el mismo saco un enlace
+del BOE y un anuncio que escribió alguien anoche. Ahora hay tres, con el mismo
+significado en toda la app:
+
+| Sello | Qué significa |
+|---|---|
+| ✓ **Verificado oficialmente** | Lo dice la web del gobierno, ministerio o consulado, y ponemos el enlace directo |
+| ◐ **Comprobado por Puentes** | Lo abrimos y lo probamos a mano. Funciona, pero no hay una fuente oficial que lo respalde entero |
+| ? **Aporte de la comunidad** | Lo publicó alguien que usa la app. Nadie lo ha comprobado |
+
+La leyenda que lo explica está arriba de Trámites, y los sellos aparecen en cada
+tarjeta de trámites, remesas, empleos, negocios, anuncios y encuentros.
+
+`ejemplo — sin confirmar` **no** es un cuarto nivel: es contenido de relleno
+nuestro, todavía sin fuente. Se marca aparte a propósito, para no hacerlo pasar
+por un aporte de la comunidad, que no lo es.
+
+En código son dos funciones, en `index.html`:
+
+```js
+sello('oficial')      // devuelve el HTML de la píldora
+nivelDe(item)         // 'nivel' si lo trae; si no, deduce de `verificado`
+```
+
+Las filas viejas que solo traen `verificado: true/false` siguen funcionando. Para
+marcar algo como comprobado a mano, se le pone `nivel: 'puentes'`.
+
+### 5. Un motivo para volver
+
+**Desde tu última visita.** Al abrir la app se cuenta lo que se publicó desde la
+última vez — y si hay ciudad en el perfil, **solo lo de esa ciudad**:
+
+> **7** ofertas de empleo nuevas en Madrid
+> **3** encuentros de cubanos nuevos en Madrid
+
+Tocar una línea lleva directo a esa sección. La marca de tiempo vive en
+`localStorage` (`puentes_ultima_visita`) y se actualiza al tocar o al decir "ya
+lo he visto". En la primera visita no sale nada: no hay con qué comparar.
+
+Se calcula con cuatro consultas `count` contra la base que ya usábamos — sin
+tabla nueva y sin traerse las filas.
+
+**Avisos que dicen algo.** El botón de avisos era "avisarme de nuevos
+encuentros", y mandaba el mismo aviso a todo el mundo, viviera donde viviera.
+Ahora se eligen los temas (encuentros, empleos, negocios, cambios de normativa) y
+se guardan junto a la ciudad del perfil.
+
+Para que los avisos salgan ya filtrados hay que agregar tres columnas:
+
+```
+supabase/migraciones/2026-09-01-avisos-personalizados.sql
+```
+
+Se pega en el [editor SQL](https://supabase.com/dashboard/project/ggehkwinqlhsdbimovzx/sql/new)
+y se ejecuta. **Es opcional y no rompe nada si no se hace:** la app guarda las
+preferencias en silencio y la suscripción se crea igual, y la función
+`enviar-aviso-encuentro` vuelve a leer sin esas columnas si no existen — los
+avisos siguen saliendo, solo que sin personalizar (lo dice en su respuesta, en
+el campo `personalizado`).
+
+Con las columnas puestas, la función solo avisa a quien tiene `encuentros` entre
+sus temas y cuya ciudad coincide con la del encuentro. Quien no puso ciudad
+recibe todo, como hasta ahora. Después de aplicar el SQL hay que volver a
+desplegar la función (ver "Desplegar la función tras cambiarla").
+
+### Y de paso: la app ya no se queda en blanco si falla el CDN
+
+Encontrado mientras se probaba esto. La librería de Supabase viene de
+`cdn.jsdelivr.net`. Si ese CDN no cargaba — red mala, ETECSA cortando, el CDN
+bloqueado — `supabase` no existía, `supabase.createClient()` lanzaba y **el
+script entero moría**: la app se quedaba en blanco. Sin trámites, sin remesas,
+sin portada. Y todo eso es contenido fijo que no necesita base de datos.
+
+Ahora, si la librería falta, se usa un sustituto: las lecturas devuelven listas
+vacías y las escrituras un error controlado. Se pierde lo que viene de la base
+(anuncios, empleos, encuentros) y queda un aviso en la consola, pero **la app
+abre y sirve**.
+
+### Probado
+
+Con Chromium, a 390×844 (móvil) y 1280×900 (escritorio), sirviendo `web/` en
+local:
+
+- Portada sin perfil: sale la pregunta "¿Dónde estás?", 7 tarjetas, 5 guías, y
+  **ninguna** caja de novedades (primera visita).
+- Perfil España/Madrid: cabecera "Puentes desde Madrid, España", primera tarjeta
+  "Arreglar mis papeles · para ti", primera guía la del arraigo en España,
+  Trámites abre con el chip de España marcado.
+- Perfil Cuba: la primera tarjeta pasa a ser "Prepararme para salir de Cuba".
+- Segunda visita con datos de prueba: la caja cuenta lo nuevo **de Madrid**, en
+  singular o plural según toque, y tocar una línea navega a su sección. Con el
+  perfil en Bilbao, no cuenta nada de Madrid — correcto.
+- Avisos: los cuatro temas se marcan y desmarcan, siempre queda al menos uno, y
+  se guardan en `localStorage`.
+- Sellos: los tres en la leyenda, en las tarjetas de trámites, en las ofertas de
+  empleo y en las 7 filas de remesas.
+- Guías: los cinco `FAQPage` y `BreadcrumbList` son JSON válido; el `sitemap.xml`
+  es XML válido.
+- **Cero errores de JavaScript**, y sin scroll horizontal en móvil ni en las
+  guías.
+
 
 ## Enlaces a trámites oficiales (2026-08-28)
 

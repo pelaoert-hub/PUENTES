@@ -17,7 +17,7 @@
  * Al cambiar VERSION se descartan todos los caches viejos.
  */
 
-const VERSION = 'v3';
+const VERSION = 'v4';
 const SHELL_CACHE = `puentes-shell-${VERSION}`;
 const DATA_CACHE = `puentes-data-${VERSION}`;
 const STATIC_CACHE = `puentes-static-${VERSION}`;
@@ -37,7 +37,11 @@ const SHELL_ASSETS = [
   '/icons/icon.svg',
   '/icons/icon-maskable.svg',
   '/icons/apple-touch-icon.png',
-  '/1940-constitucion-trabajo.html'
+  '/1940-constitucion-trabajo.html',
+  // El indice de respuestas rapidas: es la puerta de entrada desde Google y
+  // pesa poco. Las guias sueltas no se precachean — se guardan al visitarlas,
+  // con la misma estrategia de red-primero que el resto de la navegacion.
+  '/guias/'
 ];
 
 /* ---------- Instalacion ---------- */

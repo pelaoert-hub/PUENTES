@@ -26,6 +26,42 @@
 <meta name="twitter:image" content="https://www.puentescuba.com/og-image.png">
 
 <title>Puentes — Cubanos en el mundo, informados</title>
+
+<!-- DATOS ESTRUCTURADOS: le dicen a Google que esto es un sitio con nombre
+     propio y con paginas que responden preguntas concretas. Las respuestas en
+     si llevan su FAQPage en cada pagina de /guias/. -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Puentes",
+ "alternateName": "Puentes Cuba",
+ "url": "https://www.puentescuba.com/",
+ "inLanguage": "es",
+ "description": "Guía y comunidad para cubanos dentro y fuera de Cuba: trámites y ayudas por país, cambios legales en Cuba, remesas, empleos y encuentros.",
+ "publisher": {
+  "@type": "Organization",
+  "name": "Puentes",
+  "url": "https://www.puentescuba.com/",
+  "logo": "https://www.puentescuba.com/icons/icon-512.png"
+ }
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "ItemList",
+ "name": "Respuestas rápidas de Puentes",
+ "inLanguage": "es",
+ "itemListElement": [
+  {"@type": "ListItem", "position": 1, "name": "¿Cómo envío dinero a Cuba?", "url": "https://www.puentescuba.com/guias/como-enviar-dinero-a-cuba/"},
+  {"@type": "ListItem", "position": 2, "name": "¿Dónde renuevo el pasaporte cubano?", "url": "https://www.puentescuba.com/guias/donde-renovar-pasaporte-cubano/"},
+  {"@type": "ListItem", "position": 3, "name": "¿Qué necesito para el arraigo social en España?", "url": "https://www.puentescuba.com/guias/que-necesito-arraigo-social-espana/"},
+  {"@type": "ListItem", "position": 4, "name": "¿Cómo pido la residencia en EE.UU. siendo cubano?", "url": "https://www.puentescuba.com/guias/como-pedir-residencia-eeuu-cubano/"},
+  {"@type": "ListItem", "position": 5, "name": "¿Qué puedo llevar a Cuba sin pagar aduana?", "url": "https://www.puentescuba.com/guias/que-puedo-llevar-a-cuba/"}
+ ]
+}
+</script>
 <style>
   /* Paleta caribena: mismo verde de familia que la marca, pero mas vivo y
      saturado. Los acentos (oro y coral) suben de brillo. El texto crema sobre
@@ -119,17 +155,23 @@
   .explore-empty{color:var(--muted);font-size:0.85rem;padding:9px 10px;}
 
   /* ---- Hero ---- */
-  .hero{max-width:1120px;margin:0 auto;padding:64px 24px 40px;}
+  /* La cabecera se apretó (era 64px arriba y 40 abajo): con la portada por
+     necesidad, lo primero que tiene que verse sin bajar es "¿Qué necesitas?",
+     no el cartel. La marca sigue estando, ocupando menos. */
+  .hero{max-width:1120px;margin:0 auto;padding:34px 24px 22px;}
   .hero .eyebrow{
     color:var(--gold);font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;
     font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;
     display:block;margin-bottom:14px;
   }
-  .hero h1{font-size:clamp(2.2rem,5vw,3.4rem);max-width:780px;line-height:1.08;}
+  .hero h1{font-size:clamp(2rem,4.2vw,2.9rem);max-width:780px;line-height:1.08;}
   .hero p.sub{color:var(--cream-dim);max-width:560px;margin-top:18px;font-size:1.05rem;}
 
   /* horizon signature element — puente del Yayabo sobre las dos banderas */
-  .horizon{position:relative;width:100%;max-width:1120px;aspect-ratio:1120/260;margin:36px auto 0;padding:0 24px;}
+  /* El puente es la marca, pero no puede comerse la primera pantalla: se le
+     pone techo de altura y se centra dentro. */
+  .horizon{position:relative;width:100%;max-width:1120px;aspect-ratio:1120/260;
+    max-height:190px;margin:14px auto 0;padding:0 24px;}
   .horizon svg{width:100%;height:100%;display:block;}
 
   /* ---- Sections generic ---- */
@@ -413,13 +455,194 @@
     .explore-link{padding-top:7px;padding-bottom:7px;}
     /* El banner ocupaba 437px y empujaba los articulos fuera de pantalla.
        En movil se compacta para que lo primero que se vea sea el contenido. */
-    .hero{padding:20px 16px 16px;}
+    .hero{padding:16px 16px 10px;}
+    .horizon{max-height:104px;margin-top:8px;padding:0 16px;}
     /* El banner es texto, no imagen: se ajusta el tamano de letra, sin
        recortar el mensaje. */
     .hero h1{font-size:27px;line-height:1.2;}
     .hero .sub{font-size:14.5px;line-height:1.5;}
     .section-head{margin-bottom:14px;}
     .section-head h2{font-size:22px;}
+  }
+
+  /* ===================================================================
+     PERFIL, "QUE NECESITAS", SELLOS DE VERIFICACION Y NOVEDADES
+     Agregado 2026-09-01. Ver README, seccion "Portada por necesidad".
+     =================================================================== */
+
+  /* ---------- Tarjeta de perfil (Cubano en Madrid) ---------- */
+  .perfil-caja{
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius); padding:16px 18px; margin-bottom:18px;
+  }
+  .perfil-caja .perfil-fila{
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .perfil-caja .perfil-quien{
+    flex:1; min-width:200px; font-family:Georgia,'Times New Roman',serif;
+    font-size:19px; color:#FFFFFF; margin:0;
+  }
+  .perfil-caja .perfil-quien .lugar{ color:var(--gold); }
+  .perfil-caja .perfil-sub{
+    margin:4px 0 0; font-size:13.5px; color:var(--muted);
+  }
+  .perfil-caja .btn-cambiar{
+    background:transparent; color:var(--muted); border:1px solid var(--line);
+    border-radius:999px; padding:6px 14px; font:inherit; font-size:13px;
+    cursor:pointer; white-space:nowrap;
+  }
+  .perfil-caja .btn-cambiar:hover{ color:var(--cream); border-color:var(--gold); }
+
+  /* Formulario de alta del perfil */
+  .perfil-form h3{ font-size:20px; margin:0 0 4px; }
+  .perfil-form .paso{
+    font-family:ui-monospace,'SF Mono',monospace; font-size:0.65rem;
+    text-transform:uppercase; letter-spacing:.06em; color:var(--gold);
+    display:block; margin-bottom:8px;
+  }
+  .perfil-form .ayuda{ font-size:13.5px; color:var(--muted); margin:0 0 14px; }
+  .perfil-form .campo-label{
+    display:block; font-size:13px; color:var(--cream-dim); margin:14px 0 7px;
+  }
+  .perfil-form input[type="text"]{
+    width:100%; padding:11px 13px; border-radius:10px;
+    border:1px solid var(--line); background:var(--bg-alt); color:var(--cream);
+    font:inherit; font-size:15px;
+  }
+  .perfil-form input[type="text"]::placeholder{ color:#7FB6B9; }
+  .perfil-form .acciones-perfil{
+    display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; align-items:center;
+  }
+  .perfil-form .saltar{
+    background:none; border:0; color:var(--muted); font:inherit; font-size:13.5px;
+    text-decoration:underline; cursor:pointer; padding:6px 2px;
+  }
+
+  /* ---------- "Que necesitas" — la portada por tarea ---------- */
+  .necesito-head{ margin:0 0 14px; }
+  .necesito-head h2{ font-size:26px; margin:0 0 4px; }
+  .necesito-head p{ margin:0; color:var(--muted); font-size:14.5px; }
+
+  .necesito-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(232px, 1fr));
+    gap:12px; margin-bottom:32px;
+  }
+  .necesito-card{
+    display:flex; flex-direction:column; gap:6px; text-align:left;
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius); padding:16px 16px 15px;
+    color:var(--cream); font:inherit; cursor:pointer;
+    transition:transform .12s ease, border-color .12s ease, background .12s ease;
+  }
+  .necesito-card:hover, .necesito-card:focus-visible{
+    background:var(--surface-hi); border-color:var(--gold); transform:translateY(-2px);
+  }
+  .necesito-card .icono{ font-size:26px; line-height:1; }
+  .necesito-card .que{
+    font-family:Georgia,'Times New Roman',serif; font-size:17.5px;
+    color:#FFFFFF; line-height:1.25;
+  }
+  .necesito-card .detalle{ font-size:13.5px; color:var(--muted); line-height:1.45; }
+  .necesito-card.destacada{ border-color:var(--gold); background:var(--surface-hi); }
+  .necesito-card .para-ti{
+    font-family:ui-monospace,'SF Mono',monospace; font-size:0.6rem;
+    text-transform:uppercase; letter-spacing:.06em;
+    color:var(--ink); background:var(--gold);
+    padding:2px 8px; border-radius:999px; align-self:flex-start;
+  }
+
+  /* ---------- Sellos de verificacion (tres niveles) ---------- */
+  .sello{
+    font-family:ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace;
+    font-size:0.65rem; text-transform:uppercase; letter-spacing:.04em;
+    padding:3px 9px; border-radius:999px; white-space:nowrap;
+  }
+  .sello-oficial{   background:rgba(140,198,120,.15); color:#8CC678; }
+  .sello-puentes{   background:rgba(255,194,75,.16);  color:var(--gold); }
+  .sello-comunidad{ background:rgba(168,218,220,.14); color:var(--muted); }
+
+  .leyenda-sellos{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:10px; margin:0 0 22px;
+  }
+  .leyenda-sellos .item{
+    background:var(--bg-alt); border:1px solid var(--line);
+    border-radius:12px; padding:11px 13px;
+  }
+  .leyenda-sellos .item p{
+    margin:7px 0 0; font-size:13px; color:var(--cream-dim); line-height:1.45;
+  }
+
+  /* ---------- Novedades desde tu ultima visita ---------- */
+  .novedades{
+    background:linear-gradient(180deg, var(--surface-hi), var(--surface));
+    border:1px solid var(--gold); border-radius:var(--radius);
+    padding:15px 17px; margin-bottom:18px;
+  }
+  .novedades .cabecera{
+    font-family:ui-monospace,'SF Mono',monospace; font-size:0.65rem;
+    text-transform:uppercase; letter-spacing:.06em; color:var(--gold);
+    margin-bottom:9px;
+  }
+  .novedades ul{ list-style:none; margin:0; padding:0; display:grid; gap:7px; }
+  .novedades li button{
+    width:100%; text-align:left; background:transparent; border:0;
+    color:var(--cream); font:inherit; font-size:14.5px; cursor:pointer;
+    padding:5px 0; display:flex; gap:9px; align-items:baseline;
+  }
+  .novedades li button:hover .txt{ color:var(--gold); text-decoration:underline; }
+  .novedades li .cuenta{
+    font-family:ui-monospace,'SF Mono',monospace; font-weight:700;
+    color:var(--gold); min-width:1.6em;
+  }
+  .novedades .cerrar{
+    background:none; border:0; color:var(--muted); font:inherit; font-size:13px;
+    text-decoration:underline; cursor:pointer; margin-top:10px; padding:2px;
+  }
+
+  /* ---------- Bloque de guias (respuestas a preguntas concretas) ---------- */
+  .guias-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr));
+    gap:10px; margin-bottom:30px;
+  }
+  .guia-card{
+    display:block; text-decoration:none; color:var(--cream);
+    background:var(--bg-alt); border:1px solid var(--line);
+    border-radius:12px; padding:13px 15px;
+  }
+  .guia-card:hover{ border-color:var(--gold); background:var(--surface); }
+  .guia-card .pregunta{
+    font-family:Georgia,'Times New Roman',serif; font-size:16px; color:#FFFFFF;
+    display:block; line-height:1.3;
+  }
+  .guia-card .respuesta{
+    display:block; margin-top:5px; font-size:13px; color:var(--muted); line-height:1.45;
+  }
+
+  .bloque-secundario{ margin-top:34px; }
+  .bloque-secundario > h2{ font-size:22px; margin:0 0 4px; }
+  .bloque-secundario > p.intro{ margin:0 0 16px; color:var(--muted); font-size:14px; }
+
+  /* ---------- Avisos personalizados ---------- */
+  .avisos-temas{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 4px; }
+  .avisos-temas .tema{
+    background:var(--bg-alt); border:1px solid var(--line); color:var(--cream-dim);
+    border-radius:999px; padding:7px 14px; font:inherit; font-size:13.5px; cursor:pointer;
+  }
+  .avisos-temas .tema.activo{
+    background:var(--gold); border-color:var(--gold); color:var(--ink); font-weight:600;
+  }
+
+  @media (max-width:640px){
+    .necesito-grid{ grid-template-columns:1fr 1fr; gap:10px; align-items:stretch; }
+    .necesito-card{ padding:13px 12px; }
+    .necesito-card.destacada{ grid-column:1 / -1; }
+    .necesito-card .que{ font-size:15.5px; }
+    .necesito-card .detalle{ display:none; }
+    .necesito-card.destacada .detalle{ display:block; font-size:12.5px; }
+    .necesito-head h2{ font-size:22px; }
+    .perfil-caja{ padding:14px; }
+    .perfil-caja .perfil-quien{ font-size:17px; }
   }
 </style>
 
@@ -580,6 +803,7 @@
           <button class="explore-link" data-section="remesas">Remesas y recargas</button>
           <button class="explore-link" data-section="negocios">Negocios cubanos</button>
           <button class="explore-link" data-section="empleos">Ofertas de trabajo</button>
+          <a class="explore-link" href="/guias/">Respuestas rápidas<span class="sub">Las dudas que más se repiten, contestadas</span></a>
         </div>
         <div class="explore-col">
           <span class="explore-heading">Artículos y publicaciones</span>
@@ -686,12 +910,37 @@
   <!-- ===== TRÁMITES Y AYUDAS ===== -->
   <!-- ===== PORTADA ===== -->
   <section id="portada" class="active">
-    <div class="section-head">
-      <h2>Lo último en Puentes</h2>
-      <p>Historias y explicaciones sobre lo que nos toca a los cubanos, dentro y fuera de la isla. Toca cualquiera para leerla completa.</p>
+
+    <!-- 1. Quien eres y donde estas. Se guarda en este telefono, no se envia
+            a ningun servidor. Si no lo rellenas, la portada funciona igual. -->
+    <div id="perfil-caja"></div>
+
+    <!-- 2. La portada no lista secciones: pregunta que necesitas. -->
+    <div class="necesito-head">
+      <h2 id="necesito-titulo">¿Qué necesitas?</h2>
+      <p id="necesito-sub">Toca lo que buscas y te llevamos directo. Nada de menús.</p>
     </div>
+    <div class="necesito-grid" id="necesito-grid"></div>
+
+    <!-- 3. Lo que ha cambiado desde la ultima vez que entraste. -->
+    <div id="novedades-caja"></div>
+
+    <!-- 4. Respuestas directas a las preguntas que la gente escribe en Google. -->
+    <div class="bloque-secundario">
+      <h2>Respuestas rápidas</h2>
+      <p class="intro">Las dudas que más se repiten, contestadas de una vez y con el enlace oficial delante.</p>
+      <div class="guias-grid" id="guias-grid"></div>
+    </div>
+
+    <!-- 5. La encuesta y los articulos, debajo: importan, pero no son lo
+            primero que alguien necesita al entrar. -->
     <div id="encuesta-caja"></div>
-    <div class="portada-grid" id="portada-articulos"></div>
+
+    <div class="bloque-secundario">
+      <h2>Lo último en Puentes</h2>
+      <p class="intro">Historias y explicaciones sobre lo que nos toca a los cubanos, dentro y fuera de la isla.</p>
+      <div class="portada-grid" id="portada-articulos"></div>
+    </div>
   </section>
 
   <section id="tramites">
@@ -701,8 +950,21 @@
       <span class="updated-badge"><span class="dot"></span>revisado semanalmente por el equipo editorial</span>
     </div>
 
-    <div class="disclaimer">
-      <strong>Cómo leer esto:</strong> las tarjetas con el sello <span class="verified-pill" style="vertical-align:middle;">✓ verificado</span> están confirmadas contra la fuente oficial del gobierno o ministerio correspondiente, con enlace directo. Las marcadas <span class="unverified-pill" style="vertical-align:middle;">ejemplo</span> todavía no tienen fuente oficial confirmada — no las tomes como información definitiva.
+    <!-- Los tres sellos de Puentes. La misma escala se usa en toda la app:
+         cada tarjeta dice de donde sale lo que afirma. -->
+    <div class="leyenda-sellos" id="leyenda-sellos">
+      <div class="item">
+        <span class="sello sello-oficial">✓ Verificado oficialmente</span>
+        <p>Confirmado contra la web del gobierno, ministerio o consulado, con el enlace directo a la fuente.</p>
+      </div>
+      <div class="item">
+        <span class="sello sello-puentes">◐ Comprobado por Puentes</span>
+        <p>Lo hemos abierto y probado a mano, y funciona — pero no hay una fuente oficial que lo respalde entero.</p>
+      </div>
+      <div class="item">
+        <span class="sello sello-comunidad">? Aporte de la comunidad</span>
+        <p>Lo publicó alguien como tú. Puede ser cierto y puede no serlo: nadie lo ha comprobado todavía.</p>
+      </div>
     </div>
 
     <div class="country-row" id="country-row">
@@ -720,7 +982,7 @@
     <div class="grid" id="tramites-grid"></div>
 
     <div class="community-sub-head">
-      <h3>Sugerido por la comunidad <span class="unverified-pill">sin verificar</span></h3>
+      <h3>Sugerido por la comunidad <span class="sello sello-comunidad">? Aporte de la comunidad</span></h3>
     </div>
     <div class="grid" id="tramites-sugeridos"></div>
 
@@ -757,19 +1019,19 @@
 
     <div class="grid">
       <div class="card">
-        <div class="post-card-row"><span class="tag">Marco legal</span><span class="verified-pill">✓ verificado</span></div>
+        <div class="post-card-row"><span class="tag">Marco legal</span><span class="sello sello-oficial">✓ Verificado oficialmente</span></div>
         <h3>Ley 171 "Ley de Migración" y su reglamento</h3>
         <p>Aprobada el 19 de julio de 2024. Su reglamento es el Decreto 136/2025. Es el marco vigente que regula pasaportes, permisos y condiciones migratorias (residente en el exterior, emigrado, etc.).</p>
         <div class="meta"><span>Verificado: 2026</span><a class="verify-link" href="https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-o39.pdf" target="_blank" rel="noopener">Ver fuente oficial →</a></div>
       </div>
       <div class="card">
-        <div class="post-card-row"><span class="tag">Pasaporte</span><span class="verified-pill">✓ verificado</span></div>
+        <div class="post-card-row"><span class="tag">Pasaporte</span><span class="sello sello-oficial">✓ Verificado oficialmente</span></div>
         <h3>Pasaporte cubano: vigencia y trámite</h3>
         <p>Desde julio de 2023 el pasaporte tiene una vigencia de 10 años para adultos y 5 para menores — ya no se necesitan prórrogas. Se tramita en las oficinas de la Dirección de Identificación, Migración y Extranjería (DIME) en Cuba, o en el consulado si ya estás en el exterior.</p>
         <div class="meta"><span>Verificado: 2026</span><a class="verify-link" href="https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-o39.pdf" target="_blank" rel="noopener">Ver fuente oficial →</a></div>
       </div>
       <div class="card">
-        <div class="post-card-row"><span class="tag">Menores</span><span class="verified-pill">✓ verificado</span></div>
+        <div class="post-card-row"><span class="tag">Menores</span><span class="sello sello-oficial">✓ Verificado oficialmente</span></div>
         <h3>Menores de edad viajando solos o con un progenitor</h3>
         <p>Si un menor de 18 años viaja con un solo padre o con un tercero, hace falta el permiso de salida del otro progenitor, tramitado ante el consulado o la DIME, con pasaporte del menor vigente.</p>
         <div class="meta"><span>Verificado: 2025</span><a class="verify-link" href="https://opapeleo.com/en/immigration/guide-to-cuban-consular-procedures-abroad/" target="_blank" rel="noopener">Ver fuente →</a></div>
@@ -811,7 +1073,7 @@
     </table>
 
     <div class="community-sub-head">
-      <h3>Corregido por la comunidad <span class="unverified-pill">sin verificar</span></h3>
+      <h3>Corregido por la comunidad <span class="sello sello-comunidad">? Aporte de la comunidad</span></h3>
     </div>
     <div id="visado-sugeridos" class="post-list"></div>
 
@@ -910,10 +1172,17 @@
 
     <div id="sub-encuentros" class="subpanel">
       <div class="disclaimer" id="caja-avisos">
-        <strong>🔔 Avisos de nuevos encuentros.</strong>
-        <span id="avisos-texto">Activa los avisos y te llega una notificación cuando alguien convoque un encuentro. Puedes desactivarlos cuando quieras.</span>
+        <strong>🔔 Avisos personalizados.</strong>
+        <span id="avisos-texto">Activa los avisos y te llega una notificación cuando pase algo de lo que elijas. Puedes desactivarlos cuando quieras.</span>
+        <div class="avisos-temas" id="avisos-temas" role="group" aria-label="De qué quieres que te avisemos">
+          <button type="button" class="tema activo" data-tema="encuentros">Encuentros cerca</button>
+          <button type="button" class="tema" data-tema="empleos">Ofertas de empleo</button>
+          <button type="button" class="tema" data-tema="negocios">Negocios nuevos</button>
+          <button type="button" class="tema" data-tema="tramites">Cambios de normativa</button>
+        </div>
+        <p class="form-note" id="avisos-alcance" style="margin:8px 0 0;"></p>
         <div class="quick-actions" style="margin-top:10px;">
-          <button type="button" id="btn-avisos" class="btn-quick">🔔 Avisarme de nuevos encuentros</button>
+          <button type="button" id="btn-avisos" class="btn-quick">🔔 Avisarme</button>
         </div>
       </div>
 
@@ -977,7 +1246,7 @@
     </table>
 
     <div class="community-sub-head">
-      <h3>Sugerido por la comunidad <span class="unverified-pill">sin verificar</span></h3>
+      <h3>Sugerido por la comunidad <span class="sello sello-comunidad">? Aporte de la comunidad</span></h3>
     </div>
     <div id="remesas-sugeridos" class="post-list"></div>
 
@@ -1172,7 +1441,39 @@
 // ===== Conexión a Supabase (base de datos real, independiente de Claude) =====
 const SUPABASE_URL = 'https://ggehkwinqlhsdbimovzx.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnZWhrd2lucWxoc2RiaW1vdnp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NzI0MzksImV4cCI6MjEwMjE0ODQzOX0.iSlP9Tr1pBoTh7R5GhZN0FEVVQNYBAMZE41EV3RxDLo';
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+/* La libreria de Supabase viene de un CDN. Si ese CDN no carga -- red mala,
+   ETECSA cortando, la CDN bloqueada -- `supabase` no existe y ANTES eso
+   reventaba el script entero: la app se quedaba en blanco, sin tramites, sin
+   remesas y sin la portada, aunque todo eso es contenido fijo que no necesita
+   base de datos.
+
+   Con este sustituto, si la libreria falta, las lecturas devuelven listas
+   vacias y las escrituras un error controlado. Se pierde lo que viene de la
+   base (anuncios, empleos, encuentros), pero el resto de la app abre y sirve. */
+function dbDeReserva(){
+  const sinRed = { message: 'Sin conexión con la base de datos' };
+  const consulta = () => {
+    const p = Promise.resolve({ data: [], error: sinRed, count: 0 });
+    // Cada metodo encadenable devuelve el mismo objeto, y el objeto es
+    // esperable con await: asi `.select().eq().order().limit()` no rompe.
+    const encadenable = new Proxy(p, {
+      get(destino, prop){
+        if(prop === 'then' || prop === 'catch' || prop === 'finally'){
+          return destino[prop].bind(destino);
+        }
+        return () => encadenable;
+      }
+    });
+    return encadenable;
+  };
+  return { from: consulta };
+}
+
+const hayLibreriaSupabase = typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function';
+if(!hayLibreriaSupabase) console.warn('[puentes] Supabase no cargó: la app abre igual, sin los datos de la comunidad.');
+const db = hayLibreriaSupabase
+  ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : dbDeReserva();
 
 function getDeviceId(){
   let id = localStorage.getItem('puente_device_id');
@@ -1183,6 +1484,104 @@ function getDeviceId(){
   return id;
 }
 const DEVICE_ID = getDeviceId();
+
+/* ===================== PERFIL DE QUIEN USA LA APP =====================
+   Nadie tiene que crear una cuenta. Guardamos en ESTE telefono dos datos —
+   pais y ciudad — y con eso la app deja de ser igual para todos: la portada
+   ordena lo suyo primero, Tramites abre en su pais y los avisos hablan de su
+   ciudad.
+
+   No viaja a ningun servidor. Si la persona no lo rellena, todo sigue
+   funcionando exactamente como antes.
+   ==================================================================== */
+const PERFIL_KEY = 'puentes_perfil';
+
+// Los paises que hoy tienen ficha propia en Tramites. El resto cae en "Otro".
+const PAISES_CON_FICHA = ['España', 'EEUU', 'México', 'Rusia'];
+
+const PAISES_PERFIL = [
+  { id:'España', txt:'🇪🇸 España'  },
+  { id:'EEUU',   txt:'🇺🇸 Estados Unidos' },
+  { id:'México', txt:'🇲🇽 México'  },
+  { id:'Rusia',  txt:'🇷🇺 Rusia'   },
+  { id:'Otro',   txt:'🌍 Otro país' },
+  { id:'Cuba',   txt:'🇨🇺 Sigo en Cuba' },
+];
+
+function leerPerfil(){
+  try{
+    const crudo = localStorage.getItem(PERFIL_KEY);
+    if(!crudo) return null;
+    const p = JSON.parse(crudo);
+    if(!p || !p.pais) return null;
+    return { pais: String(p.pais), ciudad: p.ciudad ? String(p.ciudad) : '' };
+  }catch(_){ return null; }
+}
+
+function guardarPerfil(pais, ciudad){
+  try{
+    localStorage.setItem(PERFIL_KEY, JSON.stringify({ pais, ciudad: (ciudad||'').trim() }));
+  }catch(_){ /* modo privado o almacenamiento lleno: seguimos sin perfil */ }
+}
+
+function borrarPerfil(){
+  try{ localStorage.removeItem(PERFIL_KEY); }catch(_){}
+}
+
+/** El pais con el que abrir la seccion de Tramites. */
+function paisParaTramites(){
+  const p = leerPerfil();
+  if(!p) return 'España';
+  return PAISES_CON_FICHA.includes(p.pais) ? p.pais : 'Otro';
+}
+
+/** "Madrid, España" / "Cuba" / "" — para escribirlo en pantalla. */
+function lugarPerfil(){
+  const p = leerPerfil();
+  if(!p) return '';
+  const nombrePais = p.pais === 'EEUU' ? 'Estados Unidos' : p.pais;
+  if(p.pais === 'Otro') return p.ciudad || '';
+  return p.ciudad ? `${p.ciudad}, ${nombrePais}` : nombrePais;
+}
+
+/** true si la persona dijo que todavia esta en Cuba. */
+function sigueEnCuba(){
+  const p = leerPerfil();
+  return !!p && p.pais === 'Cuba';
+}
+
+/* ===================== SELLOS DE VERIFICACION =====================
+   Tres niveles, y siempre el mismo significado en toda la app:
+
+     oficial   -> lo dice la web del gobierno / ministerio / consulado, y
+                  ponemos el enlace directo.
+     puentes   -> lo abrimos y lo probamos a mano nosotros. Funciona, pero no
+                  hay una fuente oficial que lo respalde entero.
+     comunidad -> lo publico alguien que usa la app. Nadie lo ha comprobado.
+
+   'ejemplo' no es un nivel de verificacion: es contenido de relleno nuestro,
+   todavia sin fuente. Se marca aparte para no hacerlo pasar por un aporte de
+   la comunidad, que no lo es.
+   ================================================================= */
+const SELLOS = {
+  oficial:   { clase:'sello-oficial',   txt:'✓ Verificado oficialmente' },
+  puentes:   { clase:'sello-puentes',   txt:'◐ Comprobado por Puentes'  },
+  comunidad: { clase:'sello-comunidad', txt:'? Aporte de la comunidad'  },
+};
+
+/** Devuelve el HTML del sello. `nivel` puede venir vacio: entonces no pinta nada. */
+function sello(nivel){
+  if(nivel === 'ejemplo') return '<span class="unverified-pill">ejemplo — sin confirmar</span>';
+  const s = SELLOS[nivel];
+  return s ? `<span class="sello ${s.clase}">${s.txt}</span>` : '';
+}
+
+/** Compatibilidad: las filas viejas solo traen `verificado` true/false. */
+function nivelDe(item){
+  if(item && item.nivel) return item.nivel;
+  if(item && item.verificado) return 'oficial';
+  return 'ejemplo';
+}
 
 async function fetchTable(table, orderCol, ascending){
   try{
@@ -1306,11 +1705,13 @@ function renderTramites(country){
   const grid = document.getElementById('tramites-grid');
   grid.innerHTML = tramitesData[country].map(item => `
     <div class="card">
-      <div class="post-card-row"><span class="tag">${item.tag}</span>${item.verificado ? '<span class="verified-pill">✓ verificado</span>' : '<span class="unverified-pill">ejemplo</span>'}</div>
+      <div class="post-card-row"><span class="tag">${item.tag}</span>${sello(nivelDe(item))}</div>
       <h3>${item.title}</h3>
       <p>${item.desc}</p>
       <div class="meta">
-        <span>${item.verificado ? 'Verificado: ' + item.date : 'Sin fuente oficial aún'}</span>
+        <span>${nivelDe(item) === 'oficial' ? 'Verificado: ' + item.date
+                : nivelDe(item) === 'puentes' ? 'Comprobado por Puentes: ' + item.date
+                : 'Sin fuente oficial aún'}</span>
         ${item.source ? `<a class="verify-link" href="${item.source}" target="_blank" rel="noopener">Ver fuente oficial →</a>` : ''}
       </div>
     </div>
@@ -1412,7 +1813,7 @@ async function renderTramitesSugeridos(){
   if(!list.length){ el.innerHTML = '<p class="empty-state" style="grid-column:1/-1;">Nadie ha sugerido nada para este país todavía.</p>'; return; }
   el.innerHTML = list.map(t => `
     <div class="card">
-      <div class="post-card-row"><span class="tag">${escapeHtml(t.categoria)}</span></div>
+      <div class="post-card-row"><span class="tag">${escapeHtml(t.categoria)}</span>${sello('comunidad')}</div>
       <h3>${escapeHtml(t.titulo)}</h3>
       <p>${escapeHtml(t.descripcion)}</p>
       <div class="meta">
@@ -1524,6 +1925,7 @@ async function renderVisadoSugeridos(){
       <div class="post-body" style="flex:1;">
         <div class="post-card-row">
           <h3 style="flex:1;">${escapeHtml(v.pais)}</h3>
+          ${sello('comunidad')}
         </div>
         <div class="post-meta">
           <span class="pill">${escapeHtml(v.tipo)}</span>
@@ -1578,7 +1980,7 @@ function renderRemesas(){
   const filtradas = filtroRemesaTipo === 'todos' ? remesas : remesas.filter(r => r[1] === filtroRemesaTipo);
   document.querySelector('#remesas-table tbody').innerHTML = filtradas.map(r => `
     <tr>
-      <td>${r[0]}</td>
+      <td>${r[0]}<br>${sello('puentes')}</td>
       <td><span class="pill">${r[1]}</span></td>
       <td>${r[2]}</td>
       <td>${r[3]}</td>
@@ -1610,6 +2012,7 @@ async function renderRemesasSugeridos(){
       <div class="post-body" style="flex:1;">
         <div class="post-card-row">
           <h3 style="flex:1;">${escapeHtml(s.nombre)}</h3>
+          ${sello('comunidad')}
         </div>
         <div class="post-meta">
           <span class="pill">${escapeHtml(s.tipo)}</span>
@@ -1666,6 +2069,7 @@ async function renderAnuncios(){
       <div class="post-body" style="flex:1;">
         <div class="post-card-row">
           <h3 style="flex:1;">${escapeHtml(a.titulo)}</h3>
+          ${sello('comunidad')}
         </div>
         <p>${escapeHtml(a.mensaje)}</p>
         <div class="post-meta">
@@ -1710,6 +2114,7 @@ function pintarEmpleos(){
       <div class="post-body" style="flex:1;">
         <div class="post-card-row">
           <h3 style="flex:1;">${escapeHtml(e.puesto)}</h3>
+          ${sello('comunidad')}
         </div>
         ${e.empresa ? `<p style="margin:0 0 6px;"><strong>${escapeHtml(e.empresa)}</strong></p>` : ''}
         <p>${escapeHtml(e.descripcion)}</p>
@@ -1853,6 +2258,7 @@ function pintarNegocios(){
       <div class="post-body" style="flex:1;">
         <div class="post-card-row">
           <h3 style="flex:1;">${escapeHtml(n.nombre)}</h3>
+          ${sello('comunidad')}
         </div>
         <p>${escapeHtml(n.descripcion)}</p>
         <div class="post-meta">
@@ -1978,10 +2384,11 @@ async function pintarBotonAvisos(){
     return;
   }
   const sub = await suscripcionActual();
-  btn.textContent = sub ? '✓ Avisos activados — desactivar' : '🔔 Avisarme de nuevos encuentros';
+  const ciudad = (leerPerfil() || {}).ciudad;
+  btn.textContent = sub ? '✓ Avisos activados — desactivar' : '🔔 Avisarme';
   txt.textContent = sub
-    ? 'Te avisaremos cuando alguien convoque un encuentro. Toca el aviso para ir directo y apuntarte.'
-    : 'Activa los avisos y te llega una notificación cuando alguien convoque un encuentro. Puedes desactivarlos cuando quieras.';
+    ? `Te avisaremos de lo que elijas arriba${ciudad ? ', dando prioridad a ' + ciudad : ''}. Toca el aviso para ir directo.`
+    : 'Elige de qué quieres enterarte y te llega una notificación cuando pase. Puedes desactivarlos cuando quieras.';
 }
 
 async function alternarAvisos(){
@@ -2012,6 +2419,8 @@ async function alternarAvisos(){
       if(error && error.code !== '23505'){   // 23505 = ya estaba suscrito
         await nueva.unsubscribe();
         alert('No se pudieron activar los avisos. Inténtalo de nuevo.');
+      }else{
+        await guardarPreferenciasAviso(nueva.endpoint);
       }
     }
   }catch(err){
@@ -2022,6 +2431,82 @@ async function alternarAvisos(){
     await pintarBotonAvisos();
   }
 }
+
+/* ---------- Que avisos quiere cada persona ----------
+   Los temas y la ciudad se guardan en el telefono, y ademas se intentan
+   guardar junto a la suscripcion para poder mandar avisos dirigidos ("7
+   ofertas nuevas en Madrid") en vez de el mismo aviso a todo el mundo.
+
+   Si esas columnas todavia no existen en la tabla, el guardado vuelve a
+   intentarse sin ellas: la suscripcion se crea igual. Ver en el README
+   "Avisos personalizados" para el SQL que las agrega. */
+const AVISOS_TEMAS_KEY = 'puentes_avisos_temas';
+const TEMAS_VALIDOS = ['encuentros','empleos','negocios','tramites'];
+
+function leerTemas(){
+  try{
+    const crudo = localStorage.getItem(AVISOS_TEMAS_KEY);
+    if(!crudo) return ['encuentros'];
+    const t = JSON.parse(crudo).filter(x => TEMAS_VALIDOS.includes(x));
+    return t.length ? t : ['encuentros'];
+  }catch(_){ return ['encuentros']; }
+}
+
+function guardarTemas(temas){
+  try{ localStorage.setItem(AVISOS_TEMAS_KEY, JSON.stringify(temas)); }catch(_){}
+}
+
+function pintarTemas(){
+  const cont = document.getElementById('avisos-temas');
+  if(!cont) return;
+  const temas = leerTemas();
+  cont.querySelectorAll('.tema').forEach(b =>
+    b.classList.toggle('activo', temas.includes(b.dataset.tema)));
+
+  const alcance = document.getElementById('avisos-alcance');
+  if(alcance){
+    const ciudad = (leerPerfil() || {}).ciudad;
+    alcance.textContent = ciudad
+      ? `Te avisaremos de lo que pase en ${ciudad}. Cambia tu ciudad desde la portada.`
+      : 'Pon tu ciudad en la portada y te avisaremos solo de lo que pase cerca de ti.';
+  }
+}
+
+document.getElementById('avisos-temas')?.addEventListener('click', async e => {
+  const btn = e.target.closest('.tema');
+  if(!btn) return;
+  const temas = leerTemas();
+  const i = temas.indexOf(btn.dataset.tema);
+  if(i >= 0){
+    if(temas.length === 1) return;   // al menos uno tiene que quedar
+    temas.splice(i,1);
+  }else{
+    temas.push(btn.dataset.tema);
+  }
+  guardarTemas(temas);
+  pintarTemas();
+  // Si ya estaba suscrito, actualizamos sus preferencias en el servidor.
+  const sub = await suscripcionActual();
+  if(sub) await guardarPreferenciasAviso(sub.endpoint);
+});
+
+/** Intenta guardar temas y ciudad junto a la suscripcion. Silencioso si las
+    columnas todavia no existen: la suscripcion sigue siendo valida. */
+async function guardarPreferenciasAviso(endpoint){
+  const perfil = leerPerfil() || {};
+  try{
+    const { error } = await db.from('push_suscripciones').update({
+      temas:  leerTemas(),
+      ciudad: perfil.ciudad || null,
+      pais:   perfil.pais   || null,
+    }).eq('endpoint', endpoint);
+    if(error) console.warn('[push] preferencias no guardadas (¿faltan columnas?):', error.message);
+  }catch(err){
+    console.warn('[push] preferencias no guardadas:', err);
+  }
+}
+
+pintarTemas();
 
 document.getElementById('btn-avisos')?.addEventListener('click', alternarAvisos);
 pintarBotonAvisos();
@@ -2087,6 +2572,7 @@ function aplicarFiltroEventos(){
       <div class="post-body" style="flex:1;">
         <div class="post-card-row">
           <h3 style="flex:1;">${escapeHtml(ev.titulo)}</h3>
+          ${sello('comunidad')}
         </div>
         ${ev.descripcion ? `<p>${escapeHtml(ev.descripcion)}</p>` : ''}
         <div class="location-block">
@@ -2199,9 +2685,19 @@ document.getElementById('country-row').addEventListener('click', e => {
   if(campoFecha) campoFecha.min = hoy;
 })();
 
-renderTramites('España');
+// Si hay perfil, Tramites abre en su pais; si no, en España como siempre.
+paisActivo = paisParaTramites();
+renderTramites(paisActivo);
 renderTramitesSugeridos();
-updateQuickActions('España');
+updateQuickActions(paisActivo);
+(function marcarChipPaisInicial(){
+  const chip = document.querySelector(`#country-row .chip[data-country="${paisActivo}"]`);
+  if(!chip) return;
+  document.querySelectorAll('#country-row .chip').forEach(b => b.classList.remove('active'));
+  chip.classList.add('active');
+  const et = document.getElementById('tr-form-country');
+  if(et) et.textContent = paisActivo;
+})();
 renderCuba();
 renderVisado();
 renderVisadoSugeridos();
@@ -2338,6 +2834,405 @@ function renderPortada(){
 }
 renderPortada();
 
+/* ===================== LA PORTADA POR NECESIDAD =====================
+   Antes la portada decia "aqui estan todas nuestras secciones". Ahora
+   pregunta "¿que necesitas?" y lleva directo. El menu de arriba sigue ahi
+   para quien prefiera navegar a mano.
+   =================================================================== */
+
+/** Cambia de seccion. Usa el enrutador de la capa PWA si ya cargo; si no,
+    hace el cambio a mano. Asi funciona igual antes y despues de esa capa. */
+function irASeccion(seccion, despues){
+  if(typeof window.PuentesIrA === 'function'){
+    window.PuentesIrA(seccion);
+  }else{
+    document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
+    const nb = document.querySelector(`#nav button[data-section="${seccion}"]`);
+    if(nb) nb.classList.add('active');
+    document.querySelectorAll('main section').forEach(x => x.classList.remove('active'));
+    const dest = document.getElementById(seccion);
+    if(dest) dest.classList.add('active');
+    if(location.hash.slice(1) !== seccion) history.pushState({seccion}, '', '#' + seccion);
+  }
+  if(typeof despues === 'function'){
+    try{ despues(); }catch(err){ console.error('[necesito]', err); }
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+window.irASeccion = irASeccion;
+
+/** Abre Comunidad en una de sus tres pestañas. */
+function abrirComunidad(sub){
+  document.querySelectorAll('#comunidad-subnav .subtab').forEach(b =>
+    b.classList.toggle('active', b.dataset.sub === sub));
+  document.querySelectorAll('#comunidad .subpanel').forEach(pn => pn.classList.remove('active'));
+  document.getElementById('sub-' + sub)?.classList.add('active');
+}
+
+/** Deja Tramites abierto en el pais del perfil. */
+function fijarPaisTramites(pais){
+  const chip = document.querySelector(`#country-row .chip[data-country="${pais}"]`);
+  if(!chip) return;
+  document.querySelectorAll('#country-row .chip').forEach(b => b.classList.remove('active'));
+  chip.classList.add('active');
+  paisActivo = pais;
+  const etiquetaForm = document.getElementById('tr-form-country');
+  if(etiquetaForm) etiquetaForm.textContent = pais;
+  renderTramites(pais);
+  renderTramitesSugeridos();
+  updateQuickActions(pais);
+}
+
+/** Las tarjetas de "¿Que necesitas?", ya ordenadas segun el perfil. */
+function tarjetasNecesito(){
+  const perfil = leerPerfil();
+  const ciudad = perfil && perfil.ciudad ? perfil.ciudad : '';
+  const enCuba = sigueEnCuba();
+  const pais   = paisParaTramites();
+
+  const t = {
+    tramites: {
+      icono:'📄', que:'Arreglar mis papeles',
+      detalle: enCuba
+        ? 'Residencia, permisos y ayudas en el país al que vayas.'
+        : `Residencia, sanidad y ayudas${pais === 'Otro' ? '' : ' en ' + (pais === 'EEUU' ? 'Estados Unidos' : pais)}, con el enlace oficial.`,
+      ir: () => irASeccion('tramites', () => fijarPaisTramites(pais)),
+    },
+    remesas: {
+      icono:'💸', que: enCuba ? 'Que me manden dinero' : 'Enviar dinero o recargar',
+      detalle:'Qué cobra cada proveedor y cuánto tarda, comprobado a mano.',
+      ir: () => irASeccion('remesas'),
+    },
+    empleos: {
+      icono:'💼', que:'Buscar trabajo',
+      detalle: ciudad ? `Ofertas en ${ciudad} y en el resto.` : 'Ofertas publicadas por la comunidad, con enlace al empleador.',
+      ir: () => irASeccion('empleos', () => {
+        if(enCuba) fijarFiltroEmpleos('cuba');
+      }),
+    },
+    comunidad: {
+      icono:'🤝', que:'Conocer cubanos cerca',
+      detalle: ciudad ? `Encuentros y anuncios cerca de ${ciudad}.` : 'Encuentros, anuncios y grupos por ciudad.',
+      ir: () => irASeccion('comunidad', () => {
+        abrirComunidad('encuentros');
+        const filtro = document.getElementById('ev-filtro-ciudad');
+        if(filtro && ciudad && !filtro.value){
+          filtro.value = ciudad;
+          aplicarFiltroEventos();
+        }
+      }),
+    },
+    salir: {
+      icono:'✈️', que:'Prepararme para salir de Cuba',
+      detalle:'Qué dice hoy la ley migratoria cubana y qué te espera al llegar.',
+      ir: () => irASeccion('antes-salir'),
+    },
+    cuba: {
+      icono:'⚖️', que:'Saber qué cambió en Cuba',
+      detalle:'Aduana, migración y precios, con la Gaceta Oficial delante.',
+      ir: () => irASeccion('cuba'),
+    },
+    negocios: {
+      icono:'🛒', que:'Comprar a un cubano',
+      detalle:'Negocios de cubanos, dentro y fuera de la isla.',
+      ir: () => irASeccion('negocios'),
+    },
+  };
+
+  const orden = enCuba
+    ? ['salir','cuba','remesas','empleos','tramites','comunidad','negocios']
+    : ['tramites','empleos','remesas','comunidad','negocios','cuba','salir'];
+
+  return orden.map((k,i) => Object.assign({ destacada: i === 0 }, t[k], { clave:k }));
+}
+
+/** Deja Empleos filtrado por "en Cuba" o "en el exterior". */
+function fijarFiltroEmpleos(donde){
+  const chip = document.querySelector(`#empleos-donde .chip[data-donde="${donde}"]`);
+  if(!chip) return;
+  document.querySelectorAll('#empleos-donde .chip').forEach(b => b.classList.remove('active'));
+  chip.classList.add('active');
+  filtroDondeEmpleo = donde;
+  pintarEmpleos();
+}
+
+function renderNecesito(){
+  const el = document.getElementById('necesito-grid');
+  if(!el) return;
+  const tarjetas = tarjetasNecesito();
+
+  el.innerHTML = tarjetas.map((c,i) => `
+    <button type="button" class="necesito-card${c.destacada ? ' destacada' : ''}" data-i="${i}">
+      ${c.destacada && leerPerfil() ? '<span class="para-ti">para ti</span>' : ''}
+      <span class="icono" aria-hidden="true">${c.icono}</span>
+      <span class="que">${escapeHtml(c.que)}</span>
+      <span class="detalle">${escapeHtml(c.detalle)}</span>
+    </button>`).join('');
+
+  el.querySelectorAll('.necesito-card').forEach(btn => {
+    btn.addEventListener('click', () => tarjetas[parseInt(btn.dataset.i,10)].ir());
+  });
+
+  // El titulo tambien habla con quien esta delante.
+  const titulo = document.getElementById('necesito-titulo');
+  const sub    = document.getElementById('necesito-sub');
+  const lugar  = lugarPerfil();
+  if(titulo) titulo.textContent = '¿Qué necesitas?';
+  if(sub){
+    sub.textContent = lugar
+      ? `Ordenado para quien está en ${lugar}. Toca y te llevamos directo.`
+      : 'Toca lo que buscas y te llevamos directo. Nada de menús.';
+  }
+}
+
+/* ---------- La tarjeta del perfil ---------- */
+function renderPerfil(){
+  const caja = document.getElementById('perfil-caja');
+  if(!caja) return;
+  const perfil = leerPerfil();
+
+  if(perfil){
+    const lugar = lugarPerfil();
+    caja.innerHTML = `
+      <div class="perfil-caja">
+        <div class="perfil-fila">
+          <div style="flex:1;min-width:200px;">
+            <p class="perfil-quien">${sigueEnCuba()
+              ? 'Puentes desde <span class="lugar">Cuba</span>'
+              : `Puentes desde <span class="lugar">${escapeHtml(lugar)}</span>`}</p>
+            <p class="perfil-sub">${sigueEnCuba()
+              ? 'Te ponemos delante lo de antes de salir.'
+              : 'Te ponemos delante lo de tu zona.'}</p>
+          </div>
+          <button type="button" class="btn-cambiar" id="btn-cambiar-perfil">Cambiar</button>
+        </div>
+      </div>`;
+    document.getElementById('btn-cambiar-perfil')
+      .addEventListener('click', () => renderPerfilForm(perfil));
+    return;
+  }
+  renderPerfilForm(null);
+}
+
+function renderPerfilForm(actual){
+  const caja = document.getElementById('perfil-caja');
+  if(!caja) return;
+  const paisSel = actual ? actual.pais : '';
+
+  caja.innerHTML = `
+    <div class="perfil-caja perfil-form">
+      <span class="paso">Un paso, y la app se adapta a ti</span>
+      <h3>¿Dónde estás?</h3>
+      <p class="ayuda">Con esto ordenamos la portada, abrimos Trámites en tu país y te avisamos de lo de tu ciudad. Se guarda solo en este teléfono — no lo enviamos a ningún sitio, y no hace falta cuenta.</p>
+
+      <span class="campo-label">País</span>
+      <div class="country-row" id="perfil-paises" style="margin-bottom:0;">
+        ${PAISES_PERFIL.map(p => `
+          <button type="button" class="chip${p.id === paisSel ? ' active' : ''}" data-pais="${escapeHtml(p.id)}">${p.txt}</button>
+        `).join('')}
+      </div>
+
+      <label class="campo-label" for="perfil-ciudad">Ciudad <span style="color:var(--muted);">(opcional, pero es lo que más ayuda)</span></label>
+      <input type="text" id="perfil-ciudad" maxlength="50" placeholder="Madrid, Miami, La Habana…" value="${actual ? escapeHtml(actual.ciudad) : ''}">
+
+      <div class="acciones-perfil">
+        <button type="button" class="btn-primary" id="perfil-guardar">Guardar</button>
+        <button type="button" class="saltar" id="perfil-saltar">${actual ? 'Cancelar' : 'Ahora no'}</button>
+        ${actual ? '<button type="button" class="saltar" id="perfil-borrar">Olvidar mis datos</button>' : ''}
+      </div>
+    </div>`;
+
+  let elegido = paisSel;
+  caja.querySelector('#perfil-paises').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if(!chip) return;
+    caja.querySelectorAll('#perfil-paises .chip').forEach(b => b.classList.remove('active'));
+    chip.classList.add('active');
+    elegido = chip.dataset.pais;
+  });
+
+  caja.querySelector('#perfil-guardar').addEventListener('click', () => {
+    if(!elegido){
+      caja.querySelector('.ayuda').textContent = 'Elige primero un país — o toca "Ahora no" y sigue sin perfil.';
+      return;
+    }
+    guardarPerfil(elegido, document.getElementById('perfil-ciudad').value);
+    aplicarPerfil();
+  });
+
+  caja.querySelector('#perfil-saltar').addEventListener('click', () => {
+    if(actual){ renderPerfil(); return; }
+    caja.innerHTML = '';
+  });
+
+  caja.querySelector('#perfil-borrar')?.addEventListener('click', () => {
+    borrarPerfil();
+    aplicarPerfil();
+  });
+}
+
+/** Repinta todo lo que depende del perfil. */
+function aplicarPerfil(){
+  renderPerfil();
+  renderNecesito();
+  renderGuias();
+  fijarPaisTramites(paisParaTramites());
+  renderNovedades();
+  if(typeof pintarTemas === 'function') pintarTemas();
+  if(typeof pintarBotonAvisos === 'function') pintarBotonAvisos();
+}
+
+/* ===================== DESDE TU ULTIMA VISITA =====================
+   El motivo para volver. Al abrir la app contamos lo que se publico desde la
+   ultima vez, y si hay ciudad en el perfil, contamos solo lo de esa ciudad.
+   Todo se calcula contra la base que ya usamos: no hace falta nada nuevo.
+   ================================================================= */
+const ULTIMA_VISITA_KEY = 'puentes_ultima_visita';
+
+/** Cuenta filas creadas despues de `desde`, opcionalmente de una ciudad. */
+async function contarNuevos(tabla, columnaCiudad, ciudad, desde){
+  try{
+    let q = db.from(tabla).select('*', { count:'exact', head:true }).gt('created_at', desde);
+    if(ciudad && columnaCiudad) q = q.ilike(columnaCiudad, `%${ciudad}%`);
+    const { count, error } = await q;
+    if(error) throw error;
+    return count || 0;
+  }catch(err){
+    console.error('[novedades]', tabla, err);
+    return 0;
+  }
+}
+
+async function renderNovedades(){
+  const caja = document.getElementById('novedades-caja');
+  if(!caja) return;
+
+  let desde;
+  try{ desde = localStorage.getItem(ULTIMA_VISITA_KEY); }catch(_){ return; }
+
+  // Primera visita: no hay con que comparar. Guardamos la marca y ya.
+  if(!desde){
+    try{ localStorage.setItem(ULTIMA_VISITA_KEY, new Date().toISOString()); }catch(_){}
+    caja.innerHTML = '';
+    return;
+  }
+
+  const perfil = leerPerfil();
+  const ciudad = perfil && perfil.ciudad ? perfil.ciudad.trim() : '';
+  const donde  = ciudad ? ` en ${ciudad}` : '';
+
+  const [empleos, eventos, negocios, anuncios] = await Promise.all([
+    contarNuevos('empleos',  'ubicacion', ciudad, desde),
+    contarNuevos('eventos',  'ciudad',    ciudad, desde),
+    contarNuevos('negocios', 'ubicacion', ciudad, desde),
+    contarNuevos('anuncios', 'ciudad',    ciudad, desde),
+  ]);
+
+  // Una oferta, no "1 ofertas".
+  const frase = (n, una, varias) => (n === 1 ? una : varias) + donde;
+
+  const lineas = [
+    { n:empleos,  txt:frase(empleos,  'oferta de empleo nueva',    'ofertas de empleo nuevas'),     seccion:'empleos'   },
+    { n:eventos,  txt:frase(eventos,  'encuentro de cubanos nuevo','encuentros de cubanos nuevos'), seccion:'comunidad', sub:'encuentros' },
+    { n:negocios, txt:frase(negocios, 'negocio cubano nuevo',      'negocios cubanos nuevos'),      seccion:'negocios'  },
+    { n:anuncios, txt:frase(anuncios, 'anuncio nuevo',             'anuncios nuevos'),              seccion:'comunidad', sub:'anuncios' },
+  ].filter(l => l.n > 0);
+
+  if(!lineas.length){ caja.innerHTML = ''; marcarVisita(); return; }
+
+  caja.innerHTML = `
+    <div class="novedades">
+      <div class="cabecera">Desde tu última visita</div>
+      <ul>
+        ${lineas.map((l,i) => `
+          <li><button type="button" data-i="${i}">
+            <span class="cuenta">${l.n}</span>
+            <span class="txt">${escapeHtml(l.txt)}</span>
+          </button></li>`).join('')}
+      </ul>
+      <button type="button" class="cerrar" id="novedades-cerrar">Ya lo he visto</button>
+    </div>`;
+
+  caja.querySelectorAll('.novedades li button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const l = lineas[parseInt(btn.dataset.i,10)];
+      marcarVisita();
+      irASeccion(l.seccion, () => { if(l.sub) abrirComunidad(l.sub); });
+    });
+  });
+  document.getElementById('novedades-cerrar').addEventListener('click', () => {
+    marcarVisita();
+    caja.innerHTML = '';
+  });
+}
+
+function marcarVisita(){
+  try{ localStorage.setItem(ULTIMA_VISITA_KEY, new Date().toISOString()); }catch(_){}
+}
+
+/* ===================== RESPUESTAS RAPIDAS (guias) =====================
+   Paginas propias, una por pregunta real, para que Google las encuentre. Cada
+   una vive en /guias/<pregunta>/ y solo repite datos ya verificados en la app.
+   Para agregar una: crea su carpeta con index.html y sumala aqui y al sitemap.
+   ==================================================================== */
+const guias = [
+  {
+    pregunta:'¿Cómo envío dinero a Cuba?',
+    respuesta:'Qué cobra cada proveedor, cuánto tarda y por qué no se puede cobrar en la misma moneda.',
+    href:'/guias/como-enviar-dinero-a-cuba/',
+    paises:['España','EEUU','México','Rusia','Otro','Cuba'],
+  },
+  {
+    pregunta:'¿Dónde renuevo el pasaporte cubano?',
+    respuesta:'El consulado que te toca según dónde vivas, con el directorio oficial de los 127 países.',
+    href:'/guias/donde-renovar-pasaporte-cubano/',
+    paises:['España','EEUU','México','Rusia','Otro'],
+  },
+  {
+    pregunta:'¿Qué necesito para el arraigo social en España?',
+    respuesta:'Los años que piden, el informe de integración y dónde se pide la cita.',
+    href:'/guias/que-necesito-arraigo-social-espana/',
+    paises:['España'],
+  },
+  {
+    pregunta:'¿Cómo pido la residencia en EE.UU. siendo cubano?',
+    respuesta:'La Ley de Ajuste Cubano, el año y un día, y el formulario que hay que presentar.',
+    href:'/guias/como-pedir-residencia-eeuu-cubano/',
+    paises:['EEUU'],
+  },
+  {
+    pregunta:'¿Qué puedo llevar a Cuba sin pagar aduana?',
+    respuesta:'Lo que dicen las resoluciones vigentes sobre alimentos, aseo y medicamentos.',
+    href:'/guias/que-puedo-llevar-a-cuba/',
+    paises:['España','EEUU','México','Rusia','Otro','Cuba'],
+  },
+];
+
+function renderGuias(){
+  const el = document.getElementById('guias-grid');
+  if(!el) return;
+  const perfil = leerPerfil();
+  const pais = perfil ? perfil.pais : null;
+
+  // Primero las que tocan al pais del perfil y, entre esas, las mas concretas
+  // (la guia del arraigo en España vale mas para un cubano en Madrid que la de
+  // remesas, que sirve para todo el mundo).
+  const peso = g => (g.paises.includes(pais) ? 0 : 100) + g.paises.length;
+  const ordenadas = pais ? [...guias].sort((a,b) => peso(a) - peso(b)) : guias;
+
+  el.innerHTML = ordenadas.map(g => `
+    <a class="guia-card" href="${escapeHtml(g.href)}">
+      <span class="pregunta">${escapeHtml(g.pregunta)}</span>
+      <span class="respuesta">${escapeHtml(g.respuesta)}</span>
+    </a>`).join('');
+}
+
+/* ---------- Arranque de todo lo nuevo ---------- */
+renderPerfil();
+renderNecesito();
+renderGuias();
+renderNovedades();
+
 function renderExploreArticles(){
   const el = document.getElementById('explore-articles');
   if(!articulos.length){ el.innerHTML = '<p class="explore-empty">Todavía no hay artículos publicados.</p>'; return; }
@@ -2439,6 +3334,9 @@ document.addEventListener('click', e => {
     }
     return true;
   }
+
+  // La portada por necesidad navega con esto, para no repetir la logica.
+  window.PuentesIrA = id => mostrarSeccion(id, true);
 
   // Cada vez que se toca una seccion, dejamos constancia en la URL.
   document.addEventListener('click', e => {
