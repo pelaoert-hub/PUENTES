@@ -7,7 +7,10 @@
 -- Con estas dos columnas cada suscripcion dice de QUE quiere enterarse y
 -- DONDE esta, y la funcion `enviar-aviso-encuentro` solo avisa a quien le toca.
 --
--- Como aplicarlo: pegar esto en el editor SQL de Supabase y ejecutar.
+-- APLICADO EN PRODUCCION el 2026-09-01 (migracion `avisos_personalizados`).
+-- Se deja aqui como registro de lo que se ejecuto.
+--
+-- Como aplicarlo en otro entorno: pegar esto en el editor SQL de Supabase.
 --   https://supabase.com/dashboard/project/ggehkwinqlhsdbimovzx/sql/new
 --
 -- Es opcional y no rompe nada: la app funciona igual sin estas columnas (el
@@ -22,7 +25,7 @@ alter table public.push_suscripciones
 comment on column public.push_suscripciones.temas is
   'De que se quiere enterar: encuentros, empleos, negocios, tramites.';
 comment on column public.push_suscripciones.ciudad is
-  'Ciudad del perfil, para avisar solo de lo que pasa cerca. Puede ser NULL.';
+  'Ciudad del perfil, para señalar lo que pasa cerca. Puede ser NULL.';
 comment on column public.push_suscripciones.pais is
   'Pais del perfil. Puede ser NULL.';
 
@@ -31,11 +34,17 @@ create index if not exists push_suscripciones_temas_idx
   on public.push_suscripciones using gin (temas);
 
 -- La app guarda sus preferencias con un UPDATE sobre su propia suscripcion,
--- identificada por el endpoint que solo conoce ese navegador.
--- Ajusta el nombre si ya tienes una politica de UPDATE en esta tabla.
+-- identificada por el endpoint que solo conoce ese navegador. La tabla no
+-- tiene politica SELECT publica, asi que los endpoints no se pueden enumerar.
 drop policy if exists "cada uno actualiza su suscripcion" on public.push_suscripciones;
 create policy "cada uno actualiza su suscripcion"
   on public.push_suscripciones
   for update
   using (true)
   with check (true);
+
+-- Defensa en profundidad: aunque alguien llegase a adivinar un endpoint, solo
+-- puede cambiar preferencias — nunca endpoint, p256dh ni auth, que es lo que
+-- permitiria desviarse los avisos de otra persona a su propio navegador.
+revoke update on public.push_suscripciones from anon, authenticated;
+grant  update (temas, ciudad, pais) on public.push_suscripciones to anon, authenticated;
