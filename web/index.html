@@ -2387,7 +2387,7 @@ async function pintarBotonAvisos(){
   const ciudad = (leerPerfil() || {}).ciudad;
   btn.textContent = sub ? '✓ Avisos activados — desactivar' : '🔔 Avisarme';
   txt.textContent = sub
-    ? `Te avisaremos de lo que elijas arriba${ciudad ? ', dando prioridad a ' + ciudad : ''}. Toca el aviso para ir directo.`
+    ? `Te avisaremos de lo que elijas arriba${ciudad ? ', señalando lo de ' + ciudad : ''}. Toca el aviso para ir directo.`
     : 'Elige de qué quieres enterarte y te llega una notificación cuando pase. Puedes desactivarlos cuando quieras.';
 }
 
@@ -2467,8 +2467,8 @@ function pintarTemas(){
   if(alcance){
     const ciudad = (leerPerfil() || {}).ciudad;
     alcance.textContent = ciudad
-      ? `Te avisaremos de lo que pase en ${ciudad}. Cambia tu ciudad desde la portada.`
-      : 'Pon tu ciudad en la portada y te avisaremos solo de lo que pase cerca de ti.';
+      ? `Lo de ${ciudad} te lo marcamos como tuyo. Lo de otras ciudades también te llega, por si te pilla cerca — el aviso siempre dice dónde es.`
+      : 'Pon tu ciudad en la portada y te marcaremos lo que pase cerca de ti.';
   }
 }
 

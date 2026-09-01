@@ -422,10 +422,34 @@ preferencias en silencio y la suscripción se crea igual, y la función
 avisos siguen saliendo, solo que sin personalizar (lo dice en su respuesta, en
 el campo `personalizado`).
 
-Con las columnas puestas, la función solo avisa a quien tiene `encuentros` entre
-sus temas y cuya ciudad coincide con la del encuentro. Quien no puso ciudad
-recibe todo, como hasta ahora. Después de aplicar el SQL hay que volver a
-desplegar la función (ver "Desplegar la función tras cambiarla").
+#### El tema excluye; la ciudad, todavía no
+
+Los dos filtros no se tratan igual, y es a propósito.
+
+**El tema sí excluye.** Si alguien desmarcó "encuentros", no le llega. Mandarlo
+igual es la vía más rápida a que bloquee los avisos del sitio — y eso no tiene
+vuelta atrás: el navegador se acuerda y no se puede volver a pedir permiso.
+
+**La ciudad no excluye.** Con pocos encuentros al mes, filtrar por ciudad
+significa que casi nadie recibe casi nunca, y entonces el aviso deja de dar un
+motivo para volver, que es justo para lo que existe. Comparado sobre seis
+suscripciones de prueba: un encuentro en Barcelona llegaba a 2 filtrando por
+ciudad, y llega a 5 sin filtrar (el sexto se queda fuera porque desmarcó el
+tema, que es lo correcto).
+
+Así que la ciudad se usa para **redactar**, no para descartar: el aviso siempre
+dice dónde es el encuentro, y a quien lo tiene en su ciudad se lo dice con otras
+palabras ("Es en tu ciudad"). Que decida la persona.
+
+**Cuándo cambiarlo:** cuando haya varios encuentros por semana. Ahí el problema
+pasa a ser el ruido y no el silencio. Ese día es una línea:
+`const CIUDAD_EXCLUYE = true` en `enviar-aviso-encuentro/index.ts`. La respuesta
+de la función ya devuelve `enSuCiudad` y `ciudadExcluye` para poder ver, antes
+de tocar nada, a cuánta gente le está llegando de verdad y a cuánta le queda
+cerca.
+
+Después de aplicar el SQL hay que volver a desplegar la función (ver "Desplegar
+la función tras cambiarla").
 
 ### Y de paso: la app ya no se queda en blanco si falla el CDN
 
