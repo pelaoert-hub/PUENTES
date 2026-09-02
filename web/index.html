@@ -1633,10 +1633,18 @@ async function deletePost(table, id){
 }
 window.deletePost = deletePost;
 
+/* Escapa texto para meterlo en HTML, ATRIBUTOS INCLUIDOS.
+ *
+ * Antes era solo `textContent` -> `innerHTML`, que escapa & < > pero NO las
+ * comillas. Como esto se usa dentro de atributos (`href="${escapeHtml(...)}"`),
+ * un valor con una comilla doble se salia del atributo y podia crear otros:
+ *   https://ejemplo.com/" onmouseover="..."
+ * Comprobado en el navegador: el atributo se rompia y el manejador se creaba
+ * de verdad. Por eso ahora tambien se escapan " y '. */
 function escapeHtml(str){
   const d = document.createElement('div');
   d.textContent = str || '';
-  return d.innerHTML;
+  return d.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function formatDate(iso){
@@ -1821,7 +1829,7 @@ async function renderTramitesSugeridos(){
       <p>${escapeHtml(t.descripcion)}</p>
       <div class="meta">
         <span>${t.autor ? escapeHtml(t.autor) : 'Anónimo'} · ${new Date(t.created_at).toLocaleDateString('es-ES', {day:'2-digit', month:'short', year:'numeric'})}</span>
-        ${t.fuente ? `<a class="verify-link" href="${escapeHtml(t.fuente)}" target="_blank" rel="noopener">Fuente →</a>` : ''}
+        ${enlaceSeguro(t.fuente) ? `<a class="verify-link" href="${escapeHtml(enlaceSeguro(t.fuente))}" target="_blank" rel="noopener nofollow">Fuente →</a>` : ''}
       </div>
     </div>
   `).join('');
@@ -1933,7 +1941,7 @@ async function renderVisadoSugeridos(){
         <div class="post-meta">
           <span class="pill">${escapeHtml(v.tipo)}</span>
           ${v.duracion ? `<span>${escapeHtml(v.duracion)}</span>` : ''}
-          ${v.fuente ? `<a class="verify-link" href="${escapeHtml(v.fuente)}" target="_blank" rel="noopener">Fuente →</a>` : ''}
+          ${enlaceSeguro(v.fuente) ? `<a class="verify-link" href="${escapeHtml(enlaceSeguro(v.fuente))}" target="_blank" rel="noopener nofollow">Fuente →</a>` : ''}
         </div>
       </div>
     </div>
@@ -2022,7 +2030,7 @@ async function renderRemesasSugeridos(){
           ${s.comision ? `<span>Comisión: ${escapeHtml(s.comision)}</span>` : ''}
           ${s.tiempo ? `<span>Entrega: ${escapeHtml(s.tiempo)}</span>` : ''}
           ${s.autor ? `<span>${escapeHtml(s.autor)}</span>` : ''}
-          ${s.enlace ? `<a class="verify-link" href="${escapeHtml(s.enlace)}" target="_blank" rel="noopener">Ir al servicio →</a>` : ''}
+          ${enlaceSeguro(s.enlace) ? `<a class="verify-link" href="${escapeHtml(enlaceSeguro(s.enlace))}" target="_blank" rel="noopener nofollow">Ir al servicio →</a>` : ''}
         </div>
       </div>
     </div>

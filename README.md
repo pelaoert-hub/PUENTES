@@ -564,6 +564,65 @@ tiempo. Ahora cada página se guarda bajo su propia dirección, y `VERSION` sube
   ninguna petición al servidor y cada sección enseña su "todavía no hay nada".
   Es peor de lo ideal, pero muy por encima de la pantalla en blanco de antes.
 
+## Revisión de seguridad (2026-09-02)
+
+### 🔴 XSS almacenado, que venía de antes y estaba vivo
+
+Lo encontró la revisión de seguridad. **No lo introdujo este PR** — estaba en
+`main`, en producción, desde antes. Pero es lo más grave de todo lo visto.
+
+Tres campos de enlace que rellena la comunidad (`t.fuente` en trámites
+sugeridos, `v.fuente` en países sugeridos, `s.enlace` en remesas sugeridas) se
+pintaban dentro de un `href` pasando solo por `escapeHtml`. Y ahí había **dos**
+agujeros a la vez:
+
+**1. `escapeHtml` no escapaba las comillas.** Usaba `textContent` → `innerHTML`,
+que escapa `&`, `<` y `>` pero deja pasar `"`. Metido dentro de
+`href="${escapeHtml(...)}"`, un valor con comilla se salía del atributo:
+
+```
+https://ejemplo.com/" onmouseover="..." x="
+```
+
+Comprobado en el navegador: el atributo se rompía y el `onmouseover` se creaba
+**de verdad**.
+
+**2. No se comprobaba el esquema.** `javascript:loQueSea` entraba tal cual, sin
+necesitar ni una comilla. Un clic y listo.
+
+**Por qué era grave de verdad:** esas tablas tienen `public insert` y
+`public read`. La clave anónima va en el HTML, a la vista. No hacía falta usar
+el formulario ni saltarse su `type="url"`: cualquiera podía insertar la fila
+por la API, y se le pintaba a **todo** el que abriera esa sección.
+
+**Arreglado en dos capas:**
+
+- `escapeHtml` escapa también `"` y `'`. Esto cubre todos los atributos de la
+  app, los de hoy y los que se añadan mañana.
+- Los tres enlaces pasan por `enlaceSeguro()`, que rechaza cualquier esquema
+  que no sea `http:`/`https:` y normaliza el resto.
+
+Comprobado después con cuatro cargas: salida del atributo, `javascript:`,
+comilla simple y un enlace legítimo. Las tres primeras quedan neutralizadas
+(ningún atributo de más, nada se ejecuta) y la legítima sigue funcionando.
+
+### Lo que se miró y está bien
+
+- **El contenido que publica la comunidad** (anuncios, empleos, negocios,
+  encuentros) va todo por `escapeHtml`, y sus enlaces ya pasaban por
+  `enlaceSeguro()`.
+- **La ciudad del perfil** se escapa al pintarla, tanto en la cabecera como en
+  el valor del formulario.
+- **`guardar_preferencias_aviso`** lleva `search_path` fijado, parámetros
+  tipados y un `where endpoint = ...` parametrizado. No hay inyección posible y
+  no filtra nada: devuelve `void`.
+- **El aviso push** llega al service worker como JSON y se pinta con
+  `showNotification`, que lo dibuja el sistema como texto. No hay HTML de por
+  medio.
+- **La clave anónima en el HTML** es lo normal en Supabase: la protección real
+  es RLS, no esconderla.
+- **Las páginas de `guias/`** son estáticas, sin JavaScript ni datos de nadie.
+
 ## Enlaces a trámites oficiales (2026-08-28)
 
 Botones de acceso directo por país, en la sección Trámites. Cada enlace se
