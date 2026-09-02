@@ -1524,6 +1524,9 @@ function guardarPerfil(pais, ciudad){
   }catch(_){ /* modo privado o almacenamiento lleno: seguimos sin perfil */ }
 }
 
+/** Borra el perfil del telefono. Lo que se hubiera subido junto a la
+    suscripcion de avisos lo limpia `aplicarPerfil`, que sincroniza despues:
+    sin perfil, se manda ciudad y pais en blanco. */
 function borrarPerfil(){
   try{ localStorage.removeItem(PERFIL_KEY); }catch(_){}
 }
@@ -2490,19 +2493,41 @@ document.getElementById('avisos-temas')?.addEventListener('click', async e => {
   if(sub) await guardarPreferenciasAviso(sub.endpoint);
 });
 
-/** Intenta guardar temas y ciudad junto a la suscripcion. Silencioso si las
-    columnas todavia no existen: la suscripcion sigue siendo valida. */
+/** Guarda temas y ciudad junto a la suscripcion.
+ *
+ * Pasa por `guardar_preferencias_aviso`, que exige el endpoint y toca como
+ * mucho esa fila. NO se hace con un UPDATE directo: la tabla no da UPDATE al
+ * rol anonimo justamente porque PostgREST acepta un PATCH sin filtro, y con
+ * eso cualquiera con la clave publica podia reescribir los temas de TODAS las
+ * suscripciones y dejar a la comunidad entera sin avisos.
+ *
+ * Si falla, se queda en un aviso por consola: la suscripcion sigue valida y
+ * los avisos siguen llegando, solo que sin personalizar. */
 async function guardarPreferenciasAviso(endpoint){
+  if(!endpoint) return;
   const perfil = leerPerfil() || {};
   try{
-    const { error } = await db.from('push_suscripciones').update({
-      temas:  leerTemas(),
-      ciudad: perfil.ciudad || null,
-      pais:   perfil.pais   || null,
-    }).eq('endpoint', endpoint);
-    if(error) console.warn('[push] preferencias no guardadas (¿faltan columnas?):', error.message);
+    const { error } = await db.rpc('guardar_preferencias_aviso', {
+      p_endpoint: endpoint,
+      p_temas:    leerTemas(),
+      p_ciudad:   perfil.ciudad || null,
+      p_pais:     perfil.pais   || null,
+    });
+    if(error) console.warn('[push] preferencias no guardadas:', error.message);
   }catch(err){
     console.warn('[push] preferencias no guardadas:', err);
+  }
+}
+
+/** Si hay suscripcion activa, lleva el perfil actual al servidor. Se llama al
+    cambiar o borrar el perfil: antes el cambio se quedaba solo en el telefono
+    mientras la app daba a entender que ya estaba guardado. */
+async function sincronizarPerfilConAvisos(){
+  try{
+    const sub = await suscripcionActual();
+    if(sub) await guardarPreferenciasAviso(sub.endpoint);
+  }catch(err){
+    console.warn('[push] no se pudo sincronizar el perfil:', err);
   }
 }
 
@@ -3023,7 +3048,7 @@ function renderPerfilForm(actual){
     <div class="perfil-caja perfil-form">
       <span class="paso">Un paso, y la app se adapta a ti</span>
       <h3>¿Dónde estás?</h3>
-      <p class="ayuda">Con esto ordenamos la portada, abrimos Trámites en tu país y te avisamos de lo de tu ciudad. Se guarda solo en este teléfono — no lo enviamos a ningún sitio, y no hace falta cuenta.</p>
+      <p class="ayuda">Con esto ordenamos la portada, abrimos Trámites en tu país y te señalamos lo de tu ciudad. Se guarda en este teléfono y no hace falta cuenta. <strong>Solo sale de aquí si activas los avisos</strong>: entonces guardamos tu ciudad junto a tu suscripción, para que el aviso sepa qué te queda cerca. Puedes borrarlo todo cuando quieras.</p>
 
       <span class="campo-label">País</span>
       <div class="country-row" id="perfil-paises" style="margin-bottom:0;">
@@ -3080,6 +3105,8 @@ function aplicarPerfil(){
   renderNovedades();
   if(typeof pintarTemas === 'function') pintarTemas();
   if(typeof pintarBotonAvisos === 'function') pintarBotonAvisos();
+  // Si hay avisos activos, el cambio de ciudad tiene que llegar al servidor.
+  if(typeof sincronizarPerfilConAvisos === 'function') sincronizarPerfilConAvisos();
 }
 
 /* ===================== DESDE TU ULTIMA VISITA =====================
@@ -3089,7 +3116,11 @@ function aplicarPerfil(){
    ================================================================= */
 const ULTIMA_VISITA_KEY = 'puentes_ultima_visita';
 
-/** Cuenta filas creadas despues de `desde`, opcionalmente de una ciudad. */
+/** Cuenta filas creadas despues de `desde`, opcionalmente de una ciudad.
+    Devuelve null si la consulta fallo — que NO es lo mismo que cero. Antes
+    devolvia 0 en los dos casos, y entonces una carga fallida parecia "no hay
+    nada nuevo", se adelantaba la marca de tiempo y esa ventana de novedades
+    se perdia para siempre. */
 async function contarNuevos(tabla, columnaCiudad, ciudad, desde){
   try{
     let q = db.from(tabla).select('*', { count:'exact', head:true }).gt('created_at', desde);
@@ -3099,7 +3130,7 @@ async function contarNuevos(tabla, columnaCiudad, ciudad, desde){
     return count || 0;
   }catch(err){
     console.error('[novedades]', tabla, err);
-    return 0;
+    return null;
   }
 }
 
@@ -3121,24 +3152,40 @@ async function renderNovedades(){
   const ciudad = perfil && perfil.ciudad ? perfil.ciudad.trim() : '';
   const donde  = ciudad ? ` en ${ciudad}` : '';
 
+  // Cada categoria se cuenta desde la ultima vez que se vio ESA categoria.
+  const visto = leerVisto();
+  const desdeDe = clave => visto[clave] || desde;
+
   const [empleos, eventos, negocios, anuncios] = await Promise.all([
-    contarNuevos('empleos',  'ubicacion', ciudad, desde),
-    contarNuevos('eventos',  'ciudad',    ciudad, desde),
-    contarNuevos('negocios', 'ubicacion', ciudad, desde),
-    contarNuevos('anuncios', 'ciudad',    ciudad, desde),
+    contarNuevos('empleos',  'ubicacion', ciudad, desdeDe('empleos')),
+    contarNuevos('eventos',  'ciudad',    ciudad, desdeDe('eventos')),
+    contarNuevos('negocios', 'ubicacion', ciudad, desdeDe('negocios')),
+    contarNuevos('anuncios', 'ciudad',    ciudad, desdeDe('anuncios')),
   ]);
+
+  // Si TODAS fallaron, no sabemos nada: no tocamos la marca ni pintamos.
+  if([empleos, eventos, negocios, anuncios].every(n => n === null)){
+    caja.innerHTML = '';
+    return;
+  }
 
   // Una oferta, no "1 ofertas".
   const frase = (n, una, varias) => (n === 1 ? una : varias) + donde;
 
   const lineas = [
-    { n:empleos,  txt:frase(empleos,  'oferta de empleo nueva',    'ofertas de empleo nuevas'),     seccion:'empleos'   },
-    { n:eventos,  txt:frase(eventos,  'encuentro de cubanos nuevo','encuentros de cubanos nuevos'), seccion:'comunidad', sub:'encuentros' },
-    { n:negocios, txt:frase(negocios, 'negocio cubano nuevo',      'negocios cubanos nuevos'),      seccion:'negocios'  },
-    { n:anuncios, txt:frase(anuncios, 'anuncio nuevo',             'anuncios nuevos'),              seccion:'comunidad', sub:'anuncios' },
-  ].filter(l => l.n > 0);
+    { clave:'empleos',  n:empleos,  txt:frase(empleos,  'oferta de empleo nueva',    'ofertas de empleo nuevas'),     seccion:'empleos'   },
+    { clave:'eventos',  n:eventos,  txt:frase(eventos,  'encuentro de cubanos nuevo','encuentros de cubanos nuevos'), seccion:'comunidad', sub:'encuentros' },
+    { clave:'negocios', n:negocios, txt:frase(negocios, 'negocio cubano nuevo',      'negocios cubanos nuevos'),      seccion:'negocios'  },
+    { clave:'anuncios', n:anuncios, txt:frase(anuncios, 'anuncio nuevo',             'anuncios nuevos'),              seccion:'comunidad', sub:'anuncios' },
+  ].filter(l => l.n > 0);   // null (fallo) tampoco pasa este filtro
 
-  if(!lineas.length){ caja.innerHTML = ''; marcarVisita(); return; }
+  // Nada nuevo en las que SI respondieron: se dan por vistas esas, no las que fallaron.
+  if(!lineas.length){
+    caja.innerHTML = '';
+    marcarVisto(['empleos','eventos','negocios','anuncios'].filter((c,i) =>
+      [empleos, eventos, negocios, anuncios][i] !== null));
+    return;
+  }
 
   caja.innerHTML = `
     <div class="novedades">
@@ -3156,18 +3203,36 @@ async function renderNovedades(){
   caja.querySelectorAll('.novedades li button').forEach(btn => {
     btn.addEventListener('click', () => {
       const l = lineas[parseInt(btn.dataset.i,10)];
-      marcarVisita();
+      // Solo se da por vista ESTA categoria. Antes se marcaban las cuatro, asi
+      // que abrir "7 ofertas" borraba los "3 encuentros" que nunca llegaste a ver.
+      marcarVisto([l.clave]);
       irASeccion(l.seccion, () => { if(l.sub) abrirComunidad(l.sub); });
     });
   });
   document.getElementById('novedades-cerrar').addEventListener('click', () => {
-    marcarVisita();
+    marcarVisto(lineas.map(l => l.clave));
     caja.innerHTML = '';
   });
 }
 
-function marcarVisita(){
-  try{ localStorage.setItem(ULTIMA_VISITA_KEY, new Date().toISOString()); }catch(_){}
+/* Una marca de tiempo por categoria, para no dar por visto lo que nadie vio.
+   `puentes_ultima_visita` sigue siendo el punto de partida de quien todavia no
+   tiene marcas por categoria. */
+const VISTO_KEY = 'puentes_visto';
+
+function leerVisto(){
+  try{
+    const v = JSON.parse(localStorage.getItem(VISTO_KEY) || '{}');
+    return (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};
+  }catch(_){ return {}; }
+}
+
+function marcarVisto(claves){
+  if(!claves || !claves.length) return;
+  const v = leerVisto();
+  const ahora = new Date().toISOString();
+  for(const c of claves) v[c] = ahora;
+  try{ localStorage.setItem(VISTO_KEY, JSON.stringify(v)); }catch(_){}
 }
 
 /* ===================== RESPUESTAS RAPIDAS (guias) =====================

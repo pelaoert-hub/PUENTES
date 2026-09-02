@@ -17,7 +17,7 @@
  * Al cambiar VERSION se descartan todos los caches viejos.
  */
 
-const VERSION = 'v4';
+const VERSION = 'v5';
 const SHELL_CACHE = `puentes-shell-${VERSION}`;
 const DATA_CACHE = `puentes-data-${VERSION}`;
 const STATIC_CACHE = `puentes-static-${VERSION}`;
@@ -106,16 +106,24 @@ const esEstatico = url =>
 
 /* ---------- Estrategias ---------- */
 
-/** Navegacion: red primero, con respaldo en cache y pagina offline. */
+/** Navegacion: red primero, con respaldo en cache y pagina offline.
+ *
+ * Cada pagina se guarda bajo SU propia direccion. Antes TODAS se guardaban
+ * como '/index.html', asi que abrir una guia reemplazaba la app entera en la
+ * cache: al abrir Puentes sin conexion salia la guia en vez de la app. Con una
+ * sola pagina suelta casi no se notaba; con las guias es cuestion de tiempo. */
 async function manejarNavegacion(event) {
   const cache = await caches.open(SHELL_CACHE);
+  const ruta = new URL(event.request.url).pathname;
   try {
     const preload = await event.preloadResponse;
     const red = preload || await fetchConLimite(event.request, NET_TIMEOUT);
-    if (red && red.ok) cache.put('/index.html', red.clone());
+    if (red && red.ok) cache.put(ruta, red.clone());
     return red;
   } catch (_) {
-    return (await cache.match('/index.html'))
+    // Primero la pagina pedida; si esa no esta, la app; y si tampoco, el aviso.
+    return (await cache.match(ruta))
+        || (await cache.match('/index.html'))
         || (await cache.match('/'))
         || (await cache.match('/offline.html'))
         || new Response('Sin conexion', { status: 503, statusText: 'Sin conexion' });

@@ -488,6 +488,82 @@ local:
   guías.
 
 
+## Lo que encontró la revisión de código (2026-09-02)
+
+Se pasó una revisión sobre el PR y salieron once cosas. Cuatro eran serias y
+están arregladas; el resto queda anotado abajo con su razón.
+
+### 🔴 Un agujero de seguridad, abierto por nosotros el día antes
+
+La migración del 01-09 dejaba una política de UPDATE con `using (true)`,
+apoyada en este razonamiento: *"la tabla no tiene política SELECT pública, así
+que nadie puede enumerar los endpoints"*.
+
+**El razonamiento era falso.** No hace falta enumerar nada: PostgREST acepta un
+PATCH **sin filtro**. Cualquiera con la clave anónima —que va en el HTML, a la
+vista de todos— podía reescribir `temas` en **todas** las filas de golpe y
+dejar a la comunidad entera sin avisos.
+
+Reproducido contra la base real antes de tocarlo: el rol anónimo actualizó
+todas las filas sin poner un solo filtro.
+
+**Arreglado** (`2026-09-02-avisos-preferencias-solo-via-funcion.sql`, ya
+aplicado): el rol anónimo pierde el UPDATE directo. Guardar preferencias pasa
+ahora por `guardar_preferencias_aviso`, que exige el endpoint y toca como mucho
+esa fila. Comprobado después: el ataque devuelve *permission denied*, la
+función guarda bien con el endpoint correcto, descarta temas inventados, y con
+un endpoint que no existe no toca nada.
+
+### 🔴 La app prometía algo que dejó de ser verdad
+
+El formulario del perfil decía *"se guarda solo en este teléfono — no lo
+enviamos a ningún sitio"*. Pero al activar los avisos, la ciudad y el país **sí**
+se enviaban junto a la suscripción. Y "Olvidar mis datos" solo limpiaba el
+teléfono.
+
+Es lo más grave después del agujero: una promesa incumplida sobre los datos de
+la gente. Ahora el texto dice la verdad —*"solo sale de aquí si activas los
+avisos"*— y borrar el perfil sincroniza, dejando ciudad y país en blanco en el
+servidor.
+
+### 🔴 Dos formas de perder novedades que nadie llegó a ver
+
+**Un fallo de red parecía "no hay nada nuevo".** `contarNuevos` devolvía 0 tanto
+si no había nada como si la consulta reventaba. Con 0 en las cuatro, se
+adelantaba la marca de tiempo y esa ventana se perdía para siempre. Ahora
+devuelve `null` al fallar, y si fallan todas no se toca nada.
+
+**Tocar una línea borraba las otras tres.** Abrir "7 ofertas" daba por vistos
+los "3 encuentros" que nunca miraste. Ahora hay una marca por categoría
+(`puentes_visto`).
+
+Probado con la red simulada caída y luego restablecida: la ventana sobrevive al
+fallo, tocar una línea marca solo esa, y al volver las otras tres siguen ahí.
+
+### 🔴 Abrir una guía borraba la app de la caché
+
+`sw.js` guardaba **toda** navegación bajo la clave `/index.html`. Visitar una
+guía reemplazaba la app entera: al abrir Puentes sin conexión salía la guía en
+lugar de la app.
+
+El fallo ya estaba en el código original, pero con una sola página suelta casi
+no se notaba; con siete guías a las que se llega desde Google, era cuestión de
+tiempo. Ahora cada página se guarda bajo su propia dirección, y `VERSION` sube a
+`v5` para limpiar las cachés con el dato malo.
+
+### Lo que se dejó a propósito
+
+- **`paisParaTramites()` manda "Cuba" a "Otro".** Para quien sigue en la isla,
+  "Otro" muestra los trámites cubanos, que son los que le sirven. Es mejor que
+  el España por defecto de antes.
+- **La ciudad se compara con `includes()` en los dos sentidos**, así que un
+  perfil en "Santiago" casa con un encuentro en "Santiago de Cuba". Hoy solo
+  afecta a cómo se redacta el aviso. **El día que se ponga `CIUDAD_EXCLUYE` en
+  `true`, esto hay que mirarlo**: ahí pasaría a decidir quién recibe y quién no.
+- **Con el CDN caído no salta el aviso de "sin conexión"**, porque no llega
+  ninguna petición al servidor y cada sección enseña su "todavía no hay nada".
+  Es peor de lo ideal, pero muy por encima de la pantalla en blanco de antes.
+
 ## Enlaces a trámites oficiales (2026-08-28)
 
 Botones de acceso directo por país, en la sección Trámites. Cada enlace se

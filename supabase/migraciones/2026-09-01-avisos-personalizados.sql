@@ -33,18 +33,12 @@ comment on column public.push_suscripciones.pais is
 create index if not exists push_suscripciones_temas_idx
   on public.push_suscripciones using gin (temas);
 
--- La app guarda sus preferencias con un UPDATE sobre su propia suscripcion,
--- identificada por el endpoint que solo conoce ese navegador. La tabla no
--- tiene politica SELECT publica, asi que los endpoints no se pueden enumerar.
-drop policy if exists "cada uno actualiza su suscripcion" on public.push_suscripciones;
-create policy "cada uno actualiza su suscripcion"
-  on public.push_suscripciones
-  for update
-  using (true)
-  with check (true);
-
--- Defensa en profundidad: aunque alguien llegase a adivinar un endpoint, solo
--- puede cambiar preferencias — nunca endpoint, p256dh ni auth, que es lo que
--- permitiria desviarse los avisos de otra persona a su propio navegador.
-revoke update on public.push_suscripciones from anon, authenticated;
-grant  update (temas, ciudad, pais) on public.push_suscripciones to anon, authenticated;
+-- ⚠️ LO QUE HABIA AQUI ERA VULNERABLE Y YA NO SE APLICA.
+--
+-- Habia una politica de UPDATE con `using (true)`, apoyada en que sin politica
+-- SELECT nadie puede enumerar endpoints. Ese razonamiento era falso: PostgREST
+-- acepta un PATCH sin filtro, asi que no hace falta enumerar nada.
+--
+-- Lo sustituye 2026-09-02-avisos-preferencias-solo-via-funcion.sql, que quita
+-- el UPDATE al rol anonimo y deja el guardado en manos de una funcion que
+-- exige el endpoint. Aplicar ese fichero, no este bloque.
