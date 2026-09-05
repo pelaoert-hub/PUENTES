@@ -36,6 +36,9 @@ APP PUENTES/
 │   ├── vercel.json             ← cabeceras de despliegue
 │   ├── robots.txt
 │   ├── sitemap.xml
+│   ├── guias/                  ← una pagina por pregunta real (SEO)
+│   │   ├── index.html          ← el indice de respuestas rapidas
+│   │   └── <pregunta>/index.html
 │   └── icons/
 │       ├── icon-192.png        ← requisito de instalación en Chrome
 │       ├── icon-512.png        ← alta densidad y pantalla de arranque
@@ -49,6 +52,10 @@ APP PUENTES/
 ├── ios/                        ← proyecto nativo iOS (necesita una Mac)
 ├── capacitor.config.json
 ├── package.json
+│
+├── supabase/
+│   ├── functions/              ← funciones desplegadas (avisos push)
+│   └── migraciones/            ← SQL para aplicar a mano en el editor
 │
 ├── original/                   ← copia intacta del sitio publicado (referencia)
 ├── tools/
@@ -261,6 +268,360 @@ la próxima vez que abran la app.
 
 Si cambiás `sw.js`, subí la constante `VERSION` (`'v1'` → `'v2'`). Eso descarta
 todos los cachés viejos.
+
+## Cinco mejoras de producto (2026-09-01)
+
+Cinco cambios que van juntos: la app deja de ser la misma para todo el mundo, y
+deja de esperar a que alguien vuelva por su cuenta.
+
+### 1. La portada pregunta, no enumera
+
+**Antes:** la portada era "aquí están todas nuestras secciones" — el menú
+arriba, y debajo la lista de artículos. Quien entraba con un problema concreto
+("necesito enviar dinero", "me caduca el pasaporte") tenía que traducir su
+problema al nombre de una sección.
+
+**Ahora:** la portada pregunta **¿Qué necesitas?** y muestra siete tarjetas
+escritas como lo diría la persona, no como lo llamamos nosotros:
+
+| La tarjeta dice | Lleva a |
+|---|---|
+| Arreglar mis papeles | Trámites, ya abierto en su país |
+| Buscar trabajo | Empleos, filtrado si sigue en Cuba |
+| Enviar dinero o recargar | Remesas |
+| Conocer cubanos cerca | Comunidad → Encuentros, filtrado por su ciudad |
+| Comprar a un cubano | Negocios |
+| Saber qué cambió en Cuba | Cambios en Cuba |
+| Prepararme para salir de Cuba | Antes de salir |
+
+El menú de arriba sigue igual: quien prefiera navegar a mano, puede.
+
+La cabecera se apretó para que la primera tarjeta se vea sin bajar: el `hero`
+pasó de 64px de margen superior a 34 (16 en móvil) y el puente tiene ahora techo
+de altura (190px, 104 en móvil). El cartel sigue ahí, ocupando lo justo.
+
+Los artículos y la encuesta no desaparecen: bajan. Siguen en la portada, debajo
+de lo que alguien necesita resolver primero.
+
+### 2. Perfil sin cuenta — "cubano en Madrid"
+
+Nadie tiene que registrarse. La portada pregunta **dónde estás** (país y, si
+quiere, ciudad) y guarda esas dos cosas en `localStorage`, bajo
+`puentes_perfil`. **No viaja a ningún servidor.**
+
+Con eso:
+
+- La cabecera saluda: *"Puentes desde Madrid, España"*.
+- Las siete tarjetas se **reordenan**. Quien está en Cuba ve primero "Prepararme
+  para salir"; quien está fuera, "Arreglar mis papeles". La primera lleva el
+  sello **para ti**.
+- Los textos hablan de su sitio: *"Ofertas en Madrid y en el resto"*.
+- **Trámites abre directamente en su país** — antes siempre abría en España.
+- Encuentros se filtra por su ciudad al entrar desde la portada.
+- Las respuestas rápidas se ordenan poniendo delante las de su país, y entre
+  esas, las más concretas.
+
+Se puede cambiar en cualquier momento ("Cambiar") y borrar del todo ("Olvidar
+mis datos"). Si no lo rellena, todo funciona exactamente como antes.
+
+### 3. Respuestas rápidas — una página por pregunta real
+
+Google no busca "Puentes": busca *"cómo enviar dinero a Cuba"*. Una app de una
+sola página no puede posicionar para eso, porque para un buscador es una única
+dirección.
+
+Se crearon páginas propias en `web/guias/`, una por pregunta, con las cuatro
+formas en que la gente escribe:
+
+| Página | Pregunta |
+|---|---|
+| `guias/como-enviar-dinero-a-cuba/` | **Cómo** envío dinero a Cuba |
+| `guias/donde-renovar-pasaporte-cubano/` | **Dónde** renuevo el pasaporte cubano |
+| `guias/que-necesito-arraigo-social-espana/` | **Qué necesito** para el arraigo social |
+| `guias/como-pedir-residencia-eeuu-cubano/` | **Cómo** pido la residencia en EE.UU. |
+| `guias/que-puedo-llevar-a-cuba/` | **Qué puedo** llevar sin pagar aduana |
+
+Más `guias/index.html`, que las lista y es la puerta de entrada.
+
+Cada página lleva `canonical`, Open Graph, Twitter Card y **datos estructurados
+`FAQPage` + `BreadcrumbList`** — que es lo que hace que Google pueda mostrarlas
+como respuesta directa. El índice lleva `ItemList`. Todas están en el
+`sitemap.xml`.
+
+**Regla que se respetó:** ninguna guía afirma nada que no estuviera ya
+verificado dentro de la app. Salen de `tramitesData`, `tramitesEnlaces`,
+`cubaFeed` y la tabla de remesas, con el mismo enlace oficial. No se inventó
+ningún dato ni ningún enlace.
+
+Son HTML plano, sin fuentes externas ni JavaScript: cargan con una conexión
+mala. Usan la paleta caribeña de la app para que se note que son de Puentes.
+
+**Para agregar una guía:** crear `web/guias/<pregunta>/index.html`, sumarla al
+array `guias` de `index.html` (para que salga en la portada), a
+`web/guias/index.html` y al `sitemap.xml`.
+
+### 4. Los tres sellos de Puentes
+
+Antes había dos estados: verificado o no. Eso metía en el mismo saco un enlace
+del BOE y un anuncio que escribió alguien anoche. Ahora hay tres, con el mismo
+significado en toda la app:
+
+| Sello | Qué significa |
+|---|---|
+| ✓ **Verificado oficialmente** | Lo dice la web del gobierno, ministerio o consulado, y ponemos el enlace directo |
+| ◐ **Comprobado por Puentes** | Lo abrimos y lo probamos a mano. Funciona, pero no hay una fuente oficial que lo respalde entero |
+| ? **Aporte de la comunidad** | Lo publicó alguien que usa la app. Nadie lo ha comprobado |
+
+La leyenda que lo explica está arriba de Trámites, y los sellos aparecen en cada
+tarjeta de trámites, remesas, empleos, negocios, anuncios y encuentros.
+
+`ejemplo — sin confirmar` **no** es un cuarto nivel: es contenido de relleno
+nuestro, todavía sin fuente. Se marca aparte a propósito, para no hacerlo pasar
+por un aporte de la comunidad, que no lo es.
+
+En código son dos funciones, en `index.html`:
+
+```js
+sello('oficial')      // devuelve el HTML de la píldora
+nivelDe(item)         // 'nivel' si lo trae; si no, deduce de `verificado`
+```
+
+Las filas viejas que solo traen `verificado: true/false` siguen funcionando. Para
+marcar algo como comprobado a mano, se le pone `nivel: 'puentes'`.
+
+### 5. Un motivo para volver
+
+**Desde tu última visita.** Al abrir la app se cuenta lo que se publicó desde la
+última vez — y si hay ciudad en el perfil, **solo lo de esa ciudad**:
+
+> **7** ofertas de empleo nuevas en Madrid
+> **3** encuentros de cubanos nuevos en Madrid
+
+Tocar una línea lleva directo a esa sección. La marca de tiempo vive en
+`localStorage` (`puentes_ultima_visita`) y se actualiza al tocar o al decir "ya
+lo he visto". En la primera visita no sale nada: no hay con qué comparar.
+
+Se calcula con cuatro consultas `count` contra la base que ya usábamos — sin
+tabla nueva y sin traerse las filas.
+
+**Avisos que dicen algo.** El botón de avisos era "avisarme de nuevos
+encuentros", y mandaba el mismo aviso a todo el mundo, viviera donde viviera.
+Ahora se eligen los temas (encuentros, empleos, negocios, cambios de normativa) y
+se guardan junto a la ciudad del perfil.
+
+Para que los avisos salgan ya filtrados hay que agregar tres columnas:
+
+```
+supabase/migraciones/2026-09-01-avisos-personalizados.sql
+```
+
+Se pega en el [editor SQL](https://supabase.com/dashboard/project/ggehkwinqlhsdbimovzx/sql/new)
+y se ejecuta. **Es opcional y no rompe nada si no se hace:** la app guarda las
+preferencias en silencio y la suscripción se crea igual, y la función
+`enviar-aviso-encuentro` vuelve a leer sin esas columnas si no existen — los
+avisos siguen saliendo, solo que sin personalizar (lo dice en su respuesta, en
+el campo `personalizado`).
+
+#### El tema excluye; la ciudad, todavía no
+
+Los dos filtros no se tratan igual, y es a propósito.
+
+**El tema sí excluye.** Si alguien desmarcó "encuentros", no le llega. Mandarlo
+igual es la vía más rápida a que bloquee los avisos del sitio — y eso no tiene
+vuelta atrás: el navegador se acuerda y no se puede volver a pedir permiso.
+
+**La ciudad no excluye.** Con pocos encuentros al mes, filtrar por ciudad
+significa que casi nadie recibe casi nunca, y entonces el aviso deja de dar un
+motivo para volver, que es justo para lo que existe. Comparado sobre seis
+suscripciones de prueba: un encuentro en Barcelona llegaba a 2 filtrando por
+ciudad, y llega a 5 sin filtrar (el sexto se queda fuera porque desmarcó el
+tema, que es lo correcto).
+
+Así que la ciudad se usa para **redactar**, no para descartar: el aviso siempre
+dice dónde es el encuentro, y a quien lo tiene en su ciudad se lo dice con otras
+palabras ("Es en tu ciudad"). Que decida la persona.
+
+**Cuándo cambiarlo:** cuando haya varios encuentros por semana. Ahí el problema
+pasa a ser el ruido y no el silencio. Ese día es una línea:
+`const CIUDAD_EXCLUYE = true` en `enviar-aviso-encuentro/index.ts`. La respuesta
+de la función ya devuelve `enSuCiudad` y `ciudadExcluye` para poder ver, antes
+de tocar nada, a cuánta gente le está llegando de verdad y a cuánta le queda
+cerca.
+
+Después de aplicar el SQL hay que volver a desplegar la función (ver "Desplegar
+la función tras cambiarla").
+
+### Y de paso: la app ya no se queda en blanco si falla el CDN
+
+Encontrado mientras se probaba esto. La librería de Supabase viene de
+`cdn.jsdelivr.net`. Si ese CDN no cargaba — red mala, ETECSA cortando, el CDN
+bloqueado — `supabase` no existía, `supabase.createClient()` lanzaba y **el
+script entero moría**: la app se quedaba en blanco. Sin trámites, sin remesas,
+sin portada. Y todo eso es contenido fijo que no necesita base de datos.
+
+Ahora, si la librería falta, se usa un sustituto: las lecturas devuelven listas
+vacías y las escrituras un error controlado. Se pierde lo que viene de la base
+(anuncios, empleos, encuentros) y queda un aviso en la consola, pero **la app
+abre y sirve**.
+
+### Probado
+
+Con Chromium, a 390×844 (móvil) y 1280×900 (escritorio), sirviendo `web/` en
+local:
+
+- Portada sin perfil: sale la pregunta "¿Dónde estás?", 7 tarjetas, 5 guías, y
+  **ninguna** caja de novedades (primera visita).
+- Perfil España/Madrid: cabecera "Puentes desde Madrid, España", primera tarjeta
+  "Arreglar mis papeles · para ti", primera guía la del arraigo en España,
+  Trámites abre con el chip de España marcado.
+- Perfil Cuba: la primera tarjeta pasa a ser "Prepararme para salir de Cuba".
+- Segunda visita con datos de prueba: la caja cuenta lo nuevo **de Madrid**, en
+  singular o plural según toque, y tocar una línea navega a su sección. Con el
+  perfil en Bilbao, no cuenta nada de Madrid — correcto.
+- Avisos: los cuatro temas se marcan y desmarcan, siempre queda al menos uno, y
+  se guardan en `localStorage`.
+- Sellos: los tres en la leyenda, en las tarjetas de trámites, en las ofertas de
+  empleo y en las 7 filas de remesas.
+- Guías: los cinco `FAQPage` y `BreadcrumbList` son JSON válido; el `sitemap.xml`
+  es XML válido.
+- **Cero errores de JavaScript**, y sin scroll horizontal en móvil ni en las
+  guías.
+
+
+## Lo que encontró la revisión de código (2026-09-02)
+
+Se pasó una revisión sobre el PR y salieron once cosas. Cuatro eran serias y
+están arregladas; el resto queda anotado abajo con su razón.
+
+### 🔴 Un agujero de seguridad, abierto por nosotros el día antes
+
+La migración del 01-09 dejaba una política de UPDATE con `using (true)`,
+apoyada en este razonamiento: *"la tabla no tiene política SELECT pública, así
+que nadie puede enumerar los endpoints"*.
+
+**El razonamiento era falso.** No hace falta enumerar nada: PostgREST acepta un
+PATCH **sin filtro**. Cualquiera con la clave anónima —que va en el HTML, a la
+vista de todos— podía reescribir `temas` en **todas** las filas de golpe y
+dejar a la comunidad entera sin avisos.
+
+Reproducido contra la base real antes de tocarlo: el rol anónimo actualizó
+todas las filas sin poner un solo filtro.
+
+**Arreglado** (`2026-09-02-avisos-preferencias-solo-via-funcion.sql`, ya
+aplicado): el rol anónimo pierde el UPDATE directo. Guardar preferencias pasa
+ahora por `guardar_preferencias_aviso`, que exige el endpoint y toca como mucho
+esa fila. Comprobado después: el ataque devuelve *permission denied*, la
+función guarda bien con el endpoint correcto, descarta temas inventados, y con
+un endpoint que no existe no toca nada.
+
+### 🔴 La app prometía algo que dejó de ser verdad
+
+El formulario del perfil decía *"se guarda solo en este teléfono — no lo
+enviamos a ningún sitio"*. Pero al activar los avisos, la ciudad y el país **sí**
+se enviaban junto a la suscripción. Y "Olvidar mis datos" solo limpiaba el
+teléfono.
+
+Es lo más grave después del agujero: una promesa incumplida sobre los datos de
+la gente. Ahora el texto dice la verdad —*"solo sale de aquí si activas los
+avisos"*— y borrar el perfil sincroniza, dejando ciudad y país en blanco en el
+servidor.
+
+### 🔴 Dos formas de perder novedades que nadie llegó a ver
+
+**Un fallo de red parecía "no hay nada nuevo".** `contarNuevos` devolvía 0 tanto
+si no había nada como si la consulta reventaba. Con 0 en las cuatro, se
+adelantaba la marca de tiempo y esa ventana se perdía para siempre. Ahora
+devuelve `null` al fallar, y si fallan todas no se toca nada.
+
+**Tocar una línea borraba las otras tres.** Abrir "7 ofertas" daba por vistos
+los "3 encuentros" que nunca miraste. Ahora hay una marca por categoría
+(`puentes_visto`).
+
+Probado con la red simulada caída y luego restablecida: la ventana sobrevive al
+fallo, tocar una línea marca solo esa, y al volver las otras tres siguen ahí.
+
+### 🔴 Abrir una guía borraba la app de la caché
+
+`sw.js` guardaba **toda** navegación bajo la clave `/index.html`. Visitar una
+guía reemplazaba la app entera: al abrir Puentes sin conexión salía la guía en
+lugar de la app.
+
+El fallo ya estaba en el código original, pero con una sola página suelta casi
+no se notaba; con siete guías a las que se llega desde Google, era cuestión de
+tiempo. Ahora cada página se guarda bajo su propia dirección, y `VERSION` sube a
+`v5` para limpiar las cachés con el dato malo.
+
+### Lo que se dejó a propósito
+
+- **`paisParaTramites()` manda "Cuba" a "Otro".** Para quien sigue en la isla,
+  "Otro" muestra los trámites cubanos, que son los que le sirven. Es mejor que
+  el España por defecto de antes.
+- **La ciudad se compara con `includes()` en los dos sentidos**, así que un
+  perfil en "Santiago" casa con un encuentro en "Santiago de Cuba". Hoy solo
+  afecta a cómo se redacta el aviso. **El día que se ponga `CIUDAD_EXCLUYE` en
+  `true`, esto hay que mirarlo**: ahí pasaría a decidir quién recibe y quién no.
+- **Con el CDN caído no salta el aviso de "sin conexión"**, porque no llega
+  ninguna petición al servidor y cada sección enseña su "todavía no hay nada".
+  Es peor de lo ideal, pero muy por encima de la pantalla en blanco de antes.
+
+## Revisión de seguridad (2026-09-02)
+
+### 🔴 XSS almacenado, que venía de antes y estaba vivo
+
+Lo encontró la revisión de seguridad. **No lo introdujo este PR** — estaba en
+`main`, en producción, desde antes. Pero es lo más grave de todo lo visto.
+
+Tres campos de enlace que rellena la comunidad (`t.fuente` en trámites
+sugeridos, `v.fuente` en países sugeridos, `s.enlace` en remesas sugeridas) se
+pintaban dentro de un `href` pasando solo por `escapeHtml`. Y ahí había **dos**
+agujeros a la vez:
+
+**1. `escapeHtml` no escapaba las comillas.** Usaba `textContent` → `innerHTML`,
+que escapa `&`, `<` y `>` pero deja pasar `"`. Metido dentro de
+`href="${escapeHtml(...)}"`, un valor con comilla se salía del atributo:
+
+```
+https://ejemplo.com/" onmouseover="..." x="
+```
+
+Comprobado en el navegador: el atributo se rompía y el `onmouseover` se creaba
+**de verdad**.
+
+**2. No se comprobaba el esquema.** `javascript:loQueSea` entraba tal cual, sin
+necesitar ni una comilla. Un clic y listo.
+
+**Por qué era grave de verdad:** esas tablas tienen `public insert` y
+`public read`. La clave anónima va en el HTML, a la vista. No hacía falta usar
+el formulario ni saltarse su `type="url"`: cualquiera podía insertar la fila
+por la API, y se le pintaba a **todo** el que abriera esa sección.
+
+**Arreglado en dos capas:**
+
+- `escapeHtml` escapa también `"` y `'`. Esto cubre todos los atributos de la
+  app, los de hoy y los que se añadan mañana.
+- Los tres enlaces pasan por `enlaceSeguro()`, que rechaza cualquier esquema
+  que no sea `http:`/`https:` y normaliza el resto.
+
+Comprobado después con cuatro cargas: salida del atributo, `javascript:`,
+comilla simple y un enlace legítimo. Las tres primeras quedan neutralizadas
+(ningún atributo de más, nada se ejecuta) y la legítima sigue funcionando.
+
+### Lo que se miró y está bien
+
+- **El contenido que publica la comunidad** (anuncios, empleos, negocios,
+  encuentros) va todo por `escapeHtml`, y sus enlaces ya pasaban por
+  `enlaceSeguro()`.
+- **La ciudad del perfil** se escapa al pintarla, tanto en la cabecera como en
+  el valor del formulario.
+- **`guardar_preferencias_aviso`** lleva `search_path` fijado, parámetros
+  tipados y un `where endpoint = ...` parametrizado. No hay inyección posible y
+  no filtra nada: devuelve `void`.
+- **El aviso push** llega al service worker como JSON y se pinta con
+  `showNotification`, que lo dibuja el sistema como texto. No hay HTML de por
+  medio.
+- **La clave anónima en el HTML** es lo normal en Supabase: la protección real
+  es RLS, no esconderla.
+- **Las páginas de `guias/`** son estáticas, sin JavaScript ni datos de nadie.
 
 ## Enlaces a trámites oficiales (2026-08-28)
 

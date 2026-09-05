@@ -5,6 +5,46 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Respuestas rapidas: una pagina por pregunta real. Al agregar una guia
+       nueva en web/guias/, sumala tambien aqui. -->
+  <url>
+    <loc>https://www.puentescuba.com/guias/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.puentescuba.com/guias/como-enviar-dinero-a-cuba/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.puentescuba.com/guias/donde-renovar-pasaporte-cubano/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.puentescuba.com/guias/que-necesito-arraigo-social-espana/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.puentescuba.com/guias/como-pedir-residencia-eeuu-cubano/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.puentescuba.com/guias/que-puedo-llevar-a-cuba/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
   <url>
     <loc>https://www.puentescuba.com/1940-constitucion-trabajo.html</loc>
     <changefreq>monthly</changefreq>
