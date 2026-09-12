@@ -236,7 +236,39 @@
 (function(){
   const SB_URL = 'https://ggehkwinqlhsdbimovzx.supabase.co';
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnZWhrd2lucWxoc2RiaW1vdnp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NzI0MzksImV4cCI6MjEwMjE0ODQzOX0.iSlP9Tr1pBoTh7R5GhZN0FEVVQNYBAMZE41EV3RxDLo';
-  const db = supabase.createClient(SB_URL, SB_KEY);
+  /* Si el CDN de Supabase no responde — bloqueado, caido o simplemente sin
+   * conexion — `supabase` no existe y `supabase.createClient` reventaba aqui
+   * mismo, antes de definir nada. Al ser lo primero del bloque, se llevaba por
+   * delante toda la encuesta sin dejar rastro en la pagina.
+   *
+   * Con este respaldo devolvemos un objeto que imita lo justo de la API: cada
+   * metodo encadenable devuelve el mismo objeto, y el objeto es esperable con
+   * await, asi `.select().eq().order().limit()` no rompe. Toda consulta
+   * responde "sin red", que es la rama que `cargar()` ya sabia manejar: la caja
+   * de la encuesta se queda vacia y el articulo se lee igual.
+   *
+   * Es el mismo respaldo que usa la app principal (dbDeReserva en index.html). */
+  function dbDeReserva(){
+    const sinRed = { message: 'Sin conexión con la base de datos' };
+    const consulta = () => {
+      const p = Promise.resolve({ data: [], error: sinRed, count: 0 });
+      const encadenable = new Proxy(p, {
+        get(destino, prop){
+          if(prop === 'then' || prop === 'catch' || prop === 'finally'){
+            return destino[prop].bind(destino);
+          }
+          return () => encadenable;
+        }
+      });
+      return encadenable;
+    };
+    return { from: consulta };
+  }
+
+  const hayLibreriaSupabase = typeof supabase !== 'undefined' && supabase
+    && typeof supabase.createClient === 'function';
+  if(!hayLibreriaSupabase) console.warn('[puentes] Supabase no cargó: el artículo se lee igual, sin la encuesta.');
+  const db = hayLibreriaSupabase ? supabase.createClient(SB_URL, SB_KEY) : dbDeReserva();
 
   function deviceId(){
     let id = localStorage.getItem('puente_device_id');
