@@ -2752,8 +2752,22 @@ renderRemesasSugeridos();
      titulo   -> el gancho. Que se entienda solo, sin leer nada mas.
      resumen  -> 1 o 2 frases. Es lo que decide si lo abren o no.
      href     -> la ruta de su pagina, empezando por /
+     desde    -> OPCIONAL. Fecha y hora en que debe aparecer, en formato
+                 ISO con Z al final: '2026-09-14T12:00:00Z'. Hasta ese
+                 instante el articulo no se lista en ningun sitio de la
+                 web, aunque su pagina ya este subida. Sirve para dejar
+                 algo preparado y que se publique solo. Sin este campo,
+                 el articulo aparece en cuanto se sube.
    ==================================================== */
 const articulos = [
+  {
+    etiqueta: 'Historia',
+    titulo: 'Recuperar la identidad del cubano',
+    sub: 'Serie · Identidad',
+    resumen: 'Cómo recuperar nuestra memoria después de décadas de una sola lectura política de la historia. No cambiando una verdad oficial por otra, sino recuperando el derecho a preguntar.',
+    href: '/articulos/recuperar-identidad-del-cubano',
+    desde: '2026-09-14T12:00:00Z',
+  },
   {
     etiqueta: 'Historia',
     titulo: 'Cuba: una nación que nació mucho antes de 1959',
@@ -2776,6 +2790,27 @@ const articulos = [
     href: '/1940-constitucion-trabajo.html',
   },
 ];
+
+/* Lo que se pinta no es `articulos`, es esta lista ya filtrada: deja fuera
+ * lo que tenga una fecha `desde` que todavia no ha llegado. Se calcula una
+ * sola vez, al cargar la pagina.
+ *
+ * La fecha se compara como instante absoluto (lleva Z, es UTC), no como hora
+ * local: asi el articulo aparece en el mismo momento para todo el mundo, este
+ * en La Habana, Madrid o Miami.
+ *
+ * Si la fecha esta mal escrita, el articulo SE PUBLICA igualmente y se avisa
+ * por consola. Es a proposito: una errata que adelanta una publicacion se ve
+ * y se arregla; una que la esconde para siempre no la nota nadie. */
+const articulosPublicados = articulos.filter(a => {
+  if(!a.desde) return true;
+  const cuando = Date.parse(a.desde);
+  if(Number.isNaN(cuando)){
+    console.warn('[puentes] fecha de publicación ilegible en "' + a.titulo + '": se publica ya.');
+    return true;
+  }
+  return Date.now() >= cuando;
+});
 
 /* ---------- Encuesta de la portada ----------
    Las preguntas las crea el dueno del sitio por SQL (no hay insercion publica).
@@ -2859,11 +2894,11 @@ cargarEncuesta();
 function renderPortada(){
   const el = document.getElementById('portada-articulos');
   if(!el) return;
-  if(!articulos.length){
+  if(!articulosPublicados.length){
     el.innerHTML = '<p class="empty-state">Todavía no hay artículos publicados.</p>';
     return;
   }
-  el.innerHTML = articulos.map(a => `
+  el.innerHTML = articulosPublicados.map(a => `
     <a class="articulo-card" href="${escapeHtml(a.href)}">
       <span class="etiqueta">${escapeHtml(a.etiqueta || 'Artículo')}</span>
       <h3>${escapeHtml(a.titulo)}</h3>
@@ -3315,8 +3350,8 @@ renderNovedades();
 
 function renderExploreArticles(){
   const el = document.getElementById('explore-articles');
-  if(!articulos.length){ el.innerHTML = '<p class="explore-empty">Todavía no hay artículos publicados.</p>'; return; }
-  el.innerHTML = articulos.map(a => `
+  if(!articulosPublicados.length){ el.innerHTML = '<p class="explore-empty">Todavía no hay artículos publicados.</p>'; return; }
+  el.innerHTML = articulosPublicados.map(a => `
     <a class="explore-link" href="${escapeHtml(a.href)}" target="_blank" rel="noopener">
       ${escapeHtml(a.titulo)}
       <span class="sub">${escapeHtml(a.sub)}</span>
