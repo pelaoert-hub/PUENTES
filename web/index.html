@@ -314,7 +314,12 @@
   .community-grid .card p.count{font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;color:var(--muted);font-size:0.78rem;}
 
   /* ---- Table (remesas) ---- */
-  table{width:100%;border-collapse:collapse;font-size:0.9rem;}
+  /* La tabla tiene 5 columnas y en un movil de 390px no cabe: empujaba la
+   * pagina ENTERA hacia los lados, asi que se movia todo el sitio al arrastrar.
+   * Ahora se desplaza sola dentro de su caja y el resto de la pagina se queda
+   * quieto. El min-width evita que las columnas se aplasten hasta ser ilegibles. */
+  .tabla-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table{width:100%;min-width:560px;border-collapse:collapse;font-size:0.9rem;}
   thead th{
     text-align:left;font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.72rem;
     text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
@@ -1232,18 +1237,44 @@
       Cobran más comisión — pero llega la moneda de verdad, no su equivalente en pesos.
       Ojo: algunos cubren solo La Habana.
     </div>
+    <div class="disclaimer" style="border-left-color:#2AA0A8;">
+      <strong>¿Y si lo que quiero es mandarle dinero a otro cubano fuera de Cuba?</strong>
+      <br><br>
+      Esta tabla nació para enviar a la isla, pero mucha gente necesita lo contrario: echarle
+      una mano a un primo en México, a alguien que acaba de llegar a España, a un hijo que
+      estudia fuera. Filtra por <strong>"Entre países"</strong> aquí abajo.
+      <br><br>
+      <strong>Aviso importante con Rusia.</strong> Desde 2022, las grandes empresas
+      occidentales de envío de dinero —Wise, Western Union, MoneyGram, Remitly, PayPal,
+      Revolut y las demás— dejaron de operar con Rusia y a día de hoy no lo han retomado.
+      Si tienes que mandarle dinero a un cubano en Rusia, <strong>ninguno de estos enlaces
+      te va a servir</strong>. Preferimos decírtelo antes que dejar que lo descubras
+      perdiendo el dinero por el camino.
+      <br><br>
+      <strong>Comprueba tú mismo cualquier empresa antes de usarla.</strong> Las de verdad
+      están registradas y se pueden consultar en los registros públicos de cada país:
+      <a href="https://www.fca.org.uk/firms/financial-services-register" target="_blank" rel="noopener">Reino Unido (FCA)</a>,
+      <a href="https://msb.fincen.gov/" target="_blank" rel="noopener">Estados Unidos (FinCEN)</a> y
+      <a href="https://www.bde.es/sede/es/menu/institucionesfin/registros-oficia/Registro_de_entidades.html" target="_blank" rel="noopener">España (Banco de España)</a>.
+      Si una empresa te promete una comisión que nadie más da y no aparece en ningún
+      registro, desconfía. Puentes no procesa pagos, no cobra nada y no recomienda a nadie
+      en particular: solo te lleva a cada uno.
+    </div>
     <div class="filter-chip-row" id="remesas-filtros">
       <button class="chip active" data-tipo="todos">Todos</button>
       <button class="chip" data-tipo="Dinero en efectivo">Dinero en efectivo</button>
       <button class="chip" data-tipo="Recarga móvil">Recarga móvil</button>
       <button class="chip" data-tipo="Dinero a MLC/tarjeta">Tarjeta / MLC</button>
+      <button class="chip" data-tipo="Entre países (fuera de Cuba)">Entre países</button>
     </div>
-    <table id="remesas-table">
-      <thead>
-        <tr><th>Servicio</th><th>Tipo</th><th>Comisión aprox.</th><th>Tiempo de entrega</th><th></th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="tabla-scroll">
+      <table id="remesas-table">
+        <thead>
+          <tr><th>Servicio</th><th>Tipo</th><th>Comisión aprox.</th><th>Tiempo de entrega</th><th></th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
 
     <div class="community-sub-head">
       <h3>Sugerido por la comunidad <span class="sello sello-comunidad">? Aporte de la comunidad</span></h3>
@@ -1258,6 +1289,7 @@
           <option>Dinero en efectivo</option>
           <option>Recarga móvil</option>
           <option>Dinero a MLC/tarjeta</option>
+          <option>Entre países (fuera de Cuba)</option>
         </select>
       </div>
       <div class="form-row">
@@ -1668,7 +1700,7 @@ const tramitesData = {
     {tag:"Migración", title:"Visa / condición por razones humanitarias", desc:"Trámite ante el INM para regularizar estancia por motivos humanitarios. El INM ha señalado públicamente que no todos los casos cubanos cumplen el carácter humanitario exigido — se evalúa individualmente.", date:"2026", source:"https://www.gob.mx/tramites/ficha/visa-por-razones-humanitarias/INM74", verificado:true},
   ],
   "Rusia": [
-    {tag:"Migración", title:"Permiso de residencia temporal (ejemplo)", desc:"Contenido de ejemplo — pendiente de verificar con la fuente oficial del Servicio de Migración de Rusia.", date:"—", source:null, verificado:false},
+    {tag:"Trámites", title:"Portal estatal de servicios «Госуслуги» (Gosuslugi)", desc:"Es la ventanilla única del Estado ruso: desde ahí se piden y se siguen los trámites, se pagan tasas y se sacan citas, incluidas las de extranjería. Está solo en ruso. Un extranjero puede abrirse cuenta, pero con la cuenta sin confirmar solo se accede a una parte; para desbloquear el resto hay que verificar la identidad en persona.", date:"sep 2026", source:"https://www.gosuslugi.ru/", verificado:true},
   ],
   "Otro": [
     {tag:"General", title:"Selecciona o solicita tu país", desc:"Si tu país no aparece, sugiérelo con el formulario de abajo.", date:"—", source:null, verificado:false},
@@ -1690,11 +1722,13 @@ const community = [
 // Cada fila: [nombre, tipo, comision, tiempo, url].
 // La url es opcional: si esta vacia NO se pinta enlace, para no dejar enlaces
 // muertos que devuelvan al usuario al inicio. Faltan los proveedores reales.
-// Cada fila: [nombre, tipo, comision, tiempo, url].
+// Cada fila: [nombre, tipo, comision, tiempo, url, sello].
 // Las comisiones son las que PUBLICA CADA PROVEEDOR en su propia web, no
 // estimaciones nuestras. Cambian seguido: verificar antes de enviar dinero.
 // Donde el proveedor no la publica, ponemos "Ver en el sitio" en vez de inventar.
+// El sello es opcional; sin el, la fila sale como "Comprobado por Puentes".
 // Ultima comprobacion de enlaces y tarifas: 2026-08-28.
+// Las filas de "Entre paises (fuera de Cuba)" se agregaron el 2026-09-13.
 const remesas = [
   ["Safe Pay Today — Tarjeta MLC", "Dinero a MLC/tarjeta", "7% + 1 USD", "Menos de 30 min",
    "https://safepaytoday.com/servicios/"],
@@ -1710,6 +1744,23 @@ const remesas = [
    "https://www.cuballama.com/recargas-a-cuba"],
   ["Cubatel", "Recarga móvil", "Ver en el sitio", "Ver en el sitio",
    "https://www.cubatel.com/"],
+
+  /* De cubano a cubano, fuera de Cuba. Cuatro empresas grandes y reguladas,
+   * enlazadas a su web oficial. No ponemos comisiones: cada una cobra distinto
+   * segun el pais de origen, el de destino y como se pague, y cualquier cifra
+   * que escribieramos aqui estaria vieja en una semana.
+   *
+   * NINGUNA de estas sirve para Rusia: todas cortaron con el pais en 2022 y no
+   * lo han retomado. Eso se avisa arriba de la tabla, no vaya a ser que alguien
+   * lo intente y pierda el dinero por el camino. */
+  ["Wise", "Entre países (fuera de Cuba)", "Ver en el sitio", "Ver en el sitio",
+   "https://wise.com/"],
+  ["Remitly", "Entre países (fuera de Cuba)", "Ver en el sitio", "Ver en el sitio",
+   "https://www.remitly.com/"],
+  ["Western Union", "Entre países (fuera de Cuba)", "Ver en el sitio", "Ver en el sitio",
+   "https://www.westernunion.com/"],
+  ["MoneyGram", "Entre países (fuera de Cuba)", "Ver en el sitio", "Ver en el sitio",
+   "https://www.moneygram.com/"],
 ];
 
 function renderTramites(country){
@@ -1765,6 +1816,7 @@ const tramitesEnlaces = {
     { icono: '🇨🇺', nombre: 'Consulado de Cuba en México (pasaporte cubano)', url: 'https://misiones.cubaminrex.cu/es/mexico' },
   ],
   "Rusia": [
+    { icono: '🌐', nombre: 'Госуслуги — portal estatal de trámites (en ruso)', url: 'https://www.gosuslugi.ru/' },
     { icono: '🇨🇺', nombre: 'Consulado de Cuba en Rusia (pasaporte cubano)', url: 'https://misiones.cubaminrex.cu/es/rusia' },
   ],
   "Otro": [],
@@ -1991,7 +2043,7 @@ function renderRemesas(){
   const filtradas = filtroRemesaTipo === 'todos' ? remesas : remesas.filter(r => r[1] === filtroRemesaTipo);
   document.querySelector('#remesas-table tbody').innerHTML = filtradas.map(r => `
     <tr>
-      <td>${r[0]}<br>${sello('puentes')}</td>
+      <td>${r[0]}<br>${sello(r[5] || 'puentes')}</td>
       <td><span class="pill">${r[1]}</span></td>
       <td>${r[2]}</td>
       <td>${r[3]}</td>
