@@ -3088,9 +3088,22 @@ function tarjetasNecesito(){
     },
   };
 
+  /* El orden cambia segun donde estes: a quien sigue en la isla le importa
+   * antes salir y que cambio en Cuba; a quien ya esta fuera, los papeles y el
+   * trabajo.
+   *
+   * `negocios` va la ultima en los dos ordenes A PROPOSITO, y es temporal: el
+   * directorio tiene todavia muy pocos negocios publicados, y una tarjeta que
+   * promete comercios y lleva a una pagina casi vacia decepciona y quema la
+   * seccion. Mejor que la encuentre quien baje hasta el final que ponersela
+   * delante a todo el mundo.
+   *
+   * CUANDO EL DIRECTORIO SE LLENE, subela: en el orden de fuera de Cuba iba
+   * entre 'comunidad' y 'cuba'. Se comprueba cuantos hay en la tabla
+   * `negocios` de Supabase. */
   const orden = enCuba
     ? ['salir','cuba','remesas','empleos','tramites','comunidad','negocios']
-    : ['tramites','empleos','remesas','comunidad','negocios','cuba','salir'];
+    : ['tramites','empleos','remesas','comunidad','cuba','salir','negocios'];
 
   return orden.map((k,i) => Object.assign({ destacada: i === 0 }, t[k], { clave:k }));
 }
