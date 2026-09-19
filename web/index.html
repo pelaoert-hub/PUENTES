@@ -1474,9 +1474,9 @@
       </div>
       <div class="form-row">
         <input type="tel" id="ne-telefono" placeholder="WhatsApp o teléfono (opcional)" maxlength="30">
-        <input type="url" id="ne-enlace" placeholder="Instagram, Facebook o web (opcional)" maxlength="200">
+        <input type="text" id="ne-enlace" placeholder="Instagram, Facebook o web (opcional, puede ir vacio)" maxlength="200">
       </div>
-      <p class="form-note">Se publica al instante y lo ve toda la comunidad. <strong>El teléfono y el enlace quedan visibles para cualquiera</strong>, así que pon solo lo que quieras hacer público. No pidas ni envíes dinero por adelantado sin conocer a la otra parte.</p>
+      <p class="form-note">Se publica al instante y lo ve toda la comunidad. <strong>El teléfono y el enlace quedan visibles para cualquiera</strong>, así que pon solo lo que quieras hacer público. Si tu negocio no tiene web ni redes, deja el enlace vacío: se publica igual. No pidas ni envíes dinero por adelantado sin conocer a la otra parte.</p>
       <button type="submit" class="btn-primary">Publicar negocio</button>
     </form>
   </section>
@@ -2302,8 +2302,20 @@ function enlaceSeguro(url){
   try{
     const u = new URL(url.trim());
     if(u.protocol !== 'http:' && u.protocol !== 'https:') return null;
+    if(!u.hostname.includes('.')) return null;
+    // El dominio final lleva letras. Asi un telefono suelto (622334455) no se
+    // interpreta como una IP y acaba publicado como enlace.
+    if(!/[a-z]/i.test(u.hostname.split('.').pop())) return null;
     return u.href;
   }catch(_){ return null; }
+}
+
+/** La gente escribe "instagram.com/tunegocio", no "https://instagram.com/tunegocio".
+    Le ponemos nosotros el https:// en vez de rechazarle el formulario. */
+function conEsquema(url){
+  const t = url.trim().replace(/^@+/, '');
+  if(!t) return '';
+  return /^https?:\/\//i.test(t) ? t : 'https://' + t.replace(/^\/+/, '');
 }
 
 /** Texto corto para mostrar el enlace sin que rompa el diseño. */
@@ -2399,10 +2411,11 @@ document.getElementById('negocio-form').addEventListener('submit', async e => {
   const btn = e.target.querySelector('button[type="submit"]');
   btn.disabled = true; btn.textContent = 'Publicando…';
 
-  const enlaceCrudo = document.getElementById('ne-enlace').value.trim();
-  if(enlaceCrudo && !enlaceSeguro(enlaceCrudo)){
+  const enlaceEscrito = document.getElementById('ne-enlace').value.trim();
+  const enlaceCrudo = enlaceEscrito ? enlaceSeguro(conEsquema(enlaceEscrito)) : null;
+  if(enlaceEscrito && !enlaceCrudo){
     btn.disabled = false; btn.textContent = 'Publicar negocio';
-    alert('El enlace no parece válido. Tiene que empezar por https:// (por ejemplo https://instagram.com/tunegocio).');
+    alert('No entendimos ese enlace. Escríbelo como instagram.com/tunegocio, o déjalo vacío: el enlace no hace falta para publicar.');
     return;
   }
 
