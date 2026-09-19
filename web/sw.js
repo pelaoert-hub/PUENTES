@@ -78,11 +78,30 @@ self.addEventListener('activate', event => {
 
 /* ---------- Utilidades ---------- */
 
-/** Pide a la red, pero se rinde a los `ms` milisegundos. */
+/** Pide a la red, pero se rinde a los `ms` milisegundos.
+ *
+ * Al agotarse el plazo CANCELAMOS el pedido de verdad. Antes solo se
+ * abandonaba: la promesa se rechazaba pero la descarga seguia viva por detras,
+ * gastando datos y quitandole ancho de banda al respaldo y al resto de la
+ * pagina. En una conexion lenta -- justo la que esto viene a proteger -- eso
+ * empeoraba lo que pretende arreglar.
+ *
+ * Seguimos rechazando en cuanto vence el plazo, sin esperar a que el aborto
+ * de la vuelta, para que el respaldo en cache salga al instante.
+ *
+ * Aqui solo llegan GET (lo filtra el escuchador de `fetch`), asi que rehacer
+ * el Request con `signal` no toca ningun cuerpo. */
 function fetchConLimite(request, ms) {
+  // AbortController no existe en Safari anterior a 12.1, que todavia se ve en
+  // iPhones viejos. Alli nos quedamos como estabamos: abandonar sin cancelar.
+  const control = typeof AbortController === 'function' ? new AbortController() : null;
+
   return new Promise((resolve, reject) => {
-    const id = setTimeout(() => reject(new Error('timeout')), ms);
-    fetch(request).then(
+    const id = setTimeout(() => {
+      if (control) control.abort();
+      reject(new Error('timeout'));
+    }, ms);
+    fetch(request, control ? { signal: control.signal } : undefined).then(
       res => { clearTimeout(id); resolve(res); },
       err => { clearTimeout(id); reject(err); }
     );
