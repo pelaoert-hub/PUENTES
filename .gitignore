@@ -44,3 +44,6 @@ FUNCION-AVISOS-copiar-esto.txt
 
 # Temporales de Claude Code
 .claude/settings.local.json
+
+# Mapa local de CodeGraph
+.codegraph/
