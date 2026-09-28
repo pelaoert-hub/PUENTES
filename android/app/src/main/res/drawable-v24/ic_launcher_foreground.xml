@@ -28,7 +28,7 @@
             <!-- Bandera de Cespedes (La Demajagua, 1868) -->
             <path android:pathData="M0,0 h10 v14 h-10 z"  android:fillColor="#F5EFE1" />
             <path android:pathData="M10,0 h10 v14 h-10 z" android:fillColor="#CC1126" />
-            <path android:pathData="M0,14 h20 v10 h-20 z" android:fillColor="#6FA8C9" />
+            <path android:pathData="M0,14 h20 v10 h-20 z" android:fillColor="#002A8F" />
 
             <!-- Bandera actual de Cuba -->
             <path android:pathData="M20,0 h20 v8 h-20 z"  android:fillColor="#0A3161" />
