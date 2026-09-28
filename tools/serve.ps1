@@ -27,6 +27,7 @@ $mime = @{
   '.webp'        = 'image/webp'
   '.ico'         = 'image/x-icon'
   '.xml'         = 'application/xml; charset=utf-8'
+  '.glb'         = 'model/gltf-binary'
   '.txt'         = 'text/plain; charset=utf-8'
   '.woff2'       = 'font/woff2'
 }

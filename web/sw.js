@@ -17,7 +17,7 @@
  * Al cambiar VERSION se descartan todos los caches viejos.
  */
 
-const VERSION = 'v5';
+const VERSION = 'v6';
 const SHELL_CACHE = `puentes-shell-${VERSION}`;
 const DATA_CACHE = `puentes-data-${VERSION}`;
 const STATIC_CACHE = `puentes-static-${VERSION}`;
@@ -33,10 +33,10 @@ const SHELL_ASSETS = [
   '/index.html',
   '/offline.html',
   '/manifest.webmanifest',
-  '/icons/icon-192.png',
-  '/icons/icon.svg',
-  '/icons/icon-maskable.svg',
-  '/icons/apple-touch-icon.png',
+  '/icons/icon-192.png?v=2',
+  '/icons/icon.svg?v=2',
+  '/icons/icon-maskable.svg?v=2',
+  '/icons/apple-touch-icon.png?v=2',
   '/1940-constitucion-trabajo.html',
   // El indice de respuestas rapidas: es la puerta de entrada desde Google y
   // pesa poco. Las guias sueltas no se precachean — se guardan al visitarlas,
@@ -102,7 +102,7 @@ const esSupabase = url => url.hostname.endsWith('.supabase.co');
 
 const esEstatico = url =>
   url.origin === self.location.origin &&
-  /\.(png|svg|jpg|jpeg|webp|gif|ico|css|js|woff2?|json|webmanifest)$/i.test(url.pathname);
+  /\.(png|svg|jpg|jpeg|webp|gif|ico|css|js|woff2?|json|webmanifest|glb)$/i.test(url.pathname);
 
 /* ---------- Estrategias ---------- */
 
@@ -215,8 +215,8 @@ self.addEventListener('push', event => {
   event.waitUntil(
     self.registration.showNotification(titulo, {
       body: cuerpo,
-      icon: '/icons/icon-192.png',
-      badge: '/icons/icon-192.png',
+      icon: '/icons/icon-192.png?v=2',
+      badge: '/icons/icon-192.png?v=2',
       lang: 'es',
       tag: datos.tag || 'encuentro',
       renotify: true,
