@@ -261,6 +261,23 @@
     transition:all .15s ease;
   }
   .btn-quick:hover{background:var(--gold);color:var(--ink);}
+  /* Guias de llegada (producto de Puentes). El bloque no se pinta hasta que
+     haya enlace de la tienda en GUIAS_LLEGADA. */
+  .guia-llegada{
+    background:linear-gradient(160deg,var(--surface-hi),var(--surface));
+    border:1px solid var(--gold);border-radius:var(--radius);
+    padding:20px 22px;margin:14px 0 22px;
+  }
+  .guia-llegada .cabecera{
+    font-family:ui-monospace,'SF Mono','Cascadia Code',monospace;font-size:0.7rem;
+    text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:8px;
+  }
+  .guia-llegada h3{margin:0 0 8px;font-size:1.1rem;color:var(--cream);}
+  .guia-llegada p{color:var(--cream-dim);font-size:0.9rem;margin:0 0 14px;}
+  .guia-llegada .botones{display:flex;gap:10px;flex-wrap:wrap;}
+  .guia-llegada .btn-guia-pago{background:var(--gold);color:var(--ink);}
+  .guia-llegada .btn-guia-pago:hover{background:var(--cream);border-color:var(--cream);}
+  .guia-llegada .nota{font-size:0.78rem;color:var(--muted);margin:12px 0 0;}
   .chip{
     background:var(--surface);border:1px solid var(--line);color:var(--cream-dim);
     padding:8px 16px;border-radius:999px;font-size:0.9rem;cursor:pointer;
@@ -1019,6 +1036,8 @@
     <div class="quick-actions" id="quick-actions">
     </div>
     <p id="quick-actions-empty" class="form-note" style="display:none;margin:-6px 0 20px;">Todavía no tenemos enlaces oficiales verificados para este país. Los de arriba son trámites cubanos, que valen desde cualquier lugar.</p>
+
+    <div id="guia-llegada"></div>
 
     <div class="grid" id="tramites-grid"></div>
 
@@ -1839,7 +1858,48 @@ const remesas = [
    "https://www.moneygram.com/"],
 ];
 
+/* Guias de llegada: resumen gratis (la tienda pide el email) y guia completa
+ * de pago. Cada boton sale solo si su enlace esta relleno y es https; si un
+ * pais no tiene ningun enlace, el bloque no aparece. Para activarlos basta con
+ * pegar aqui los enlaces de compra de la tienda. Georgia no tiene ficha propia
+ * en Tramites, asi que su guia va en "Otro pais". */
+const GUIAS_LLEGADA = {
+  "España": [{ pais: "España",         resumen: "", completa: "" }],
+  "EEUU":   [{ pais: "Estados Unidos", resumen: "", completa: "" }],
+  "México": [{ pais: "México",         resumen: "", completa: "" }],
+  "Rusia":  [{ pais: "Rusia",          resumen: "", completa: "" }],
+  "Otro":   [{ pais: "Georgia",        resumen: "", completa: "" }],
+};
+const GUIAS_PRECIO = "7,90 €";
+const GUIAS_EDICION = "septiembre 2026";
+
+function enlaceGuia(url){
+  const u = enlaceSeguro(url);
+  return u && u.startsWith('https://') ? u : null;
+}
+
+function renderGuiaLlegada(country){
+  const caja = document.getElementById('guia-llegada');
+  if(!caja) return;
+  const guias = (GUIAS_LLEGADA[country] || []).filter(g => enlaceGuia(g.resumen) || enlaceGuia(g.completa));
+  caja.innerHTML = guias.map(g => {
+    const resumen = enlaceGuia(g.resumen), completa = enlaceGuia(g.completa);
+    return `
+    <div class="guia-llegada">
+      <div class="cabecera">Guía de Puentes · edición ${escapeHtml(GUIAS_EDICION)}</div>
+      <h3>Guía de llegada a ${escapeHtml(g.pais)}</h3>
+      <p>Qué hacer antes de viajar y los primeros días, las formas de quedarse legalmente, cómo buscar trabajo y las estafas más frecuentes, con los enlaces oficiales de cada trámite.</p>
+      <div class="botones">
+        ${resumen ? `<a class="btn-quick" href="${escapeHtml(resumen)}" target="_blank" rel="noopener">Resumen gratis (PDF)</a>` : ''}
+        ${completa ? `<a class="btn-quick btn-guia-pago" href="${escapeHtml(completa)}" target="_blank" rel="noopener">Guía completa · ${escapeHtml(GUIAS_PRECIO)}</a>` : ''}
+      </div>
+      <p class="nota">El pago y el envío del PDF los gestiona una tienda externa: recibes la guía en tu email al momento. El resumen gratis solo te pide el email.</p>
+    </div>`;
+  }).join('');
+}
+
 function renderTramites(country){
+  renderGuiaLlegada(country);
   const grid = document.getElementById('tramites-grid');
   grid.innerHTML = tramitesData[country].map(item => `
     <div class="card">
