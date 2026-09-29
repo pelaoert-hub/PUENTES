@@ -269,6 +269,28 @@ la próxima vez que abran la app.
 Si cambiás `sw.js`, subí la constante `VERSION` (`'v1'` → `'v2'`). Eso descarta
 todos los cachés viejos.
 
+## Guías de llegada: botones de venta preparados (2026-09-29)
+
+En **Trámites**, encima de las tarjetas de cada país, hay un bloque para la guía
+de llegada de ese país: un botón **«Resumen gratis (PDF)»** y otro **«Guía
+completa · 7,90 €»**. Georgia no tiene ficha propia, así que su guía sale en
+**«Otro país»**.
+
+- **Hoy no se ve nada.** Los enlaces de la tienda están vacíos y el bloque solo
+  aparece cuando un país tiene al menos un enlace.
+- **Para activarlo**, se pegan los enlaces de compra en `GUIAS_LLEGADA`
+  (`web/index.html`, justo encima de `renderTramites`). Cada botón sale solo si
+  su enlace está relleno y empieza por `https://`.
+- El precio y la edición están en `GUIAS_PRECIO` y `GUIAS_EDICION`. Si cambian
+  en la tienda, se cambian ahí.
+- El resumen gratis se entrega por la tienda a cambio del email; el PDF de pago
+  lo envía la tienda al cobrar.
+- Probado con Playwright a 390×840 y 1280×900, con el service worker bloqueado,
+  sin desborde horizontal y sin errores de JavaScript, rellenando enlaces de
+  prueba solo durante la prueba. El CDN de Supabase no es alcanzable desde este
+  entorno, así que el caso «CDN funcionando» no se pudo comprobar de verdad; el
+  bloque nuevo no depende de Supabase.
+
 ## Cinco mejoras de producto (2026-09-01)
 
 Cinco cambios que van juntos: la app deja de ser la misma para todo el mundo, y
