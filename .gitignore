@@ -47,3 +47,9 @@ FUNCION-AVISOS-copiar-esto.txt
 
 # Mapa local de CodeGraph
 .codegraph/
+
+# Resultados de las pruebas (Playwright)
+test-results/
+playwright-report/
+blob-report/
+.playwright/
