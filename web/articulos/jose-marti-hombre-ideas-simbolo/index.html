@@ -196,11 +196,30 @@
   if(!hayLibreriaSupabase) console.warn('[puentes] Supabase no cargó: el artículo se lee igual, sin la encuesta.');
   const db = hayLibreriaSupabase ? supabase.createClient(SB_URL, SB_KEY) : dbDeReserva();
 
+  /* localStorage puede fallar: navegacion privada, datos del sitio bloqueados
+   * o cuota agotada. Antes esto reventaba el bloque entero y la encuesta no
+   * aparecia. Ahora guardamos tambien en memoria: la encuesta funciona igual
+   * en esa visita, solo no recuerda el voto al recargar. */
+  const enMemoria = {};
+  function almacenLeer(clave){
+    try{
+      const v = localStorage.getItem(clave);
+      if(v !== null) return v;
+    }catch(_){}
+    return Object.prototype.hasOwnProperty.call(enMemoria, clave) ? enMemoria[clave] : null;
+  }
+  function almacenGuardar(clave, valor){
+    enMemoria[clave] = valor;
+    try{ localStorage.setItem(clave, valor); }catch(_){}
+  }
+
   function deviceId(){
-    let id = localStorage.getItem('puente_device_id');
+    let id = almacenLeer('puente_device_id');
     if(!id){
-      id = (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).slice(2));
-      localStorage.setItem('puente_device_id', id);
+      id = ((typeof crypto !== 'undefined' && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : Date.now() + '-' + Math.random().toString(36).slice(2));
+      almacenGuardar('puente_device_id', id);
     }
     return id;
   }
@@ -225,7 +244,7 @@
       .select('opcion, votos').eq('encuesta_id', encuesta.id);
     const conteo = {}; let total = 0;
     for(const r of (res || [])){ conteo[r.opcion] = r.votos; total += r.votos; }
-    const mio = localStorage.getItem('voto_' + encuesta.id);
+    const mio = almacenLeer('voto_' + encuesta.id);
 
     const cuerpo = mio === null
       ? '<div class="enc-ops">' + encuesta.opciones.map((o,i) =>
@@ -256,7 +275,7 @@
       alert('No se pudo registrar tu respuesta. Inténtalo de nuevo.');
       return;
     }
-    localStorage.setItem('voto_' + encuesta.id, String(opcion));
+    almacenGuardar('voto_' + encuesta.id, String(opcion));
     await pintar();
   }
 
