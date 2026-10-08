@@ -617,6 +617,32 @@
   .sello-puentes{   background:transparent; color:#FFE08F; border:1.5px solid var(--gold); }
   .sello-comunidad{ background:transparent; color:var(--cream); border:1.5px dashed var(--muted); }
 
+  /* ---------- El puente se dibuja y los sellos se estampan ----------
+     Solo con prefers-reduced-motion:no-preference. Sin animacion (o con
+     "reducir movimiento") el puente y los sellos se ven exactamente igual
+     que siempre: las animaciones solo parten de otro estado y terminan en
+     el de reposo. No se toca la geometria ni los colores de la marca.
+     - La calzada dorada se traza de izquierda a derecha (pathLength=1 en el
+       SVG, que no cambia la forma).
+     - Los puntos del camino de arriba viajan del punto coral al dorado: "uno
+       viene hacia el otro". 110 = 10 veces el patron de 2+9, asi que al
+       terminar quedan donde estaban.
+     - Solo la primera vez: al acabar, el script de abajo marca
+       html.puente-visto y al volver a la portada ya no se repite. */
+  @media (prefers-reduced-motion:no-preference){
+    :root:not(.puente-visto) .horizon .puente-calzada{ animation:puente-traza .8s cubic-bezier(0.16, 1, 0.3, 1) .1s both; }
+    :root:not(.puente-visto) .horizon .puente-viaje{ animation:puente-viaje .9s cubic-bezier(0.23, 1, 0.32, 1) .3s both; }
+    @keyframes puente-traza{ from{ stroke-dasharray:1; stroke-dashoffset:1; } to{ stroke-dasharray:1; stroke-dashoffset:0; } }
+    @keyframes puente-viaje{ from{ stroke-dashoffset:110; } to{ stroke-dashoffset:0; } }
+    /* Sello: al asomar en pantalla se "estampa" (de 1.08 a su tamano). Va
+       ligado al scroll mientras entra; ya dentro de la pantalla queda quieto
+       y con su aspecto de siempre. Se anima scale (no transform). */
+    @supports (animation-timeline:view()){
+      .sello{ animation:sello-estampa linear both; animation-timeline:view(); animation-range:entry 0% entry 100%; }
+      @keyframes sello-estampa{ from{ scale:1.08; } }
+    }
+  }
+
   .leyenda-sellos{
     display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
     gap:10px; margin:0 0 22px;
@@ -1002,10 +1028,10 @@
 
     <!-- pretil / calzada, siguiendo el perfil jorobado real del puente -->
     <path d="M155,108 C 300,92 420,87 560,87 C 700,87 820,92 965,108" fill="none" stroke="#0E2A2E" stroke-width="10" stroke-linecap="round"/>
-    <path d="M155,108 C 300,92 420,87 560,87 C 700,87 820,92 965,108" fill="none" stroke="#D9A441" stroke-width="2.2" stroke-linecap="round"/>
+    <path class="puente-calzada" pathLength="1" d="M155,108 C 300,92 420,87 560,87 C 700,87 820,92 965,108" fill="none" stroke="#D9A441" stroke-width="2.2" stroke-linecap="round"/>
 
     <!-- Los dos puntos: uno viene hacia el otro, por encima de todo el puente -->
-    <path d="M60 34 Q 560 -30 1060 34" fill="none" stroke="#F5EFE1" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/>
+    <path class="puente-viaje" d="M60 34 Q 560 -30 1060 34" fill="none" stroke="#F5EFE1" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/>
     <circle cx="60" cy="34" r="8" fill="#E2604B"/>
     <circle cx="1060" cy="34" r="8" fill="#D9A441"/>
 
@@ -1020,6 +1046,13 @@
     <line x1="260" y1="258" x2="860" y2="258" stroke="#D9A441" stroke-width="1" opacity="0.35"/>
   </svg>
 </div>
+<script>
+  /* El puente se dibuja una sola vez por visita: al terminar el viaje de los
+     puntos se marca html.puente-visto y el CSS deja de animarlo. */
+  document.querySelector('.horizon').addEventListener('animationend', function (e) {
+    if (e.animationName === 'puente-viaje') document.documentElement.classList.add('puente-visto');
+  });
+</script>
 
 <main>
 
