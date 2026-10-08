@@ -38,11 +38,11 @@ test.describe('cartel', () => {
     await expect(page.locator('.hero')).toBeVisible();
   });
 
-  test('¿Qué necesitas? se ve en la primera pantalla de la portada (movil)', async ({ page }) => {
+  test('el buscador «¿Qué necesitas hoy?» se ve en la primera pantalla (movil)', async ({ page }) => {
     const vista = page.viewportSize();
     test.skip(vista.width >= 640, 'solo se exige en movil');
     await page.goto('/');
-    const caja = await page.locator('#necesito-titulo').boundingBox();
-    expect(caja.y + caja.height, `titulo a ${Math.round(caja.y)}px`).toBeLessThanOrEqual(vista.height);
+    const caja = await page.locator('#buscar-q').boundingBox();
+    expect(caja.y + caja.height, `buscador a ${Math.round(caja.y)}px`).toBeLessThanOrEqual(vista.height);
   });
 });
