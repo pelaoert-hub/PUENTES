@@ -927,14 +927,30 @@
 <script>
   /* Logo 3D animado. Pesa ~200 KB la primera vez (Three.js + modelo), asi que
      solo se carga en pantallas grandes con raton, sin "ahorro de datos" y con
-     conexion rapida. En moviles y conexiones caras se queda el hero de siempre. */
+     conexion rapida. En moviles y conexiones caras se queda el hero de siempre.
+
+     Se usa (any-pointer: fine) y no (pointer: fine): los portatiles con
+     pantalla tactil dicen que su puntero "principal" es el dedo aunque tengan
+     raton o touchpad, y con (pointer: fine) se quedaban sin 3D.
+
+     Si no se activa, deja el motivo en la consola (console.info) para poder
+     diagnosticarlo sin tocar codigo.
+
+     ?3d=1 en la direccion se salta las comprobaciones de pantalla y conexion
+     (para probarlo en cualquier ordenador). La de WebGL2 NO se salta: sin
+     WebGL2 el 3D no puede funcionar. */
   (function () {
     var con = navigator.connection || {};
-    var lenta = con.saveData || /(^|-)(2g|3g)$/.test(con.effectiveType || '');
-    var grande = window.matchMedia('(min-width: 900px) and (pointer: fine)').matches;
-    var gl = false;
-    try { gl = !!document.createElement('canvas').getContext('webgl2'); } catch (e) {}
-    if (!grande || lenta || !gl) return;
+    var lenta = !!(con.saveData || /(^|-)(2g|3g)$/.test(con.effectiveType || ''));
+    var ancho = window.matchMedia('(min-width: 900px)').matches;
+    var raton = window.matchMedia('(any-pointer: fine)').matches;
+    var forzado = /(?:^|[?&])3d=1(?:&|$)/.test(location.search);
+    var webgl2 = false;
+    try { webgl2 = !!document.createElement('canvas').getContext('webgl2'); } catch (e) {}
+    if (!webgl2 || (!forzado && (!ancho || !raton || lenta))) {
+      console.info('[logo3d] no se activa:', { ancho: ancho, raton: raton, lenta: lenta, webgl2: webgl2, forzado: forzado });
+      return;
+    }
     var hero = document.querySelector('.hero');
     var canvas = document.getElementById('logo3d');
     hero.classList.add('con-3d');
