@@ -17,7 +17,8 @@
  * Al cambiar VERSION se descartan todos los caches viejos.
  */
 
-const VERSION = 'v6';
+// v7: iconos repintados (puente ladrillo); las URLs de iconos pasan a ?v=3
+const VERSION = 'v7';
 const SHELL_CACHE = `puentes-shell-${VERSION}`;
 const DATA_CACHE = `puentes-data-${VERSION}`;
 const STATIC_CACHE = `puentes-static-${VERSION}`;
@@ -33,10 +34,10 @@ const SHELL_ASSETS = [
   '/index.html',
   '/offline.html',
   '/manifest.webmanifest',
-  '/icons/icon-192.png?v=2',
-  '/icons/icon.svg?v=2',
-  '/icons/icon-maskable.svg?v=2',
-  '/icons/apple-touch-icon.png?v=2',
+  '/icons/icon-192.png?v=3',
+  '/icons/icon.svg?v=3',
+  '/icons/icon-maskable.svg?v=3',
+  '/icons/apple-touch-icon.png?v=3',
   '/1940-constitucion-trabajo.html',
   // El indice de respuestas rapidas: es la puerta de entrada desde Google y
   // pesa poco. Las guias sueltas no se precachean — se guardan al visitarlas,
@@ -215,8 +216,8 @@ self.addEventListener('push', event => {
   event.waitUntil(
     self.registration.showNotification(titulo, {
       body: cuerpo,
-      icon: '/icons/icon-192.png?v=2',
-      badge: '/icons/icon-192.png?v=2',
+      icon: '/icons/icon-192.png?v=3',
+      badge: '/icons/icon-192.png?v=3',
       lang: 'es',
       tag: datos.tag || 'encuentro',
       renotify: true,
