@@ -7,9 +7,10 @@
  * Se pausa fuera de pantalla o con la pestana oculta y respeta
  * "reducir movimiento" (queda quieta, en su mejor angulo).
  */
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+// Three.js propio, recortado a lo que se usa aqui (ver tools/three-vendor.mjs).
+// Si se usa algo nuevo de THREE, hay que anadirlo alli y regenerar el archivo.
+import * as THREE from '/vendor/three/three-logo.min.js';
+const { GLTFLoader, MeshoptDecoder } = THREE;
 
 export async function montarLogo3D(canvas, urlModelo) {
   const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;

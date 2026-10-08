@@ -20,6 +20,8 @@
   "devDependencies": {
     "@capacitor/cli": "^8.5.0",
     "@playwright/test": "^1.63.0",
+    "esbuild": "0.27.0",
+    "three": "0.186.1",
     "vercel": "^59.5.0"
   }
 }
