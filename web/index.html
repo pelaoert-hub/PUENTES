@@ -2246,11 +2246,13 @@ const cubaFeed = [
   {date:"jun 2026", cat:"Aduana", title:"Resolución 150/2026 (Ministerio de Finanzas y Precios)", desc:"Exonera del pago del impuesto aduanero a las importaciones de determinados productos, según las subpartidas arancelarias listadas en el anexo.", label:"aduana", source:"https://www.gacetaoficial.gob.cu/es/resolucion-150-de-2026-de-ministerio-de-finanzas-y-precios"},
 ];
 
+// Sin cifras de miembros: eran numeros escritos a mano, sin fuente. No volver a
+// ponerlas salvo que salgan de un recuento real.
 const community = [
-  {tag:"España", title:"Cubanos en Madrid", count:"3,214 miembros"},
-  {tag:"EEUU", title:"Cubanos en Miami / Florida", count:"8,902 miembros"},
-  {tag:"General", title:"Trámites y papeleo — dudas", count:"5,110 miembros"},
-  {tag:"General", title:"Recién llegados", count:"2,340 miembros"},
+  {tag:"España", title:"Cubanos en Madrid"},
+  {tag:"EEUU", title:"Cubanos en Miami / Florida"},
+  {tag:"General", title:"Trámites y papeleo — dudas"},
+  {tag:"General", title:"Recién llegados"},
 ];
 
 // Cada fila: [nombre, tipo, comision, tiempo, url].
@@ -2566,7 +2568,6 @@ function renderCommunity(){
     <div class="card">
       <span class="tag">${item.tag}</span>
       <h3>${item.title}</h3>
-      <p class="count">${item.count}</p>
     </div>
   `).join('');
 }
