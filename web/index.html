@@ -609,7 +609,15 @@
   .necesito-card:hover, .necesito-card:focus-visible{
     background:var(--surface-hi); border-color:var(--gold); transform:translateY(-2px);
   }
-  .necesito-card .icono{ font-size:26px; line-height:1; }
+  .necesito-card .icono{ font-size:26px; line-height:1; color:var(--cream); }
+  /* Iconos de linea (sprite Lucide, arriba del header). 1.75 de trazo: el
+     texto de al lado va en peso normal. */
+  .ico{ width:1em; height:1em; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:1.75;
+    stroke-linecap:round; stroke-linejoin:round; vertical-align:-0.125em; }
+  .explore-btn .ico{ width:16px; height:16px; }
+  .explore-btn .chevron .ico{ width:12px; height:12px; stroke-width:2.25; }
+  .explore-btn .chevron{ display:inline-flex; }
+  #btn-instalar .ico{ width:16px; height:16px; }
   .necesito-card .que{
     font-family:Georgia,'Times New Roman',serif; font-size:17.5px;
     color:#FFFFFF; line-height:1.25;
@@ -948,6 +956,21 @@
 </script>
 <div id="app-shell" style="background-color:#0D5257 !important; min-height:100vh; color:var(--cream);">
 
+<!-- Iconos de linea: copiados de Lucide v0.460.0 (https://lucide.dev),
+     licencia ISC (c) Lucide Contributors. Se usan con <svg class="ico"><use href="#i-..."/></svg>;
+     el trazo lo pone el CSS (.ico) con currentColor. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-papeles" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-dinero" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol>
+  <symbol id="i-trabajo" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></symbol>
+  <symbol id="i-gente" viewBox="0 0 24 24"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></symbol>
+  <symbol id="i-viaje" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol>
+  <symbol id="i-leyes" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
+  <symbol id="i-negocios" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 12h16M4 6h16M4 18h16"/></symbol>
+  <symbol id="i-instalar" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-abajo" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+</svg>
 <header>
   <div class="nav-wrap">
     <div class="logo">
@@ -985,7 +1008,7 @@
       <button data-section="empleos">Empleos</button>
     </nav>
     <div class="explore-wrap">
-      <button id="explore-toggle" class="explore-btn" type="button" aria-expanded="false" aria-controls="explore-panel" aria-label="Explorar todo">☰ Explorar<span class="explore-todo"> todo</span> <span class="chevron" aria-hidden="true">▾</span></button>
+      <button id="explore-toggle" class="explore-btn" type="button" aria-expanded="false" aria-controls="explore-panel" aria-label="Explorar todo"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg>Explorar<span class="explore-todo"> todo</span><span class="chevron" aria-hidden="true"><svg class="ico"><use href="#i-abajo"/></svg></span></button>
       <div id="explore-panel" class="explore-panel">
         <div class="explore-col">
           <span class="explore-heading">Servicios</span>
@@ -998,7 +1021,7 @@
           <button class="explore-link" data-section="negocios">Negocios cubanos</button>
           <button class="explore-link" data-section="empleos">Ofertas de trabajo</button>
           <a class="explore-link" href="/guias/">Respuestas rápidas<span class="sub">Las dudas que más se repiten, contestadas</span></a>
-          <button id="btn-instalar" type="button" title="Instalar Puentes en este dispositivo">&#8595; Instalar app</button>
+          <button id="btn-instalar" type="button" title="Instalar Puentes en este dispositivo"><svg class="ico" aria-hidden="true"><use href="#i-instalar"/></svg>Instalar app</button>
           <span id="ancla-instalar" hidden></span>
         </div>
         <div class="explore-col">
@@ -1201,10 +1224,10 @@
     </div>
 
     <div class="country-row" id="country-row">
-      <button class="chip active" data-country="España">🇪🇸 España</button>
-      <button class="chip" data-country="EEUU">🇺🇸 Estados Unidos</button>
-      <button class="chip" data-country="México">🇲🇽 México</button>
-      <button class="chip" data-country="Rusia">🇷🇺 Rusia</button>
+      <button class="chip active" data-country="España">España</button>
+      <button class="chip" data-country="EEUU">Estados Unidos</button>
+      <button class="chip" data-country="México">México</button>
+      <button class="chip" data-country="Rusia">Rusia</button>
       <button class="chip" data-country="Otro">🌍 Otro país</button>
     </div>
 
@@ -1803,12 +1826,12 @@ const PERFIL_KEY = 'puentes_perfil';
 const PAISES_CON_FICHA = ['España', 'EEUU', 'México', 'Rusia'];
 
 const PAISES_PERFIL = [
-  { id:'España', txt:'🇪🇸 España'  },
-  { id:'EEUU',   txt:'🇺🇸 Estados Unidos' },
-  { id:'México', txt:'🇲🇽 México'  },
-  { id:'Rusia',  txt:'🇷🇺 Rusia'   },
+  { id:'España', txt:'España'  },
+  { id:'EEUU',   txt:'Estados Unidos' },
+  { id:'México', txt:'México'  },
+  { id:'Rusia',  txt:'Rusia'   },
   { id:'Otro',   txt:'🌍 Otro país' },
-  { id:'Cuba',   txt:'🇨🇺 Sigo en Cuba' },
+  { id:'Cuba',   txt:'Sigo en Cuba' },
 ];
 
 function leerPerfil(){
@@ -3344,26 +3367,26 @@ function tarjetasNecesito(){
 
   const t = {
     tramites: {
-      icono:'📄', que:'Arreglar mis papeles',
+      icono:'papeles', que:'Arreglar mis papeles',
       detalle: enCuba
         ? 'Residencia, permisos y ayudas en el país al que vayas.'
         : `Residencia, sanidad y ayudas${pais === 'Otro' ? '' : ' en ' + (pais === 'EEUU' ? 'Estados Unidos' : pais)}, con el enlace oficial.`,
       ir: () => irASeccion('tramites', () => fijarPaisTramites(pais)),
     },
     remesas: {
-      icono:'💸', que: enCuba ? 'Que me manden dinero' : 'Enviar dinero o recargar',
+      icono:'dinero', que: enCuba ? 'Que me manden dinero' : 'Enviar dinero o recargar',
       detalle:'Qué cobra cada proveedor y cuánto tarda, comprobado a mano.',
       ir: () => irASeccion('remesas'),
     },
     empleos: {
-      icono:'💼', que:'Buscar trabajo',
+      icono:'trabajo', que:'Buscar trabajo',
       detalle: ciudad ? `Ofertas en ${ciudad} y en el resto.` : 'Ofertas publicadas por la comunidad, con enlace al empleador.',
       ir: () => irASeccion('empleos', () => {
         if(enCuba) fijarFiltroEmpleos('cuba');
       }),
     },
     comunidad: {
-      icono:'🤝', que:'Conocer cubanos cerca',
+      icono:'gente', que:'Conocer cubanos cerca',
       detalle: ciudad ? `Encuentros y anuncios cerca de ${ciudad}.` : 'Encuentros, anuncios y grupos por ciudad.',
       ir: () => irASeccion('comunidad', () => {
         abrirComunidad('encuentros');
@@ -3375,17 +3398,17 @@ function tarjetasNecesito(){
       }),
     },
     salir: {
-      icono:'✈️', que:'Prepararme para salir de Cuba',
+      icono:'viaje', que:'Prepararme para salir de Cuba',
       detalle:'Qué dice hoy la ley migratoria cubana y qué te espera al llegar.',
       ir: () => irASeccion('antes-salir'),
     },
     cuba: {
-      icono:'⚖️', que:'Saber qué cambió en Cuba',
+      icono:'leyes', que:'Saber qué cambió en Cuba',
       detalle:'Aduana, migración y precios, con la Gaceta Oficial delante.',
       ir: () => irASeccion('cuba'),
     },
     negocios: {
-      icono:'🛒', que:'Negocios de cubanos',
+      icono:'negocios', que:'Negocios de cubanos',
       detalle:'Comida, transporte, reparaciones y más, dentro y fuera de la isla.',
       ir: () => irASeccion('negocios'),
     },
@@ -3429,7 +3452,7 @@ function renderNecesito(){
   el.innerHTML = tarjetas.map((c,i) => `
     <button type="button" class="necesito-card${c.destacada ? ' destacada' : ''}" data-i="${i}">
       ${c.destacada && leerPerfil() ? '<span class="para-ti">para ti</span>' : ''}
-      <span class="icono" aria-hidden="true">${c.icono}</span>
+      <span class="icono" aria-hidden="true"><svg class="ico"><use href="#i-${c.icono}"/></svg></span>
       <span class="que">${escapeHtml(c.que)}</span>
       <span class="detalle">${escapeHtml(c.detalle)}</span>
     </button>`).join('');
