@@ -180,12 +180,22 @@
     max-height:190px;margin:14px auto 0;padding:0 24px;}
   .horizon svg{width:100%;height:100%;display:block;}
 
+  /* El cartel (hero + puente) es la bienvenida: solo en la portada. En las
+     demas secciones se va directo al contenido. body[data-seccion] lo pone
+     activarSeccion(); sin el atributo, el cartel se ve como siempre. */
+  body[data-seccion]:not([data-seccion="portada"]) .hero,
+  body[data-seccion]:not([data-seccion="portada"]) .horizon{display:none;}
+  /* Sin cartel, un poco de aire entre la cabecera y el titulo */
+  body[data-seccion]:not([data-seccion="portada"]) main{padding-top:28px;}
+
   /* ---- Sections generic ---- */
   main{max-width:1120px;margin:0 auto;padding:12px 24px 100px;}
   section{display:none;}
   section.active{display:block;}
   .section-head{margin-bottom:28px;}
-  .section-head h2{font-size:1.7rem;margin-bottom:8px;}
+  /* El titulo de cada seccion es su h1: el del cartel solo existe en la
+     portada. Mismo texto y mismo aspecto que cuando era h2. */
+  .section-head h1, .section-head h2{font-size:1.7rem;margin-bottom:8px;}
   .section-head p{color:var(--cream-dim);max-width:640px;font-size:0.97rem;}
 
   .updated-badge{
@@ -475,7 +485,7 @@
     .hero h1{font-size:27px;line-height:1.2;}
     .hero .sub{font-size:14.5px;line-height:1.5;}
     .section-head{margin-bottom:14px;}
-    .section-head h2{font-size:22px;}
+    .section-head h1, .section-head h2{font-size:22px;}
   }
 
   /* ===================================================================
@@ -660,6 +670,13 @@
     .necesito-head h2{ font-size:22px; }
     .perfil-caja{ padding:14px; }
     .perfil-caja .perfil-quien{ font-size:17px; }
+    /* Primera visita en movil: el formulario "¿Donde estas?" mide ~560px y
+       dejaba "¿Que necesitas?" fuera de la primera pantalla. Se muestra justo
+       debajo de las tarjetas; con el perfil ya guardado (caja de una linea)
+       o al tocar "Cambiar", vuelve a su sitio de arriba. */
+    #portada.active:has(.perfil-primera){ display:flex; flex-direction:column; }
+    #portada:has(.perfil-primera) .necesito-head,
+    #portada:has(.perfil-primera) .necesito-grid{ order:-1; }
   }
 </style>
 
@@ -781,6 +798,34 @@
 </style>
 </head>
 <body>
+<script>
+  /* Cambio de seccion: UNA sola funcion para el menu, el panel Explorar, la
+     portada por necesidad y la entrada por enlace (#remesas). Marca la
+     seccion en <body data-seccion>, y con eso el CSS decide si se ve el
+     cartel (solo en la portada). Va aqui arriba para que al entrar por un
+     enlace directo el cartel no llegue a pintarse. */
+  window.SECCIONES_PUENTES = ['portada', 'tramites', 'antes-salir', 'cuba', 'comunidad', 'remesas', 'negocios', 'empleos'];
+  window.activarSeccion = function (id) {
+    if (window.SECCIONES_PUENTES.indexOf(id) === -1) return false;
+    document.body.dataset.seccion = id;
+    var destino = document.getElementById(id);
+    if (!destino) return true; // aun no se ha leido el HTML de abajo
+    document.querySelectorAll('main section').forEach(function (s) { s.classList.remove('active'); });
+    destino.classList.add('active');
+    document.querySelectorAll('#nav button').forEach(function (b) {
+      var es = b.dataset.section === id;
+      b.classList.toggle('active', es);
+      if (es) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+      // En movil el menu se desliza: que la seccion activa quede a la vista
+      if (es && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    });
+    return true;
+  };
+  (function () {
+    var h = location.hash.slice(1);
+    document.body.dataset.seccion = window.SECCIONES_PUENTES.indexOf(h) !== -1 ? h : 'portada';
+  })();
+</script>
 <div id="app-shell" style="background-color:#0D5257 !important; min-height:100vh; color:var(--cream);">
 
 <header>
@@ -992,7 +1037,7 @@
 
   <section id="tramites">
     <div class="section-head">
-      <h2>Trámites y ayudas por país</h2>
+      <h1>Trámites y ayudas por país</h1>
       <p>Residencia, sanidad, empleo, vivienda y prestaciones sociales — organizado por el país donde vives.</p>
       <span class="updated-badge"><span class="dot"></span>revisado semanalmente por el equipo editorial</span>
     </div>
@@ -1055,7 +1100,7 @@
   <!-- ===== ANTES DE SALIR DE CUBA ===== -->
   <section id="antes-salir">
     <div class="section-head">
-      <h2>Antes de salir de Cuba</h2>
+      <h1>Antes de salir de Cuba</h1>
       <p>Para quien todavía está en la isla y se está preparando: el marco legal migratorio actual y qué esperar al llegar a otro país. Cuando decidas destino, revisa la sección "Trámites y ayudas" de ese país.</p>
       <span class="updated-badge"><span class="dot"></span>basado en la Gaceta Oficial de Cuba</span>
     </div>
@@ -1169,7 +1214,7 @@
   <!-- ===== CAMBIOS EN CUBA ===== -->
   <section id="cuba">
     <div class="section-head">
-      <h2>Cambios legislativos y regulatorios en Cuba</h2>
+      <h1>Cambios legislativos y regulatorios en Cuba</h1>
       <p>Un registro cronológico de modificaciones a leyes, aduana, migración y economía que afectan a quienes viven fuera.</p>
       <span class="updated-badge"><span class="dot"></span>monitoreo continuo de Gaceta Oficial y fuentes de prensa</span>
     </div>
@@ -1200,7 +1245,7 @@
   <!-- ===== COMUNIDAD ===== -->
   <section id="comunidad">
     <div class="section-head">
-      <h2>Comunidad</h2>
+      <h1>Comunidad</h1>
       <p>Publica anuncios, organiza encuentros y encuentra grupos por país o tema. Lo que publiques aquí lo ve toda la comunidad que use esta app.</p>
     </div>
 
@@ -1281,7 +1326,7 @@
   <!-- ===== REMESAS ===== -->
   <section id="remesas">
     <div class="section-head">
-      <h2>Remesas y recargas</h2>
+      <h1>Remesas y recargas</h1>
       <p>Directorio comparativo de servicios para enviar dinero, recargas y paquetes de datos a Cuba. Puentes no procesa pagos — te dirige a cada proveedor.</p>
     </div>
     <div class="disclaimer">
@@ -1390,7 +1435,7 @@
   <!-- ===== EMPLEOS ===== -->
   <section id="empleos">
     <div class="section-head">
-      <h2>Ofertas de trabajo</h2>
+      <h1>Ofertas de trabajo</h1>
       <p>Trabajos publicados por la comunidad, dentro y fuera de Cuba. Cada oferta lleva el enlace directo al empleador para que postules sin intermediarios.</p>
     </div>
 
@@ -1474,7 +1519,7 @@
   <!-- ===== NEGOCIOS ===== -->
   <section id="negocios">
     <div class="section-head">
-      <h2>Negocios cubanos</h2>
+      <h1>Negocios cubanos</h1>
       <p>Un directorio de negocios de cubanos, dentro y fuera de la isla. Si tienes un emprendimiento, publícalo gratis y que lo encuentre la comunidad.</p>
     </div>
 
@@ -2843,10 +2888,7 @@ renderEventos();
 document.getElementById('nav').addEventListener('click', e => {
   const btn = e.target.closest('button');
   if(!btn) return;
-  document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
-  document.getElementById(btn.dataset.section).classList.add('active');
+  activarSeccion(btn.dataset.section);
 });
 
 // country chips
@@ -3120,12 +3162,7 @@ function irASeccion(seccion, despues){
   if(typeof window.PuentesIrA === 'function'){
     window.PuentesIrA(seccion);
   }else{
-    document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
-    const nb = document.querySelector(`#nav button[data-section="${seccion}"]`);
-    if(nb) nb.classList.add('active');
-    document.querySelectorAll('main section').forEach(x => x.classList.remove('active'));
-    const dest = document.getElementById(seccion);
-    if(dest) dest.classList.add('active');
+    activarSeccion(seccion);
     if(location.hash.slice(1) !== seccion) history.pushState({seccion}, '', '#' + seccion);
   }
   if(typeof despues === 'function'){
@@ -3307,7 +3344,7 @@ function renderPerfilForm(actual){
   const paisSel = actual ? actual.pais : '';
 
   caja.innerHTML = `
-    <div class="perfil-caja perfil-form">
+    <div class="perfil-caja perfil-form${actual ? '' : ' perfil-primera'}">
       <span class="paso">Un paso, y la app se adapta a ti</span>
       <h3>¿Dónde estás?</h3>
       <p class="ayuda">Con esto ordenamos la portada, abrimos Trámites en tu país y te señalamos lo de tu ciudad. Se guarda en este teléfono y no hace falta cuenta. <strong>Solo sale de aquí si activas los avisos</strong>: entonces guardamos tu ciudad junto a tu suscripción, para que el aviso sepa qué te queda cerca. Puedes borrarlo todo cuando quieras.</p>
@@ -3584,12 +3621,7 @@ exploreToggle.addEventListener('click', e => {
 
 document.querySelectorAll('.explore-panel .explore-link[data-section]').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
-    const navBtn = document.querySelector(`#nav button[data-section="${btn.dataset.section}"]`);
-    if(navBtn) navBtn.classList.add('active');
-    document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(btn.dataset.section);
-    if(target) target.classList.add('active');
+    activarSeccion(btn.dataset.section);
     explorePanel.classList.remove('open');
     exploreToggle.classList.remove('open');
     exploreToggle.setAttribute('aria-expanded', 'false');
@@ -3636,7 +3668,7 @@ document.addEventListener('click', e => {
 (() => {
   'use strict';
 
-  const SECCIONES = ['portada', 'tramites', 'antes-salir', 'cuba', 'comunidad', 'remesas', 'negocios', 'empleos'];
+  const SECCIONES = window.SECCIONES_PUENTES;
 
   /* ---------- 1. Navegacion por URL ----------
      El sitio original cambiaba de seccion solo con una clase CSS: no se podia
@@ -3645,16 +3677,8 @@ document.addEventListener('click', e => {
      sin tocar el codigo que ya existia. */
 
   function mostrarSeccion(id, guardarEnHistorial) {
-    if (!SECCIONES.includes(id)) return false;
-    const destino = document.getElementById(id);
-    if (!destino) return false;
-
-    document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
-    const botonNav = document.querySelector(`#nav button[data-section="${id}"]`);
-    if (botonNav) botonNav.classList.add('active');
-
-    document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
-    destino.classList.add('active');
+    if (!SECCIONES.includes(id) || !document.getElementById(id)) return false;
+    window.activarSeccion(id);
 
     if (guardarEnHistorial && location.hash.slice(1) !== id) {
       history.pushState({ seccion: id }, '', '#' + id);
@@ -3680,7 +3704,10 @@ document.addEventListener('click', e => {
   });
 
   // Al abrir con un enlace directo (o desde un acceso directo del manifest).
-  if (location.hash) mostrarSeccion(location.hash.slice(1), false);
+  // Un hash desconocido (#foo) deja la portada, y el cartel con ella.
+  if (!(location.hash && mostrarSeccion(location.hash.slice(1), false))) {
+    window.activarSeccion(document.querySelector('main section.active')?.id || 'portada');
+  }
 
   /* ---------- 2. Aviso de sin conexion ----------
      `navigator.onLine` solo dice si hay *alguna* interfaz de red, no si se

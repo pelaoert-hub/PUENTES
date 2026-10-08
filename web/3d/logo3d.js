@@ -71,6 +71,10 @@ export async function montarLogo3D(canvas, urlModelo) {
     renderer.setSize(w, h, false);
     camara.aspect = w / h;
     camara.updateProjectionMatrix();
+    // Sin animacion (movimiento reducido) nadie vuelve a dibujar: al cambiar
+    // de tamano, o al reaparecer el cartel tras volver a la portada, se
+    // redibuja aqui el cuadro fijo.
+    if (quieto) renderer.render(escena, camara);
   }
   new ResizeObserver(ajustarTamano).observe(canvas);
   ajustarTamano();
