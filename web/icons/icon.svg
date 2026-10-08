@@ -18,9 +18,9 @@
       <polygon points="20,0 20,24 30,12" fill="#CC1126"/>
     </g>
     <!-- Puente del Yayabo, estilizado -->
-    <rect x="13" y="24" width="2.6" height="7" fill="#0E2A2E"/>
-    <rect x="24.4" y="24" width="2.6" height="7" fill="#0E2A2E"/>
-    <rect x="4" y="21" width="32" height="3" rx="1" fill="#0E2A2E"/>
+    <rect x="13" y="24" width="2.6" height="7" fill="#B5966A"/>
+    <rect x="24.4" y="24" width="2.6" height="7" fill="#B5966A"/>
+    <rect x="4" y="21" width="32" height="3" rx="1" fill="#B5966A"/>
     <path d="M10 20 C 16 16.5, 24 16.5, 30 20" stroke="#F5EFE1" stroke-width="1.1" stroke-dasharray="1.4 2.4" stroke-linecap="round" fill="none"/>
     <circle cx="9" cy="20" r="2.6" fill="#E2604B"/>
     <circle cx="31" cy="20" r="2.6" fill="#D9A441"/>
