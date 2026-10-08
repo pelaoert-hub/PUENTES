@@ -327,6 +327,39 @@
     @keyframes cartel-entra{from{opacity:0;translate:0 16px;}}
   }
 
+  /* Linea de tiempo bajo los cinco arcos del Yayabo. Se lee entera sin
+     animacion; donde el navegador entiende animation-timeline, los arcos se
+     trazan y las fechas suben al bajar (CSS puro, sin JS). */
+  .linea-tiempo{margin:8px 0 40px;padding-top:34px;border-top:1px solid rgba(255,248,236,.18);}
+  .linea-tiempo h2{font-size:clamp(1.6rem,3vw,2.3rem);margin:0;}
+  .linea-tiempo .intro{margin:8px 0 0;color:var(--muted);}
+  .linea-arcos{display:block;width:100%;height:auto;margin-top:26px;}
+  .linea-arcos .arco{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round;}
+  .linea-arcos .agua{stroke:rgba(255,248,236,.22);stroke-width:1;}
+  .linea-pista{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 24px;}
+  .linea-pista li{display:flex;flex-direction:column;gap:6px;text-align:center;padding:12px 6px 4px;}
+  .linea-anio{font-family:var(--display);font-size:2.3rem;font-weight:600;letter-spacing:-0.02em;color:#FFFFFF;
+    font-variant-numeric:lining-nums;line-height:1.05;}
+  .linea-hecho{font-size:.95rem;line-height:1.45;color:var(--cream);}
+  .linea-art{font-family:var(--display);font-style:italic;font-size:.92rem;line-height:1.35;color:var(--cream-dim);
+    text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;}
+  .linea-art:hover, .linea-art:focus-visible{color:#FFFFFF;}
+  .linea-fuente{font-size:.8rem;line-height:1.4;color:var(--muted);}
+  .linea-fuente a{color:var(--coral-txt);text-underline-offset:2px;overflow-wrap:anywhere;}
+  @media (max-width:899px){
+    .linea-arcos{display:none;}
+    .linea-pista{grid-template-columns:1fr;gap:4px;border-left:2px solid var(--gold);margin:22px 0 0 6px;}
+    .linea-pista li{text-align:left;padding:8px 0 12px 16px;}
+    .linea-anio{font-size:1.7rem;}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    @supports (animation-timeline:view()){
+      .linea-arcos .arco{stroke-dasharray:1;animation:linea-traza linear both;animation-timeline:view();animation-range:entry 10% cover 40%;}
+      @keyframes linea-traza{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}
+      .linea-pista li{animation:entrar-al-bajar linear both;animation-timeline:view();animation-range:entry 0% entry 40%;}
+    }
+  }
+
   /* horizon signature element — puente del Yayabo sobre las dos banderas */
   /* El puente es la marca, pero no puede comerse la primera pantalla: se le
      pone techo de altura y se centra dentro. */
@@ -1337,6 +1370,51 @@
       <p id="necesito-sub">Toca lo que buscas y te llevamos directo. Nada de menús.</p>
     </div>
     <div class="necesito-grid" id="necesito-grid"></div>
+
+    <!-- Linea de tiempo bajo los cinco arcos del Yayabo. Solo fechas que estan
+         escritas en un articulo publicado de Puentes Y que ese articulo
+         respalda con una fuente citada. 1868 y 1902 salen en "Cuba: una nacion
+         que nacio mucho antes de 1959", pero ese articulo no cita fuentes:
+         por eso no estan. Va en un div y no en <section>: el enrutador trata
+         cada "main section" como una seccion de la app. -->
+    <div class="linea-tiempo" role="region" aria-labelledby="linea-titulo">
+      <h2 id="linea-titulo">Cuatro fechas para entender de dónde venimos</h2>
+      <p class="intro">Cada una lleva a un artículo de Puentes y a la fuente que ese artículo cita.</p>
+      <svg class="linea-arcos" viewBox="0 0 1200 110" aria-hidden="true" focusable="false">
+        <path class="agua" d="M40 100H1160"/>
+        <path class="arco" pathLength="1" d="M100 100 C100 55, 300 55, 300 100 C300 31, 500 31, 500 100 C500 15, 700 15, 700 100 C700 31, 900 31, 900 100 C900 55, 1100 55, 1100 100"/>
+        <circle cx="100" cy="100" r="7" fill="#FF6F52"/>
+        <circle cx="300" cy="100" r="4" fill="#FFF8EC"/><circle cx="500" cy="100" r="4" fill="#FFF8EC"/>
+        <circle cx="700" cy="100" r="4" fill="#FFF8EC"/><circle cx="900" cy="100" r="4" fill="#FFF8EC"/>
+        <circle cx="1100" cy="100" r="7" fill="#FFC24B"/>
+      </svg>
+      <ol class="linea-pista">
+        <li>
+          <span class="linea-anio">1895</span>
+          <span class="linea-hecho">Muere José Martí, escritor, periodista y organizador independentista.</span>
+          <a class="linea-art" href="/articulos/jose-marti-hombre-ideas-simbolo">José Martí: el hombre, sus ideas y el símbolo nacional</a>
+          <span class="linea-fuente">Fuente: <a href="https://www.cervantesvirtual.com/portales/archivo_historico_compania_de_jesus/obras/autor/marti-jose-1853-1895-274" target="_blank" rel="noopener">Biblioteca Virtual Miguel de Cervantes, obras de José Martí</a></span>
+        </li>
+        <li>
+          <span class="linea-anio">1940</span>
+          <span class="linea-hecho">Entra en vigor, el 10 de octubre, una Constitución que pone el trabajo por escrito.</span>
+          <a class="linea-art" href="/1940-constitucion-trabajo.html">1940: el año en que Cuba puso el trabajo en la Constitución</a>
+          <span class="linea-fuente">Fuente: <a href="https://www.dloc.com/AA00097170/00001/citation" target="_blank" rel="noopener">Gaceta Oficial n.º 464, 8 de julio de 1940 (Digital Library of the Caribbean)</a></span>
+        </li>
+        <li>
+          <span class="linea-anio">2019</span>
+          <span class="linea-hecho">Se proclama la Constitución vigente, el 10 de abril, tras el referendo del 24 de febrero.</span>
+          <a class="linea-art" href="/articulos/constitucion-cuba-1940-2019">De 1940 a 2019: ¿qué cambió en la Constitución de Cuba?</a>
+          <span class="linea-fuente">Fuente: <a href="https://www.constituteproject.org/constitution/Cuba_2019?lang=es" target="_blank" rel="noopener">Constitute Project, Constitución de Cuba de 2019</a></span>
+        </li>
+        <li>
+          <span class="linea-anio">2025</span>
+          <span class="linea-hecho">La UNESCO inscribe la práctica del son cubano como patrimonio cultural inmaterial.</span>
+          <a class="linea-art" href="/articulos/el-son-cubano">El son cubano: una tradición que cruza generaciones y fronteras</a>
+          <span class="linea-fuente">Fuente: <a href="https://ich.unesco.org/es/RL/la-practica-del-son-cubano-02299" target="_blank" rel="noopener">UNESCO, la práctica del son cubano</a></span>
+        </li>
+      </ol>
+    </div>
 
     <!-- 2. Quien eres y donde estas. Se guarda en este telefono, no se envia
             a ningun servidor. Si no lo rellenas, la portada funciona igual. -->
