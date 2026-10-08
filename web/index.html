@@ -228,20 +228,137 @@
   /* La cabecera se apretó (era 64px arriba y 40 abajo): con la portada por
      necesidad, lo primero que tiene que verse sin bajar es "¿Qué necesitas?",
      no el cartel. La marca sigue estando, ocupando menos. */
-  .hero{max-width:1120px;margin:0 auto;padding:34px 24px 22px;}
-  .hero .eyebrow{
-    color:var(--gold);font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;
-    font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;
-    display:block;margin-bottom:14px;
-  }
-  .hero h1{font-size:clamp(2rem,4.2vw,2.9rem);max-width:780px;line-height:1.08;}
-  .hero p.sub{color:var(--cream-dim);max-width:560px;margin-top:18px;font-size:1.05rem;}
+  /* Cartel de la portada: "¿Que necesitas hoy?". El buscador es lo primero
+     (tambien en movil) y al lado, lo verificado contado desde los datos.
+     Todo es HTML y CSS del suelo: funciona igual en Cuba, sin librerias. */
+  .hero{position:relative;isolation:isolate;overflow:hidden;
+    background:
+      radial-gradient(70% 60% at 85% 10%, rgba(255,194,75,.14), transparent 60%),
+      radial-gradient(60% 70% at 0% 100%, rgba(42,160,168,.32), transparent 65%),
+      linear-gradient(180deg, #0F5A60, var(--bg));}
+  .hero-dentro{max-width:1180px;margin:0 auto;padding:64px 24px 52px;
+    display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:center;}
+  .hero h1{font-size:clamp(2.5rem,5vw,4.4rem);line-height:1.02;letter-spacing:-0.03em;text-wrap:balance;color:#FFFFFF;}
+  .hero p.sub{color:var(--cream-dim);max-width:44ch;margin-top:18px;font-size:1.12rem;line-height:1.55;}
+
+  .buscador{position:relative;margin-top:30px;max-width:620px;}
+  .buscador label{display:block;font-size:.92rem;font-weight:600;color:var(--cream);margin-bottom:8px;}
+  .buscador-caja{display:flex;align-items:center;gap:12px;background:var(--cream);border-radius:999px;
+    padding:6px 6px 6px 22px;box-shadow:0 18px 50px rgba(4,30,33,.45);}
+  .buscador-caja:focus-within{box-shadow:0 0 0 3px var(--gold), 0 18px 50px rgba(4,30,33,.45);}
+  .buscador-caja .ico{width:20px;height:20px;color:var(--ink);flex-shrink:0;}
+  .buscador-caja input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:1.12rem;
+    color:var(--ink);padding:12px 0;}
+  .buscador-caja input::placeholder{color:#4D6E71;}
+  .buscador-caja input::-webkit-search-cancel-button{display:none;}
+  .buscador-caja button{border:0;border-radius:999px;background:var(--ink);color:var(--cream);font:inherit;font-weight:700;
+    padding:12px 20px;cursor:pointer;}
+  .atajos{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .atajos button{background:rgba(255,248,236,.08);border:1px solid rgba(255,248,236,.28);color:var(--cream);
+    border-radius:999px;padding:7px 14px;font:inherit;font-size:.9rem;cursor:pointer;
+    transition:background-color .15s ease, border-color .15s ease;}
+  .atajos button:hover, .atajos button:focus-visible{background:rgba(255,248,236,.16);border-color:var(--gold);}
+  .buscador-res{list-style:none;margin:10px 0 0;padding:8px;background:var(--cream);border-radius:16px;
+    box-shadow:0 24px 60px rgba(4,30,33,.5);position:absolute;left:0;right:0;z-index:20;max-height:60vh;overflow-y:auto;}
+  .buscador-res[hidden]{display:none;}
+  .buscador-res li[role="option"]{display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:10px;
+    color:var(--ink);cursor:pointer;}
+  .buscador-res li[role="option"]:hover, .buscador-res li[aria-selected="true"]{background:#F1E6CF;}
+  .buscador-res .tipo{font-size:.75rem;font-weight:700;color:#8A3B2A;}
+  .buscador-res .tit{font-weight:600;line-height:1.3;}
+  .buscador-res .vacio{padding:12px 14px;color:#3A5A5D;}
+  .solo-lector{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+  /* Contador: lo verificado, contado al abrir desde los datos de cada seccion */
+  .cifras{list-style:none;margin:0;padding:26px 28px;display:grid;gap:22px;border-radius:20px;
+    background:rgba(10,52,56,.55);border:1px solid rgba(255,248,236,.14);}
+  .cifras li{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:baseline;}
+  .cifras-num{font-family:var(--display);font-size:3.2rem;font-weight:600;line-height:1;color:var(--gold);
+    font-variant-numeric:tabular-nums lining-nums;min-width:2ch;text-align:right;}
+  .cifras-que{font-size:1rem;line-height:1.4;color:var(--cream);}
+  .cifras .sello{grid-column:2;justify-self:start;}
+  .cifras-nota{font-size:.8rem;color:var(--muted);margin:10px 0 0;line-height:1.45;}
+
   /* Logo 3D: solo se activa en pantallas grandes con buena conexion (ver el
-     script tras el hero). Sin la clase .con-3d el hero queda como siempre. */
+     script tras el cartel). Va encima del contador; sin .con-3d no existe. */
   .hero-3d{display:none;}
-  .hero.con-3d{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:center;}
-  .hero.con-3d .hero-3d{display:block;width:100%;aspect-ratio:1.15;opacity:0;transition:opacity .8s ease;}
+  .hero.con-3d .hero-3d{display:block;width:min(100%,300px);aspect-ratio:1.15;margin:0 auto 18px;opacity:0;transition:opacity .8s ease;}
   .hero.con-3d .hero-3d.listo{opacity:1;}
+  @media (max-width:899px){
+    .hero-dentro{grid-template-columns:1fr;}
+  }
+
+  /* Tarjetas de "O elige por tema" en mosaico a partir de 900px. Es solo CSS
+     (vale tambien para el suelo): la primera, grande; las dos ultimas, anchas. */
+  @media (min-width:900px){
+    #portada .necesito-head h2{font-size:clamp(1.9rem,3vw,2.5rem);}
+    #portada .necesito-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;}
+    #portada .necesito-card{min-height:180px;padding:22px;border-radius:16px;justify-content:flex-end;position:relative;overflow:hidden;}
+    #portada .necesito-card .icono{font-size:30px;margin-bottom:auto;}
+    #portada .necesito-card .que{font-size:1.3rem;}
+    #portada .necesito-card.destacada{grid-column:span 2;grid-row:span 2;}
+    #portada .necesito-card.destacada .que{font-size:2rem;}
+    #portada .necesito-card.destacada .icono{font-size:44px;}
+    #portada .necesito-card:nth-child(6), #portada .necesito-card:nth-child(7){grid-column:span 2;min-height:140px;}
+  }
+
+  /* ---- Capa rica del cartel: agua, tarjetas que se inclinan y entradas ----
+     Todo cuelga de html.capa-rica (que ya excluye "reducir movimiento",
+     moviles, ahorro de datos y 2G/3G). Sin la clase no existe nada de esto. */
+  .hero-agua{display:none;}
+  html.capa-rica .hero-agua{display:block;position:absolute;inset:0;width:100%;height:100%;z-index:-1;
+    opacity:0;transition:opacity 1.2s ease;}
+  html.capa-rica .hero-agua.listo{opacity:1;}
+  html.capa-rica .hero-dentro{min-height:calc(86svh - 58px);}
+  html.capa-rica .cifras{backdrop-filter:blur(10px);}
+  html.capa-rica #portada .necesito-grid{perspective:900px;}
+  html.capa-rica #portada .necesito-card{transform-style:preserve-3d;
+    transition:transform .5s var(--ease-out), border-color .12s ease, background-color .12s ease;}
+  html.capa-rica #portada .necesito-card.inclinada{transition:transform .12s linear, border-color .12s ease, background-color .12s ease;}
+  html.capa-rica #portada .necesito-card::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;opacity:0;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(255,248,236,.2), transparent 60%);
+    transition:opacity .3s ease;}
+  html.capa-rica #portada .necesito-card.inclinada::after{opacity:1;}
+  @media (prefers-reduced-motion:no-preference){
+    html.capa-rica .hero-texto > *, html.capa-rica .hero-lado{animation:cartel-entra .8s var(--ease-out) both;}
+    html.capa-rica .hero-texto > .sub{animation-delay:.06s;}
+    html.capa-rica .hero-texto > .buscador{animation-delay:.12s;}
+    html.capa-rica .hero-lado{animation-delay:.2s;}
+    @keyframes cartel-entra{from{opacity:0;translate:0 16px;}}
+  }
+
+  /* Linea de tiempo bajo los cinco arcos del Yayabo. Se lee entera sin
+     animacion; donde el navegador entiende animation-timeline, los arcos se
+     trazan y las fechas suben al bajar (CSS puro, sin JS). */
+  .linea-tiempo{margin:8px 0 40px;padding-top:34px;border-top:1px solid rgba(255,248,236,.18);}
+  .linea-tiempo h2{font-size:clamp(1.6rem,3vw,2.3rem);margin:0;}
+  .linea-tiempo .intro{margin:8px 0 0;color:var(--muted);}
+  .linea-arcos{display:block;width:100%;height:auto;margin-top:26px;}
+  .linea-arcos .arco{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round;}
+  .linea-arcos .agua{stroke:rgba(255,248,236,.22);stroke-width:1;}
+  .linea-pista{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 24px;}
+  .linea-pista li{display:flex;flex-direction:column;gap:6px;text-align:center;padding:12px 6px 4px;}
+  .linea-anio{font-family:var(--display);font-size:2.3rem;font-weight:600;letter-spacing:-0.02em;color:#FFFFFF;
+    font-variant-numeric:lining-nums;line-height:1.05;}
+  .linea-hecho{font-size:.95rem;line-height:1.45;color:var(--cream);}
+  .linea-art{font-family:var(--display);font-style:italic;font-size:.92rem;line-height:1.35;color:var(--cream-dim);
+    text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;}
+  .linea-art:hover, .linea-art:focus-visible{color:#FFFFFF;}
+  .linea-fuente{font-size:.8rem;line-height:1.4;color:var(--muted);}
+  .linea-fuente a{color:var(--coral-txt);text-underline-offset:2px;overflow-wrap:anywhere;}
+  @media (max-width:899px){
+    .linea-arcos{display:none;}
+    .linea-pista{grid-template-columns:1fr;gap:4px;border-left:2px solid var(--gold);margin:22px 0 0 6px;}
+    .linea-pista li{text-align:left;padding:8px 0 12px 16px;}
+    .linea-anio{font-size:1.7rem;}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    @supports (animation-timeline:view()){
+      .linea-arcos .arco{stroke-dasharray:1;animation:linea-traza linear both;animation-timeline:view();animation-range:entry 10% cover 40%;}
+      @keyframes linea-traza{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}
+      .linea-pista li{animation:entrar-al-bajar linear both;animation-timeline:view();animation-range:entry 0% entry 40%;}
+    }
+  }
 
   /* horizon signature element — puente del Yayabo sobre las dos banderas */
   /* El puente es la marca, pero no puede comerse la primera pantalla: se le
@@ -568,12 +685,17 @@
     .explore-link{padding-top:7px;padding-bottom:7px;}
     /* El banner ocupaba 437px y empujaba los articulos fuera de pantalla.
        En movil se compacta para que lo primero que se vea sea el contenido. */
-    .hero{padding:16px 16px 10px;}
     .horizon{max-height:104px;margin-top:8px;padding:0 16px;}
-    /* El banner es texto, no imagen: se ajusta el tamano de letra, sin
-       recortar el mensaje. */
-    .hero h1{font-size:27px;line-height:1.2;}
-    .hero .sub{font-size:14.5px;line-height:1.5;}
+    /* El cartel es texto, no imagen: se ajusta el tamano de letra. El
+       buscador queda en la primera pantalla; el contador, debajo. */
+    .hero-dentro{padding:22px 16px 24px;gap:22px;}
+    .hero h1{font-size:2.15rem;line-height:1.06;}
+    .hero p.sub{font-size:.98rem;margin-top:10px;}
+    .buscador{margin-top:18px;}
+    .buscador-caja{padding-left:16px;}
+    .buscador-caja button{padding:11px 14px;}
+    .cifras{padding:18px;gap:14px;}
+    .cifras-num{font-size:2.3rem;}
     .section-head{margin-bottom:14px;}
     .section-head h1, .section-head h2{font-size:22px;}
   }
@@ -1003,6 +1125,7 @@
   <symbol id="i-viaje" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol>
   <symbol id="i-leyes" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
   <symbol id="i-negocios" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+  <symbol id="i-buscar" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 12h16M4 6h16M4 18h16"/></symbol>
   <symbol id="i-instalar" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
   <symbol id="i-abajo" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
@@ -1070,12 +1193,45 @@
 </header>
 
 <div class="hero">
-  <div class="hero-texto">
-    <span class="eyebrow">Para cubanos fuera de Cuba</span>
-    <h1 style="color:#FFFFFF !important;">Un puente entre donde estás y donde empezaste.</h1>
-    <p class="sub">Trámites y ayudas de tu país, cambios legales en Cuba y una comunidad, en un solo lugar. También para quien sigue en la isla y se prepara para salir.</p>
+  <canvas class="hero-agua" id="agua" aria-hidden="true"></canvas>
+  <div class="hero-dentro">
+    <div class="hero-texto">
+      <h1>¿Qué necesitas hoy?</h1>
+      <p class="sub">Escribe lo que buscas o toca un atajo. Te llevamos a la respuesta, con la fuente oficial delante.</p>
+      <!-- Buscador: busca en las respuestas rapidas, las secciones y los
+           articulos que ya estan en esta pagina. No llama a ningun servidor. -->
+      <form class="buscador" role="search" id="buscador" autocomplete="off" novalidate>
+        <label for="buscar-q">Busca en Puentes</label>
+        <div class="buscador-caja">
+          <svg class="ico" aria-hidden="true"><use href="#i-buscar"/></svg>
+          <input id="buscar-q" type="search" placeholder="pasaporte, remesas, arraigo, aduana…"
+                 role="combobox" aria-expanded="false" aria-controls="buscar-res" aria-autocomplete="list" enterkeyhint="search">
+          <button type="submit">Buscar</button>
+        </div>
+        <ul class="buscador-res" id="buscar-res" role="listbox" aria-label="Resultados de la búsqueda" hidden></ul>
+        <p class="solo-lector" id="buscar-estado" aria-live="polite"></p>
+        <div class="atajos" role="group" aria-label="Atajos">
+          <button type="button" data-q="pasaporte">Pasaporte</button>
+          <button type="button" data-q="enviar dinero">Enviar dinero</button>
+          <button type="button" data-q="arraigo">Arraigo en España</button>
+          <button type="button" data-q="aduana">Aduana</button>
+          <button type="button" data-q="residencia eeuu">Residencia en EE.UU.</button>
+        </div>
+      </form>
+    </div>
+    <div class="hero-lado">
+      <canvas id="logo3d" class="hero-3d" role="img" aria-label="Logo de Puentes en 3D: el puente del Yayabo uniendo la bandera de Céspedes y la bandera de Cuba"></canvas>
+      <!-- Las cifras NO se escriben a mano: las cuenta el script del final a
+           partir de los mismos datos que pinta cada seccion. Sin JavaScript
+           se queda la raya. -->
+      <ul class="cifras" id="cifras" aria-label="Lo que ya hay comprobado en Puentes">
+        <li><span class="cifras-num" data-cuenta="fichas">—</span><span class="cifras-que">fichas de trámites y de cambios en Cuba con la fuente oficial enlazada</span><span class="sello sello-oficial">✓ Verificado oficialmente</span></li>
+        <li><span class="cifras-num" data-cuenta="enlaces">—</span><span class="cifras-que">accesos directos a trámites en webs oficiales, comprobados a mano</span></li>
+        <li><span class="cifras-num" data-cuenta="remesas">—</span><span class="cifras-que">servicios de envío y recarga en la tabla de remesas, con su web</span><span class="sello sello-puentes">◐ Comprobado por Puentes</span></li>
+      </ul>
+      <p class="cifras-nota">Contado al abrir la página, desde los mismos datos que ves en cada sección.</p>
+    </div>
   </div>
-  <canvas id="logo3d" class="hero-3d" role="img" aria-label="Logo de Puentes en 3D: el puente del Yayabo uniendo la bandera de Céspedes y la bandera de Cuba"></canvas>
 </div>
 <script>
   /* Logo 3D animado. Pesa ~200 KB comprimidos la primera vez (Three.js propio
@@ -1205,16 +1361,61 @@
   <!-- ===== PORTADA ===== -->
   <section id="portada" class="active">
 
-    <!-- 1. Quien eres y donde estas. Se guarda en este telefono, no se envia
-            a ningun servidor. Si no lo rellenas, la portada funciona igual. -->
-    <div id="perfil-caja"></div>
-
-    <!-- 2. La portada no lista secciones: pregunta que necesitas. -->
-    <div class="necesito-head">
-      <h2 id="necesito-titulo">¿Qué necesitas?</h2>
+    <!-- 1. La pregunta ya la hace el buscador del cartel; aqui, los temas. -->
+    <div class="necesito-head" id="necesito">
+      <h2 id="necesito-titulo">O elige por tema</h2>
       <p id="necesito-sub">Toca lo que buscas y te llevamos directo. Nada de menús.</p>
     </div>
     <div class="necesito-grid" id="necesito-grid"></div>
+
+    <!-- Linea de tiempo bajo los cinco arcos del Yayabo. Solo fechas que estan
+         escritas en un articulo publicado de Puentes Y que ese articulo
+         respalda con una fuente citada. 1868 y 1902 salen en "Cuba: una nacion
+         que nacio mucho antes de 1959", pero ese articulo no cita fuentes:
+         por eso no estan. Va en un div y no en <section>: el enrutador trata
+         cada "main section" como una seccion de la app. -->
+    <div class="linea-tiempo" role="region" aria-labelledby="linea-titulo">
+      <h2 id="linea-titulo">Cuatro fechas para entender de dónde venimos</h2>
+      <p class="intro">Cada una lleva a un artículo de Puentes y a la fuente que ese artículo cita.</p>
+      <svg class="linea-arcos" viewBox="0 0 1200 110" aria-hidden="true" focusable="false">
+        <path class="agua" d="M40 100H1160"/>
+        <path class="arco" pathLength="1" d="M100 100 C100 55, 300 55, 300 100 C300 31, 500 31, 500 100 C500 15, 700 15, 700 100 C700 31, 900 31, 900 100 C900 55, 1100 55, 1100 100"/>
+        <circle cx="100" cy="100" r="7" fill="#FF6F52"/>
+        <circle cx="300" cy="100" r="4" fill="#FFF8EC"/><circle cx="500" cy="100" r="4" fill="#FFF8EC"/>
+        <circle cx="700" cy="100" r="4" fill="#FFF8EC"/><circle cx="900" cy="100" r="4" fill="#FFF8EC"/>
+        <circle cx="1100" cy="100" r="7" fill="#FFC24B"/>
+      </svg>
+      <ol class="linea-pista">
+        <li>
+          <span class="linea-anio">1895</span>
+          <span class="linea-hecho">Muere José Martí, escritor, periodista y organizador independentista.</span>
+          <a class="linea-art" href="/articulos/jose-marti-hombre-ideas-simbolo">José Martí: el hombre, sus ideas y el símbolo nacional</a>
+          <span class="linea-fuente">Fuente: <a href="https://www.cervantesvirtual.com/portales/archivo_historico_compania_de_jesus/obras/autor/marti-jose-1853-1895-274" target="_blank" rel="noopener">Biblioteca Virtual Miguel de Cervantes, obras de José Martí</a></span>
+        </li>
+        <li>
+          <span class="linea-anio">1940</span>
+          <span class="linea-hecho">Entra en vigor, el 10 de octubre, una Constitución que pone el trabajo por escrito.</span>
+          <a class="linea-art" href="/1940-constitucion-trabajo.html">1940: el año en que Cuba puso el trabajo en la Constitución</a>
+          <span class="linea-fuente">Fuente: <a href="https://www.dloc.com/AA00097170/00001/citation" target="_blank" rel="noopener">Gaceta Oficial n.º 464, 8 de julio de 1940 (Digital Library of the Caribbean)</a></span>
+        </li>
+        <li>
+          <span class="linea-anio">2019</span>
+          <span class="linea-hecho">Se proclama la Constitución vigente, el 10 de abril, tras el referendo del 24 de febrero.</span>
+          <a class="linea-art" href="/articulos/constitucion-cuba-1940-2019">De 1940 a 2019: ¿qué cambió en la Constitución de Cuba?</a>
+          <span class="linea-fuente">Fuente: <a href="https://www.constituteproject.org/constitution/Cuba_2019?lang=es" target="_blank" rel="noopener">Constitute Project, Constitución de Cuba de 2019</a></span>
+        </li>
+        <li>
+          <span class="linea-anio">2025</span>
+          <span class="linea-hecho">La UNESCO inscribe la práctica del son cubano como patrimonio cultural inmaterial.</span>
+          <a class="linea-art" href="/articulos/el-son-cubano">El son cubano: una tradición que cruza generaciones y fronteras</a>
+          <span class="linea-fuente">Fuente: <a href="https://ich.unesco.org/es/RL/la-practica-del-son-cubano-02299" target="_blank" rel="noopener">UNESCO, la práctica del son cubano</a></span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- 2. Quien eres y donde estas. Se guarda en este telefono, no se envia
+            a ningun servidor. Si no lo rellenas, la portada funciona igual. -->
+    <div id="perfil-caja"></div>
 
     <!-- 3. Lo que ha cambiado desde la ultima vez que entraste. -->
     <div id="novedades-caja"></div>
@@ -3503,7 +3704,7 @@ function renderNecesito(){
   const titulo = document.getElementById('necesito-titulo');
   const sub    = document.getElementById('necesito-sub');
   const lugar  = lugarPerfil();
-  if(titulo) titulo.textContent = '¿Qué necesitas?';
+  if(titulo) titulo.textContent = 'O elige por tema';
   if(sub){
     sub.textContent = lugar
       ? `Ordenado para quien está en ${lugar}. Toca y te llevamos directo.`
@@ -4250,6 +4451,171 @@ document.getElementById('btn-instalar')?.addEventListener('click', () => cerrarE
     });
   }
 })();
+</script>
+
+<script>
+  /* Cartel de la portada: contador y buscador. Solo usa los datos que ya
+     estan en esta pagina (guias, tarjetas, tramites, articulos): no inventa
+     nada y no llama a ningun servidor, asi que funciona igual en Cuba. */
+  (function () {
+    /* ---- 1. Contador: se cuenta de los datos de cada seccion, nunca a mano ---- */
+    try {
+      var cuentas = {
+        // Fichas con la fuente oficial enlazada: tramites de cada pais y cambios en Cuba
+        fichas: Object.keys(tramitesData).reduce(function (n, p) {
+          return n + tramitesData[p].filter(function (i) { return nivelDe(i) === 'oficial' && i.source; }).length;
+        }, 0) + cubaFeed.filter(function (i) { return i.source; }).length,
+        // Botones a webs oficiales, comprobados a mano (tramitesEnlaces + lado cubano)
+        enlaces: Object.keys(tramitesEnlaces).reduce(function (n, p) { return n + tramitesEnlaces[p].length; }, 0) + tramitesCuba.length,
+        // Filas de la tabla de remesas que llevan su web
+        remesas: remesas.filter(function (r) { return r[4]; }).length
+      };
+      window.cuentaPortada = cuentas;
+      document.querySelectorAll('#cifras [data-cuenta]').forEach(function (el) {
+        el.textContent = cuentas[el.dataset.cuenta];
+      });
+    } catch (e) { console.warn('[cuenta] no se pudo contar', e); }
+
+    /* ---- 2. Buscador ---- */
+    var form = document.getElementById('buscador');
+    var q = document.getElementById('buscar-q');
+    var res = document.getElementById('buscar-res');
+    var estado = document.getElementById('buscar-estado');
+    if (!form || !q || !res) return;
+
+    /* Sin tildes ni signos, y cada palabra entre espacios: se busca por
+       comienzo de palabra (asi "son" no sale dentro de "personas"). */
+    var normal = function (s) {
+      return ' ' + String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/\./g, '').replace(/[^a-z0-9]+/g, ' ').trim() + ' ';
+    };
+    /* Palabras que la gente escribe y no salen tal cual en el texto. Cada una
+       lleva SOLO a palabras que si estan en el contenido de la pagina. */
+    var SINONIMOS = {
+      visa: ['visado'], visas: ['visado'], plata: ['dinero'], remesa: ['remesas', 'dinero'], remesas: ['remesas', 'dinero'],
+      giro: ['dinero'], giros: ['dinero'], mandar: ['enviar', 'dinero'], recargar: ['recarga'],
+      enviar: ['enviar', 'envio'], saldo: ['recarga'], empleo: ['trabajo', 'empleos'], chamba: ['trabajo'], curro: ['trabajo'],
+      usa: ['eeuu', 'estados unidos'], emigrar: ['salir', 'migracion', 'migratoria'], irme: ['salir'],
+      viajar: ['salir', 'visado', 'viaje'], maleta: ['llevar', 'aduana'], equipaje: ['equipaje', 'aduana'],
+      ley: ['ley', 'resolucion', 'gaceta'], negocio: ['negocios'], tienda: ['negocios', 'comercios'],
+      documentos: ['documentos', 'papeles'], ayuda: ['ayudas']
+    };
+    var SECCION_DE = { tramites: 'tramites', remesas: 'remesas', empleos: 'empleos', comunidad: 'comunidad',
+      salir: 'antes-salir', cuba: 'cuba', negocios: 'negocios' };
+
+    var indice = null;
+    function textoSeccion(id) {
+      var s = document.getElementById(id);
+      if (!s) return '';
+      return [].map.call(s.querySelectorAll('h1, h2, h3, .tag'), function (e) { return e.textContent; }).join(' ');
+    }
+    function construir() {
+      var items = [];
+      guias.forEach(function (g) { items.push({ tipo: 'Respuesta rápida', orden: 0, tit: g.pregunta, txt: g.respuesta, href: g.href }); });
+      tarjetasNecesito().forEach(function (c) {
+        items.push({ tipo: 'Sección', orden: 1, tit: c.que, txt: c.detalle + ' ' + textoSeccion(SECCION_DE[c.clave]), ir: c.ir });
+      });
+      Object.keys(tramitesData).forEach(function (pais) {
+        tramitesData[pais].forEach(function (t) {
+          if (!t.source) return;
+          var nombre = pais === 'EEUU' ? 'EE.UU.' : pais;
+          items.push({ tipo: 'Trámite · ' + nombre, orden: 2, tit: t.title, txt: t.tag + ' ' + t.desc + ' ' + nombre + (pais === 'EEUU' ? ' Estados Unidos' : ''),
+            ir: function () { irASeccion('tramites', function () { fijarPaisTramites(pais); }); } });
+        });
+      });
+      articulosPublicados.forEach(function (a) { items.push({ tipo: 'Artículo', orden: 3, tit: a.titulo, txt: a.resumen + ' ' + (a.etiqueta || ''), href: a.href }); });
+      items.forEach(function (it) { it.nt = normal(it.tit); it.nx = normal(it.txt); });
+      return items;
+    }
+    function variantes(p) {
+      var v = [p].concat(SINONIMOS[p] || []);
+      if (p.length > 4 && /s$/.test(p)) v.push(p.slice(0, -1));
+      return v;
+    }
+    var actuales = [], activo = -1;
+    function cerrar() {
+      res.hidden = true; q.setAttribute('aria-expanded', 'false'); q.removeAttribute('aria-activedescendant'); activo = -1;
+    }
+    function marcar(i) {
+      var ops = res.querySelectorAll('[role="option"]');
+      activo = i;
+      ops.forEach(function (o, k) { o.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+      if (ops[i]) { q.setAttribute('aria-activedescendant', ops[i].id); ops[i].scrollIntoView({ block: 'nearest' }); }
+      else q.removeAttribute('aria-activedescendant');
+    }
+    function buscar() {
+      var t = normal(q.value).trim();
+      if (!t) { cerrar(); res.innerHTML = ''; estado.textContent = ''; actuales = []; return; }
+      if (!indice) indice = construir();
+      var palabras = t.split(/\s+/).filter(Boolean);
+      actuales = indice.map(function (it) {
+        var puntos = 0;
+        for (var i = 0; i < palabras.length; i++) {
+          var v = variantes(palabras[i]), enT = false, enX = false;
+          for (var k = 0; k < v.length; k++) {
+            if (it.nt.indexOf(' ' + v[k]) !== -1) enT = true;
+            else if (it.nx.indexOf(' ' + v[k]) !== -1) enX = true;
+          }
+          if (!enT && !enX) return null;
+          puntos += enT ? 3 : 1;
+        }
+        return { it: it, puntos: puntos };
+      }).filter(Boolean).sort(function (a, b) { return (b.puntos - a.puntos) || (a.it.orden - b.it.orden); })
+        .slice(0, 7).map(function (x) { return x.it; });
+      res.innerHTML = actuales.length ? actuales.map(function (it, i) {
+        return '<li role="option" id="buscar-op-' + i + '" aria-selected="false" data-i="' + i + '">' +
+          '<span class="tipo">' + escapeHtml(it.tipo) + '</span><span class="tit">' + escapeHtml(it.tit) + '</span></li>';
+      }).join('') : '<li class="vacio" role="presentation">Nada con esa palabra todavía. Prueba con otra, o mira los temas de abajo.</li>';
+      estado.textContent = actuales.length
+        ? actuales.length + (actuales.length === 1 ? ' resultado' : ' resultados') + '. Usa las flechas para elegir.'
+        : 'Sin resultados.';
+      res.hidden = false; q.setAttribute('aria-expanded', 'true'); marcar(-1);
+    }
+    function abrir(i) {
+      var it = actuales[i];
+      if (!it) return;
+      cerrar();
+      if (it.href) location.href = it.href;
+      else it.ir();
+    }
+    q.addEventListener('input', buscar);
+    q.addEventListener('keydown', function (e) {
+      var n = actuales.length;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        if (res.hidden) buscar();
+        n = actuales.length;
+        if (!n) return;
+        e.preventDefault();
+        marcar(e.key === 'ArrowDown' ? (activo + 1) % n : (activo - 1 + n) % n);
+      } else if (e.key === 'Escape') {
+        if (!res.hidden) { e.preventDefault(); cerrar(); }
+        else if (q.value) { e.preventDefault(); q.value = ''; buscar(); }
+      } else if (e.key === 'Home' && !res.hidden && n) { e.preventDefault(); marcar(0); }
+      else if (e.key === 'End' && !res.hidden && n) { e.preventDefault(); marcar(n - 1); }
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (res.hidden) buscar();
+      if (actuales.length) abrir(Math.max(0, activo));
+    });
+    res.addEventListener('mousedown', function (e) { e.preventDefault(); }); /* que el input no pierda el foco */
+    res.addEventListener('click', function (e) {
+      var li = e.target.closest('[role="option"]');
+      if (li) abrir(+li.dataset.i);
+    });
+    form.querySelectorAll('.atajos button').forEach(function (b) {
+      b.addEventListener('click', function () { q.value = b.dataset.q; buscar(); q.focus(); });
+    });
+    document.addEventListener('click', function (e) { if (!form.contains(e.target)) cerrar(); });
+  })();
+</script>
+
+<script>
+  /* La capa rica del cartel (cifras que suben, tarjetas que se inclinan y el
+     agua en WebGL) va en su propio archivo: el suelo no la descarga. */
+  if (document.documentElement.classList.contains('capa-rica')) {
+    var s = document.createElement('script'); s.src = '/portada-rica.js'; document.body.appendChild(s);
+  }
 </script>
 
 <!-- Contador de visitas de Vercel: sin cookies y sin seguir a nadie por la web.
