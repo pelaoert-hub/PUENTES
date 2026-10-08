@@ -796,11 +796,6 @@
   }
 </style>
 
-<!-- Three.js para el logo 3D de la portada; solo se descarga si ese logo se activa. -->
-<script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"}}
-</script>
-
 <!-- APLICACION INSTALABLE (PWA) -->
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#0D5257">
@@ -1042,9 +1037,11 @@
   <canvas id="logo3d" class="hero-3d" role="img" aria-label="Logo de Puentes en 3D: el puente del Yayabo uniendo la bandera de Céspedes y la bandera de Cuba"></canvas>
 </div>
 <script>
-  /* Logo 3D animado. Pesa ~200 KB la primera vez (Three.js + modelo), asi que
-     solo se carga en pantallas grandes con raton, sin "ahorro de datos" y con
-     conexion rapida. En moviles y conexiones caras se queda el hero de siempre.
+  /* Logo 3D animado. Pesa ~200 KB comprimidos la primera vez (Three.js propio
+     recortado en /vendor/three/, ~165 KB, mas el modelo, ~35 KB); despues lo
+     guarda el service worker. Por eso solo se carga en pantallas grandes con
+     raton, sin "ahorro de datos" y con conexion rapida. En moviles y
+     conexiones caras se queda el hero de siempre.
 
      Se usa (any-pointer: fine) y no (pointer: fine): los portatiles con
      pantalla tactil dicen que su puntero "principal" es el dedo aunque tengan
