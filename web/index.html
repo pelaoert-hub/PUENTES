@@ -258,6 +258,7 @@
     display:inline-flex;align-items:center;gap:6px;text-decoration:none;
     background:var(--surface);border:1px solid var(--gold);color:var(--gold);
     padding:9px 16px;border-radius:999px;font-size:0.88rem;font-weight:600;
+    max-width:100%;overflow-wrap:anywhere; /* un enlace largo se parte en vez de desbordar */
     transition:all .15s ease;
   }
   .btn-quick:hover{background:var(--gold);color:var(--ink);}
@@ -422,7 +423,7 @@
     margin-left:auto;flex-shrink:0;transition:all .15s ease;
   }
   .delete-btn:hover{border-color:var(--coral);color:var(--coral-txt);}
-  .post-card-row{display:flex;width:100%;gap:16px;}
+  .post-card-row{display:flex;flex-wrap:wrap;width:100%;gap:16px;row-gap:6px;}
   .filter-row{margin-bottom:16px;}
   .filter-row input{
     background:var(--surface);border:1px solid var(--line);color:var(--cream);
@@ -435,6 +436,7 @@
     background:var(--gold);border-radius:8px;padding:6px 10px;text-align:center;
     min-width:56px;flex-shrink:0;line-height:1.2;
   }
+  .post-body{min-width:0;}
   .post-body h3{font-size:1.02rem;margin-bottom:4px;}
   .post-body p{color:var(--cream-dim);font-size:0.9rem;margin:0 0 8px;}
   .post-meta{font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;font-size:0.75rem;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;}
@@ -565,12 +567,16 @@
   /* ---------- Sellos de verificacion (tres niveles) ---------- */
   .sello{
     font-family:ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace;
-    font-size:0.65rem; text-transform:uppercase; letter-spacing:.04em;
-    padding:3px 9px; border-radius:999px; white-space:nowrap;
+    font-size:.78rem; font-weight:700;
+    padding:4px 10px; border-radius:999px; white-space:nowrap;
   }
-  .sello-oficial{   background:rgba(140,198,120,.15); color:#8CC678; }
-  .sello-puentes{   background:rgba(255,194,75,.16);  color:var(--gold); }
-  .sello-comunidad{ background:rgba(168,218,220,.14); color:var(--muted); }
+  /* Los tres niveles se distinguen por FORMA (relleno / borde continuo /
+     borde de rayas), no solo por color. Contrastes del texto contra el fondo
+     de las tarjetas (#157077): oficial 6.70 (sobre su propio relleno),
+     puentes 4.51 (oro aclarado #FFE08F), comunidad 5.50 (crema). */
+  .sello-oficial{   background:#8CC678; color:var(--ink); border:1.5px solid #8CC678; }
+  .sello-puentes{   background:transparent; color:#FFE08F; border:1.5px solid var(--gold); }
+  .sello-comunidad{ background:transparent; color:var(--cream); border:1.5px dashed var(--muted); }
 
   .leyenda-sellos{
     display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
@@ -1116,19 +1122,23 @@
     <div class="disclaimer">
       <strong>Importante:</strong> esto no viene de una sola fuente gubernamental — ningún gobierno publica una lista así. Está compilado de índices de viaje especializados (Henley Passport Index, Wikipedia) que se actualizan mensualmente y a veces no coinciden entre sí. Antes de viajar, confirma siempre con la embajada o consulado del país de destino.
     </div>
+    <div class="tabla-scroll">
     <table id="visado-table">
       <thead><tr><th>País</th><th>Estancia permitida</th></tr></thead>
       <tbody></tbody>
     </table>
+    </div>
 
     <div class="community-sub-head">
       <h3>Visa a la llegada o electrónica <span class="unverified-pill">no es visado libre</span></h3>
     </div>
     <p style="color:var(--cream-dim);font-size:0.88rem;margin:-6px 0 14px;">Estos países sí exigen visa, pero se tramita en el momento de llegar o por internet, sin pasar por consulado antes de viajar.</p>
+    <div class="tabla-scroll">
     <table id="visado-llegada-table">
       <thead><tr><th>País</th><th>Tipo</th><th>Estancia permitida</th></tr></thead>
       <tbody></tbody>
     </table>
+    </div>
 
     <div class="community-sub-head">
       <h3>Corregido por la comunidad <span class="sello sello-comunidad">? Aporte de la comunidad</span></h3>
