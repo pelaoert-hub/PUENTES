@@ -109,9 +109,25 @@
     .wrap{padding:0 16px 60px}.masthead{padding:24px 8px 16px}.masthead h1{font-size:38px}
     .comparison{font-size:13px}.comparison th,.comparison td{padding:8px}
   }
+  /* Barra de progreso de lectura y fundido entre paginas (capa rica): solo
+     sin "reducir movimiento", y la barra solo donde el navegador entiende
+     animation-timeline. Sin eso no existe. Mismo CSS en articulos y guias:
+     usa el oro de la pagina (--gold en guias, --brass en articulos). */
+  .progreso-lectura{display:none}
+  @media (prefers-reduced-motion:no-preference){
+    @view-transition{navigation:auto}
+    ::view-transition-old(root),::view-transition-new(root){animation-duration:.2s}
+    @supports (animation-timeline:scroll()){
+      .progreso-lectura{display:block;position:fixed;top:0;left:0;right:0;height:3px;z-index:100;pointer-events:none;
+        background:var(--gold,var(--brass));transform-origin:0 50%;transform:scaleX(0);
+        animation:progreso-lectura linear both;animation-timeline:scroll(root)}
+      @keyframes progreso-lectura{to{transform:scaleX(1)}}
+    }
+  }
 </style>
 </head>
 <body>
+<div class="progreso-lectura" aria-hidden="true"></div>
 <div class="wrap">
   <a class="volver" href="/#portada">← Volver a Puentes</a>
 

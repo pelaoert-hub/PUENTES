@@ -485,6 +485,26 @@
 
   footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center;color:var(--muted);font-size:0.82rem;}
 
+  /* ---- Entradas al bajar y fundidos (capa rica) ----
+     Solo con prefers-reduced-motion:no-preference, y las entradas solo donde
+     el navegador entiende animation-timeline. En los demas el contenido se ve
+     quieto y completo: nada empieza oculto fuera de estos bloques.
+     Se anima translate (no transform) para no pisar el hover ni el :active,
+     que usan transform. */
+  @media (prefers-reduced-motion:no-preference){
+    @view-transition{ navigation:auto; }
+    ::view-transition-old(root), ::view-transition-new(root){ animation-duration:.2s; }
+    header{ view-transition-name:cabecera; }
+    @supports (animation-timeline:view()){
+      .necesito-card, .guia-card, .articulo-card, .card, .post-card, .feed-item{
+        animation:entrar-al-bajar linear both; /* ligada al scroll: lineal, la curva la pone el dedo */
+        animation-timeline:view();
+        animation-range:entry 0% entry 40%;
+      }
+      @keyframes entrar-al-bajar{ from{ opacity:0; translate:0 16px; } }
+    }
+  }
+
   @media (max-width:640px){
     .feed-item{grid-template-columns:1fr;gap:6px;}
     /* En movil todo va en una sola linea de ~56px: logo, menu deslizable y
@@ -833,9 +853,25 @@
   window.SECCIONES_PUENTES = ['portada', 'tramites', 'antes-salir', 'cuba', 'comunidad', 'remesas', 'negocios', 'empleos'];
   window.activarSeccion = function (id) {
     if (window.SECCIONES_PUENTES.indexOf(id) === -1) return false;
-    document.body.dataset.seccion = id;
     var destino = document.getElementById(id);
-    if (!destino) return true; // aun no se ha leido el HTML de abajo
+    if (!destino) { document.body.dataset.seccion = id; return true; } // aun no se ha leido el HTML de abajo
+    /* Fundido entre secciones (capa rica): solo si el navegador tiene
+       startViewTransition, la pagina ya termino de cargar (al entrar por un
+       enlace directo no se funde nada) y no se pidio reducir movimiento. Si
+       el fundido falla o se salta, el cambio se aplica igual. */
+    var actual = document.querySelector('main section.active');
+    var fundir = typeof document.startViewTransition === 'function' &&
+      document.readyState === 'complete' && actual && actual !== destino &&
+      window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    if (fundir) {
+      try { document.startViewTransition(function () { aplicarSeccion(id, destino); }); return true; }
+      catch (e) { /* sigue sin fundido */ }
+    }
+    aplicarSeccion(id, destino);
+    return true;
+  };
+  function aplicarSeccion(id, destino) {
+    document.body.dataset.seccion = id;
     document.querySelectorAll('main section').forEach(function (s) { s.classList.remove('active'); });
     destino.classList.add('active');
     document.querySelectorAll('#nav button').forEach(function (b) {
@@ -845,8 +881,7 @@
       // En movil el menu se desliza: que la seccion activa quede a la vista
       if (es && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
-    return true;
-  };
+  }
   (function () {
     var h = location.hash.slice(1);
     document.body.dataset.seccion = window.SECCIONES_PUENTES.indexOf(h) !== -1 ? h : 'portada';
