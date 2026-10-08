@@ -18,7 +18,7 @@ test.describe('buscador y contador', () => {
     }));
     for (const [clave, n] of Object.entries(esperado)) {
       expect(n, clave).toBeGreaterThan(0);
-      await expect(page.locator(`#cuenta [data-cuenta="${clave}"]`)).toHaveText(String(n));
+      await expect(page.locator(`#cifras [data-cuenta="${clave}"]`)).toHaveText(String(n));
     }
   });
 

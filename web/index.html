@@ -270,14 +270,14 @@
   .solo-lector{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 
   /* Contador: lo verificado, contado al abrir desde los datos de cada seccion */
-  .cuenta{list-style:none;margin:0;padding:26px 28px;display:grid;gap:22px;border-radius:20px;
+  .cifras{list-style:none;margin:0;padding:26px 28px;display:grid;gap:22px;border-radius:20px;
     background:rgba(10,52,56,.55);border:1px solid rgba(255,248,236,.14);}
-  .cuenta li{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:baseline;}
-  .cuenta-num{font-family:var(--display);font-size:3.2rem;font-weight:600;line-height:1;color:var(--gold);
+  .cifras li{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:baseline;}
+  .cifras-num{font-family:var(--display);font-size:3.2rem;font-weight:600;line-height:1;color:var(--gold);
     font-variant-numeric:tabular-nums lining-nums;min-width:2ch;text-align:right;}
-  .cuenta-que{font-size:1rem;line-height:1.4;color:var(--cream);}
-  .cuenta .sello{grid-column:2;justify-self:start;}
-  .cuenta-nota{font-size:.8rem;color:var(--muted);margin:10px 0 0;line-height:1.45;}
+  .cifras-que{font-size:1rem;line-height:1.4;color:var(--cream);}
+  .cifras .sello{grid-column:2;justify-self:start;}
+  .cifras-nota{font-size:.8rem;color:var(--muted);margin:10px 0 0;line-height:1.45;}
 
   /* Logo 3D: solo se activa en pantallas grandes con buena conexion (ver el
      script tras el cartel). Va encima del contador; sin .con-3d no existe. */
@@ -622,8 +622,8 @@
     .buscador{margin-top:18px;}
     .buscador-caja{padding-left:16px;}
     .buscador-caja button{padding:11px 14px;}
-    .cuenta{padding:18px;gap:14px;}
-    .cuenta-num{font-size:2.3rem;}
+    .cifras{padding:18px;gap:14px;}
+    .cifras-num{font-size:2.3rem;}
     .section-head{margin-bottom:14px;}
     .section-head h1, .section-head h2{font-size:22px;}
   }
@@ -1156,12 +1156,12 @@
       <!-- Las cifras NO se escriben a mano: las cuenta el script del final a
            partir de los mismos datos que pinta cada seccion. Sin JavaScript
            se queda la raya. -->
-      <ul class="cuenta" id="cuenta" aria-label="Lo que ya hay comprobado en Puentes">
-        <li><span class="cuenta-num" data-cuenta="fichas">—</span><span class="cuenta-que">fichas de trámites y de cambios en Cuba con la fuente oficial enlazada</span><span class="sello sello-oficial">✓ Verificado oficialmente</span></li>
-        <li><span class="cuenta-num" data-cuenta="enlaces">—</span><span class="cuenta-que">accesos directos a trámites en webs oficiales, comprobados a mano</span></li>
-        <li><span class="cuenta-num" data-cuenta="remesas">—</span><span class="cuenta-que">servicios de envío y recarga en la tabla de remesas, con su web</span><span class="sello sello-puentes">◐ Comprobado por Puentes</span></li>
+      <ul class="cifras" id="cifras" aria-label="Lo que ya hay comprobado en Puentes">
+        <li><span class="cifras-num" data-cuenta="fichas">—</span><span class="cifras-que">fichas de trámites y de cambios en Cuba con la fuente oficial enlazada</span><span class="sello sello-oficial">✓ Verificado oficialmente</span></li>
+        <li><span class="cifras-num" data-cuenta="enlaces">—</span><span class="cifras-que">accesos directos a trámites en webs oficiales, comprobados a mano</span></li>
+        <li><span class="cifras-num" data-cuenta="remesas">—</span><span class="cifras-que">servicios de envío y recarga en la tabla de remesas, con su web</span><span class="sello sello-puentes">◐ Comprobado por Puentes</span></li>
       </ul>
-      <p class="cuenta-nota">Contado al abrir la página, desde los mismos datos que ves en cada sección.</p>
+      <p class="cifras-nota">Contado al abrir la página, desde los mismos datos que ves en cada sección.</p>
     </div>
   </div>
 </div>
@@ -4356,7 +4356,7 @@ document.getElementById('btn-instalar')?.addEventListener('click', () => cerrarE
         remesas: remesas.filter(function (r) { return r[4]; }).length
       };
       window.cuentaPortada = cuentas;
-      document.querySelectorAll('#cuenta [data-cuenta]').forEach(function (el) {
+      document.querySelectorAll('#cifras [data-cuenta]').forEach(function (el) {
         el.textContent = cuentas[el.dataset.cuenta];
       });
     } catch (e) { console.warn('[cuenta] no se pudo contar', e); }
