@@ -103,37 +103,62 @@
     backdrop-filter:blur(8px);
     border-bottom:1px solid var(--line);
   }
+  /* Cabecera en una sola linea: logo, menu y "Explorar todo". Antes eran dos
+     filas (163px en movil, 111px en escritorio) y el amarillo competia con el
+     contenido. El menu se desliza en horizontal si no cabe. */
   .nav-wrap{
-    max-width:1120px;margin:0 auto;padding:16px 24px;
-    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    max-width:1180px;margin:0 auto;padding:10px 24px;
+    display:flex;align-items:center;gap:12px;
   }
-  .logo{display:flex;align-items:center;gap:10px;font-size:1.15rem;}
-  .header-left{display:flex;align-items:center;gap:20px;}
+  .logo{display:flex;align-items:center;gap:10px;font-size:1.15rem;flex-shrink:0;}
   .logo svg{width:34px;height:29px;flex-shrink:0;}
-  nav{display:flex;gap:4px;flex-wrap:wrap;}
+  nav{
+    display:flex;gap:2px;flex:1 1 auto;min-width:0;
+    overflow-x:auto;flex-wrap:nowrap;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  nav::-webkit-scrollbar{display:none;}
+  /* Si el menu no cabe, su borde derecho se desvanece para que se note que
+     hay mas opciones (la clase la pone el script de la cabecera). */
+  nav.desborda{
+    -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);
+    mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);
+  }
   nav button{
+    position:relative;flex:0 0 auto;white-space:nowrap;
     background:none;border:none;color:var(--cream-dim);
-    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:0.92rem;font-weight:500;
-    padding:8px 14px;border-radius:999px;cursor:pointer;
-    transition:all .15s ease;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:0.88rem;font-weight:500;
+    padding:9px 7px;border-radius:8px;cursor:pointer;
+    transition:color .15s ease, background .15s ease;
   }
   nav button:hover{color:var(--cream);background:var(--surface);}
-  nav button.active{color:var(--bg);background:var(--gold);}
+  /* Seccion activa: raya fina debajo, sin pastilla amarilla */
+  nav button.active{color:var(--cream);font-weight:600;}
+  nav button.active::after{
+    content:"";position:absolute;left:7px;right:7px;bottom:3px;
+    height:2px;border-radius:2px;background:var(--gold);
+  }
+  /* El nav recorta lo que sale de su caja: el foco va por dentro */
+  nav button:focus-visible{outline-offset:-2px;}
+
+  /* Foco visible para quien navega con teclado */
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 
   /* ---- Explorar todo (panel desplegable en el header) ---- */
-  .explore-wrap{position:relative;}
+  .explore-wrap{position:relative;flex-shrink:0;}
   .explore-btn{
-    display:flex;align-items:center;gap:6px;
-    background:var(--gold);border:none;color:var(--bg);
-    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:0.9rem;font-weight:700;
-    padding:9px 16px;border-radius:999px;cursor:pointer;
-    transition:opacity .15s ease;
+    display:flex;align-items:center;gap:6px;white-space:nowrap;
+    background:transparent;border:1px solid var(--line);color:var(--cream);
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;font-size:0.88rem;font-weight:600;
+    padding:7px 14px;border-radius:999px;cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
   }
-  .explore-btn:hover{opacity:0.88;}
+  .explore-btn:hover{border-color:var(--gold);background:var(--surface);}
+  .explore-btn.open{border-color:var(--gold);}
   .explore-btn .chevron{font-size:0.65rem;transition:transform .15s ease;}
   .explore-btn.open .chevron{transform:rotate(180deg);}
   .explore-panel{
-    display:none;position:absolute;top:calc(100% + 12px);left:0;
+    display:none;position:absolute;top:calc(100% + 12px);right:0;
     background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
     padding:22px;gap:36px;box-shadow:0 24px 60px rgba(0,0,0,.45);z-index:60;
     min-width:540px;
@@ -153,6 +178,8 @@
   .explore-link:hover{background:var(--bg-alt);color:var(--cream);}
   .explore-link .sub{display:block;font-size:0.76rem;color:var(--muted);margin-top:2px;}
   .explore-empty{color:var(--muted);font-size:0.85rem;padding:9px 10px;}
+  /* "Instalar app" vive dentro del panel: es util, pero no es lo primero */
+  .explore-panel #btn-instalar{margin:10px 0 0;align-self:flex-start;}
 
   /* ---- Hero ---- */
   /* La cabecera se apretó (era 64px arriba y 40 abajo): con la portada por
@@ -446,22 +473,20 @@
 
   @media (max-width:640px){
     .feed-item{grid-template-columns:1fr;gap:6px;}
-    /* En movil el menu se desliza en una sola fila. Apilado ocupaba 156px
-       antes del contenido: demasiado para una pantalla de telefono. */
-    nav{
-      width:100%;overflow-x:auto;flex-wrap:nowrap;
-      scrollbar-width:none;-webkit-overflow-scrolling:touch;
-    }
-    nav::-webkit-scrollbar{display:none;}
-    nav button{flex:0 0 auto;}
-    .nav-wrap{flex-wrap:wrap;}
-    .header-left{width:100%;justify-content:space-between;}
+    /* En movil todo va en una sola linea de ~56px: logo, menu deslizable y
+       el boton de Explorar. Antes eran dos filas y 163px. El borde derecho
+       del menu se desvanece para que se note que hay mas opciones. */
+    .nav-wrap{padding:8px 12px;gap:8px;}
+    .logo{gap:7px;font-size:1.05rem;}
+    .logo svg{width:30px;height:26px;}
+    .explore-btn{padding:7px 11px;}
+    .explore-btn .explore-todo{display:none;}
     /* El panel media 606px y en pantallas cortas se salia por abajo.
        Ahora se limita a la pantalla y se desplaza por dentro. */
     .explore-panel{
       flex-direction:column;gap:14px;min-width:unset;
-      width:calc(100vw - 24px);left:-8px;padding:16px;
-      max-height:calc(100vh - 130px);overflow-y:auto;
+      width:calc(100vw - 24px);right:-4px;padding:16px;
+      max-height:calc(100vh - 90px);overflow-y:auto;
       overscroll-behavior:contain;
     }
     .explore-heading{margin-bottom:4px;}
@@ -700,9 +725,9 @@
 
   #btn-instalar{
     display:inline-flex; align-items:center; gap:6px;
-    padding:7px 13px; margin-left:10px; cursor:pointer;
-    background:var(--gold); color:var(--ink); border:0; border-radius:9px;
-    font:inherit; font-size:13px; font-weight:600; white-space:nowrap;
+    padding:8px 14px; cursor:pointer;
+    background:transparent; color:var(--cream); border:1px solid var(--line); border-radius:8px;
+    font:inherit; font-size:13.5px; font-weight:600; white-space:nowrap;
   }
   #btn-instalar[hidden]{ display:none; }
 
@@ -714,10 +739,7 @@
          all and (display-mode: minimal-ui), all and (display-mode: window-controls-overlay){
     #btn-instalar{ display:none; }
   }
-  #btn-instalar:hover{ filter:brightness(1.08); }
-  @media(max-width:420px){
-    #btn-instalar{ font-size:12px; padding:6px 10px; margin-left:6px; }
-  }
+  #btn-instalar:hover{ border-color:var(--gold); background:var(--bg-alt); }
 
   /* Ventana con las instrucciones de instalacion */
   #modal-instalar{
@@ -785,7 +807,6 @@
 
 <header>
   <div class="nav-wrap">
-    <div class="header-left">
     <div class="logo">
       <svg viewBox="0 0 40 34" aria-hidden="true">
         <defs><clipPath id="logoBadge"><rect x="0" y="0" width="40" height="34" rx="7"/></clipPath></defs>
@@ -809,11 +830,19 @@
         <circle cx="31" cy="20" r="2.6" fill="#D9A441"/>
       </svg>
       <span><strong>Puentes</strong></span>
-      <button id="btn-instalar" type="button" title="Instalar Puentes en este dispositivo">&#8595; Instalar app</button>
-      <span id="ancla-instalar" hidden></span>
     </div>
+    <nav id="nav" aria-label="Secciones">
+      <button data-section="portada" class="active">Inicio</button>
+      <button data-section="tramites">Trámites y ayudas</button>
+      <button data-section="antes-salir">Antes de salir de Cuba</button>
+      <button data-section="cuba">Cambios en Cuba</button>
+      <button data-section="comunidad">Comunidad</button>
+      <button data-section="remesas">Remesas y recargas</button>
+      <button data-section="negocios">Negocios</button>
+      <button data-section="empleos">Empleos</button>
+    </nav>
     <div class="explore-wrap">
-      <button id="explore-toggle" class="explore-btn" type="button" aria-expanded="false">☰ Explorar todo <span class="chevron">▾</span></button>
+      <button id="explore-toggle" class="explore-btn" type="button" aria-expanded="false" aria-controls="explore-panel" aria-label="Explorar todo">☰ Explorar<span class="explore-todo"> todo</span> <span class="chevron" aria-hidden="true">▾</span></button>
       <div id="explore-panel" class="explore-panel">
         <div class="explore-col">
           <span class="explore-heading">Servicios</span>
@@ -826,6 +855,8 @@
           <button class="explore-link" data-section="negocios">Negocios cubanos</button>
           <button class="explore-link" data-section="empleos">Ofertas de trabajo</button>
           <a class="explore-link" href="/guias/">Respuestas rápidas<span class="sub">Las dudas que más se repiten, contestadas</span></a>
+          <button id="btn-instalar" type="button" title="Instalar Puentes en este dispositivo">&#8595; Instalar app</button>
+          <span id="ancla-instalar" hidden></span>
         </div>
         <div class="explore-col">
           <span class="explore-heading">Artículos y publicaciones</span>
@@ -833,17 +864,6 @@
         </div>
       </div>
     </div>
-    </div>
-    <nav id="nav">
-      <button data-section="portada" class="active">Inicio</button>
-      <button data-section="tramites">Trámites y ayudas</button>
-      <button data-section="antes-salir">Antes de salir de Cuba</button>
-      <button data-section="cuba">Cambios en Cuba</button>
-      <button data-section="comunidad">Comunidad</button>
-      <button data-section="remesas">Remesas y recargas</button>
-      <button data-section="negocios">Negocios</button>
-      <button data-section="empleos">Empleos</button>
-    </nav>
   </div>
 </header>
 
@@ -3604,6 +3624,34 @@ document.addEventListener('click', e => {
     exploreToggle.setAttribute('aria-expanded', 'false');
   }
 });
+
+/* Escape cierra el panel y devuelve el foco al boton que lo abrio.
+   "Instalar app" vive dentro del panel: al tocarlo, el panel se cierra para
+   que la ventana de instrucciones quede sola. */
+function cerrarExplorar(devolverFoco){
+  if(!explorePanel.classList.contains('open')) return;
+  explorePanel.classList.remove('open');
+  exploreToggle.classList.remove('open');
+  exploreToggle.setAttribute('aria-expanded', 'false');
+  if(devolverFoco) exploreToggle.focus();
+}
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') cerrarExplorar(true);
+});
+document.getElementById('btn-instalar')?.addEventListener('click', () => cerrarExplorar(false));
+
+/* Menu deslizable: marca si quedan opciones a la derecha sin ver */
+(function(){
+  const menu = document.getElementById('nav');
+  if(!menu) return;
+  const marcar = () => {
+    const quedan = menu.scrollLeft + menu.clientWidth < menu.scrollWidth - 2;
+    menu.classList.toggle('desborda', quedan);
+  };
+  menu.addEventListener('scroll', marcar, {passive:true});
+  window.addEventListener('resize', marcar);
+  marcar();
+})();
 </script>
 
 <!-- ============================================================
