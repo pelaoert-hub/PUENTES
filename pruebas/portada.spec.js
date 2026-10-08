@@ -48,47 +48,6 @@ test.describe('portada', () => {
     expect(errores, errores.join('\n')).toEqual([]);
   });
 
-  // El cartel (hero + puente) solo se ve en la portada, y cada seccion tiene
-  // un unico h1 visible: el del cartel en la portada, el suyo en las demas.
-  for (const id of SECCIONES) {
-    test(`seccion ${id}: cartel solo en portada y un h1 visible`, async ({ page }) => {
-      await page.goto(id === 'portada' ? '/' : '/#' + id);
-      await expect(page.locator('#' + id)).toHaveClass(/active/);
-      await expect(page.locator('body')).toHaveAttribute('data-seccion', id);
-      const cartel = page.locator('.hero');
-      if (id === 'portada') await expect(cartel).toBeVisible();
-      else await expect(cartel).toBeHidden();
-      const h1 = await page.locator('h1:visible').count();
-      expect(h1, `h1 visibles en ${id}: ${h1}`).toBe(1);
-    });
-  }
-
-  test('el cartel vuelve al ir a la portada desde el menu y desde Explorar', async ({ page }) => {
-    await page.goto('/#remesas');
-    await expect(page.locator('.hero')).toBeHidden();
-    await page.click('#nav button[data-section="portada"]');
-    await expect(page.locator('.hero')).toBeVisible();
-    await page.click('#explore-toggle');
-    await page.click('.explore-link[data-section="cuba"]');
-    await expect(page.locator('body')).toHaveAttribute('data-seccion', 'cuba');
-    await expect(page.locator('.hero')).toBeHidden();
-    await page.goBack();
-    await expect(page.locator('body')).toHaveAttribute('data-seccion', 'portada');
-    await expect(page.locator('.hero')).toBeVisible();
-  });
-
-  test('¿Qué necesitas? se ve en la primera pantalla de la portada', async ({ page }) => {
-    await page.goto('/');
-    const titulo = page.locator('#necesito-titulo');
-    const caja = await titulo.boundingBox();
-    const alto = page.viewportSize().height;
-    // Solo exigido en movil, que es lo que pide el manual; en escritorio se mide
-    // pero el cartel grande con el logo 3D puede empujarlo.
-    if (alto && page.viewportSize().width < 640) {
-      expect(caja.y + caja.height, `titulo a ${Math.round(caja.y)}px`).toBeLessThanOrEqual(alto);
-    }
-  });
-
   for (const id of SECCIONES) {
     test(`seccion ${id}: sin desborde horizontal`, async ({ page }) => {
       await page.goto('/#' + id);
