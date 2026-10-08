@@ -48,6 +48,38 @@ test.describe('portada', () => {
     expect(errores, errores.join('\n')).toEqual([]);
   });
 
+  // Cabecera en una linea: antes eran dos filas (163px en movil) y se comia
+  // media pantalla antes del contenido.
+  test('cabecera en una sola linea y baja', async ({ page }) => {
+    await page.goto('/');
+    const alto = await page.locator('header').evaluate(h => h.getBoundingClientRect().height);
+    expect(alto, `la cabecera mide ${alto}px`).toBeLessThanOrEqual(64);
+    // El menu, el logo y Explorar comparten la misma fila.
+    const filas = await page.evaluate(() => {
+      const centro = s => { const r = document.querySelector(s).getBoundingClientRect(); return Math.round(r.top + r.height / 2); };
+      return [centro('.logo'), centro('#nav'), centro('#explore-toggle')];
+    });
+    expect(Math.max(...filas) - Math.min(...filas)).toBeLessThanOrEqual(4);
+  });
+
+  test('Explorar: Instalar app vive dentro y Escape cierra el panel', async ({ page }) => {
+    await page.goto('/');
+    const panel = page.locator('#explore-panel');
+    await expect(page.locator('#explore-panel #btn-instalar')).toHaveCount(1);
+    await page.click('#explore-toggle');
+    await expect(panel).toHaveClass(/open/);
+    await expect(page.locator('#explore-toggle')).toHaveAttribute('aria-expanded', 'true');
+    await page.keyboard.press('Escape');
+    await expect(panel).not.toHaveClass(/open/);
+    await expect(page.locator('#explore-toggle')).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.locator('#explore-toggle')).toBeFocused();
+    // El boton de instalar sigue abriendo sus instrucciones.
+    await page.click('#explore-toggle');
+    await page.click('#btn-instalar');
+    await expect(page.locator('#modal-instalar')).toHaveClass(/abierto/);
+    await expect(panel).not.toHaveClass(/open/);
+  });
+
   for (const id of SECCIONES) {
     test(`seccion ${id}: sin desborde horizontal`, async ({ page }) => {
       await page.goto('/#' + id);
