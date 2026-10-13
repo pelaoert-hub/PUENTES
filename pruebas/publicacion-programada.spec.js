@@ -13,10 +13,8 @@ const { test, expect } = require('@playwright/test');
 const PROGRAMADOS = [
   ['El azúcar y Cuba', '2026-10-14T12:00:00Z'],
   ['La independencia de Cuba', '2026-10-16T12:00:00Z'],
-  ['Cuba, provincia de España', '2026-10-18T12:00:00Z'],
-  ['1902: nació la República', '2026-10-20T12:00:00Z'],
-  ['Cuba se escucha', '2026-10-22T12:00:00Z'],
-  ['La memoria de Cuba', '2026-10-24T12:00:00Z'],
+  ['1902: nació la República', '2026-10-18T12:00:00Z'],
+  ['La memoria de Cuba', '2026-10-20T12:00:00Z'],
 ];
 
 async function titulosPublicados(page) {
