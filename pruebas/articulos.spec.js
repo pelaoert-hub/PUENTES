@@ -13,13 +13,19 @@
 const { test, expect } = require('@playwright/test');
 
 const ARTICULOS = [
+  '1902-nacio-la-republica',
+  'azucar-y-cuba-riqueza-y-dependencia',
   'constitucion-cuba-1940-2019',
   'cuba-fuera-de-cuba-emigracion',
   'cuba-nacion-antes-de-1959',
+  'cuba-provincia-de-espana',
+  'cuba-se-escucha-musica-y-cultura',
   'cultura-cubana-mas-que-simbolos',
   'derechos-ciudadania-republica-cuba',
   'el-son-cubano',
+  'independencia-de-cuba-muchas-aspiraciones',
   'jose-marti-hombre-ideas-simbolo',
+  'la-memoria-de-cuba',
   'por-que-economia-cubana-no-despega',
   'recuperar-identidad-del-cubano'
 ];
