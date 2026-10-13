@@ -18,8 +18,6 @@ const ARTICULOS = [
   'constitucion-cuba-1940-2019',
   'cuba-fuera-de-cuba-emigracion',
   'cuba-nacion-antes-de-1959',
-  'cuba-provincia-de-espana',
-  'cuba-se-escucha-musica-y-cultura',
   'cultura-cubana-mas-que-simbolos',
   'derechos-ciudadania-republica-cuba',
   'el-son-cubano',
