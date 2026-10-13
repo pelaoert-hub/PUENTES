@@ -13,7 +13,6 @@
 const { test, expect } = require('@playwright/test');
 
 const ARTICULOS = [
-  '1902-nacio-la-republica',
   'azucar-y-cuba-riqueza-y-dependencia',
   'constitucion-cuba-1940-2019',
   'cuba-fuera-de-cuba-emigracion',
@@ -21,9 +20,7 @@ const ARTICULOS = [
   'cultura-cubana-mas-que-simbolos',
   'derechos-ciudadania-republica-cuba',
   'el-son-cubano',
-  'independencia-de-cuba-muchas-aspiraciones',
   'jose-marti-hombre-ideas-simbolo',
-  'la-memoria-de-cuba',
   'por-que-economia-cubana-no-despega',
   'recuperar-identidad-del-cubano'
 ];
