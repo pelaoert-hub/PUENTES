@@ -13,6 +13,8 @@
 const { test, expect } = require('@playwright/test');
 
 const ARTICULOS = [
+  '1933-la-revolucion-y-los-textos-del-34',
+  '1952-el-golpe-y-los-estatutos',
   'azucar-y-cuba-riqueza-y-dependencia',
   'constitucion-cuba-1940-2019',
   'cuba-fuera-de-cuba-emigracion',
@@ -21,6 +23,8 @@ const ARTICULOS = [
   'derechos-ciudadania-republica-cuba',
   'el-son-cubano',
   'jose-marti-hombre-ideas-simbolo',
+  'la-constituyente-de-1940',
+  'los-que-llegaron-a-cuba',
   'por-que-economia-cubana-no-despega',
   'recuperar-identidad-del-cubano'
 ];

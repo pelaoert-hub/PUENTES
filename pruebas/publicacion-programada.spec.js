@@ -12,6 +12,10 @@ const { test, expect } = require('@playwright/test');
 
 const PROGRAMADOS = [
   ['El azúcar y Cuba', '2026-10-14T12:00:00Z'],
+  ['1933: la revolución que derribó a Machado', '2026-10-16T12:00:00Z'],
+  ['La Constituyente de 1940', '2026-10-18T12:00:00Z'],
+  ['1952: el golpe que sustituyó la Constitución', '2026-10-20T12:00:00Z'],
+  ['Los que llegaron a Cuba', '2026-10-22T12:00:00Z'],
 ];
 
 async function titulosPublicados(page) {
