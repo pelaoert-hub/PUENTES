@@ -505,6 +505,7 @@
   .feed-cat.migracion{background:rgba(255,194,75,.18);color:var(--gold);}
   .feed-cat.economia{background:rgba(255,111,82,.18);color:var(--coral-txt);}
   .feed-cat.aduana{background:rgba(168,218,220,.22);color:var(--muted);}
+  .feed-cat.vivienda{background:rgba(255,248,236,.16);color:var(--cream);}
   .feed-item h3{font-size:1.05rem;margin-bottom:6px;}
   .feed-item p{color:var(--cream-dim);font-size:0.92rem;margin:0;}
 
@@ -1629,6 +1630,7 @@
       <button class="chip" data-cat="migracion">Migración</button>
       <button class="chip" data-cat="economia">Economía</button>
       <button class="chip" data-cat="aduana">Aduana</button>
+      <button class="chip" data-cat="vivienda">Vivienda</button>
     </div>
     <div id="cuba-feed"></div>
 
@@ -2242,6 +2244,7 @@ const tramitesData = {
 };
 
 const cubaFeed = [
+  {date:"oct 2026", cat:"Vivienda", title:"Ley 187/2026 \"Ley de la Vivienda\": nuevas reglas, entra en vigor el 21 de octubre", desc:"La Asamblea Nacional aprobó el 30 de julio la Ley 187 \"Ley de la Vivienda\", publicada el 14 de octubre en la Gaceta Oficial No. 86. Entra en vigor el 21 de octubre de 2026 (siete días después de publicarse) y sustituye a la Ley General de la Vivienda de 1988. No establece que alguien pierda su vivienda automáticamente por salir de Cuba. Sí trae obligaciones nuevas para quien tiene una casa en la isla y vive fuera: debe nombrar un representante para emergencias y trámites (artículo 139.3); una vivienda abandonada y declarada en ruina sí puede perderse por la vía judicial si el propietario no actúa (artículos 139.2 y 141); se reconoce el derecho a tener hasta dos viviendas (artículo 4); cambian las reglas de herencia (artículos 85 a 88), compraventa con pago sin efectivo (artículos 89 y 90) y donación (artículo 99); y ciertos familiares que ya viven en la casa tienen protección frente a un desalojo (artículos 65 y 66). Cada caso concreto —una herencia, una venta, una casa ocupada por un familiar— depende de las circunstancias y de otras normas civiles y migratorias: esto es una guía general, no sustituye asesoría legal para un caso puntual.", label:"vivienda", source:"https://www.gacetaoficial.gob.cu/es/ley-187-de-2026-de-asamblea-nacional-del-poder-popular"},
   {date:"oct 2026", cat:"Aduana", title:"Decreto-Ley 132/2026: lo que pasa cuando traes de más", desc:"Si la Aduana ve que lo que traes pasa de los límites no comerciales, o que es para vender, ya no es automáticamente un problema: ahora admite la importación pagando los derechos y servicios en dólares. Publicado en la Gaceta 83 del 5 de octubre, en vigor a los siete días — el 12 de octubre de 2026. Sigue exenta de impuesto la comida, el aseo, los medicamentos y los insumos médicos que lleves como equipaje acompañado.", label:"aduana", source:"https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-o83.pdf"},
   {date:"oct 2026", cat:"Aduana", title:"Resolución 197/2026: cuánto se paga por traer de más", desc:"Como viajero, el impuesto va por tramos y se paga en dólares: 15 % hasta 2 000 USD, 20 % del exceso hasta 4 000, 25 % hasta 6 000 y 30 % por encima de 6 000. Por envío es una tarifa única del 30 %. Son las cifras que publica la propia Resolución en la Gaceta. La Resolución 340/2026 de la Aduana General, en esa misma Gaceta, fija los límites y los valores de referencia.", label:"aduana", source:"https://www.gacetaoficial.gob.cu/sites/default/files/goc-2026-o83.pdf"},
   {date:"ene 2026", cat:"Aduana", title:"Resolución 9/2026 (Ministerio de Finanzas y Precios)", desc:"Autoriza excepcionalmente la importación sin carácter comercial, sin límite de valor y exenta de impuesto aduanero, de alimentos, aseo, medicamentos e insumos médicos como equipaje acompañado.", label:"aduana", source:"https://www.gacetaoficial.gob.cu/es/resolucion-9-de-2026-de-ministerio-de-finanzas-y-precios"},
