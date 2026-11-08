@@ -1468,6 +1468,7 @@
       <button class="chip" data-country="EEUU">Estados Unidos</button>
       <button class="chip" data-country="México">México</button>
       <button class="chip" data-country="Rusia">Rusia</button>
+      <button class="chip" data-country="Guyana">Guyana</button>
       <button class="chip" data-country="Otro">🌍 Otro país</button>
     </div>
 
@@ -1740,10 +1741,20 @@
     <div class="disclaimer" style="border-left-color:#D9A441;">
       <strong>¿Se puede cobrar en Cuba la misma moneda que se envía?</strong>
       <br><br>
-      <strong>Por vía oficial, no.</strong> Ningún banco ni casa de cambio del Estado
-      entrega moneda extranjera: pagan en <strong>moneda nacional (CUP)</strong> o en saldo
-      MLC. Y el CUP está muy devaluado frente a la calle, así que lo que recibe tu familiar
-      vale bastante menos de lo que tú enviaste.
+      <strong>Por los bancos, no.</strong> Los bancos pagan en <strong>moneda nacional
+      (CUP)</strong> o en saldo MLC, y el CUP está muy devaluado frente a la calle, así que
+      lo que recibe tu familiar vale bastante menos de lo que tú enviaste.
+      <br><br>
+      Desde abril de 2026 las CADECA pagan en dólares las remesas que llegan por
+      <strong>Fincimex</strong>, que también gestiona la tarjeta Clásica. Fincimex pertenece
+      al conglomerado militar GAESA y está en la Lista Restringida de Estados Unidos. Puentes
+      no enlaza ninguna vía que pase por ella.
+      <br><br>
+      <strong>Si envías desde Estados Unidos, ojo.</strong> Desde el 30 de septiembre de 2026
+      la OFAC prohíbe también las operaciones <em>indirectas</em> con las entidades de la
+      Lista Restringida de Cuba, entre ellas Fincimex y Orbit, S.A. Las remesas familiares
+      siguen permitidas, pero no si el dinero pasa por una de esas entidades. Pregunta a la
+      empresa por dónde llega antes de enviar.
       <br><br>
       <strong>Por vía privada sí.</strong> Algunos servicios entregan <strong>USD en mano,
       a domicilio</strong>. Filtra por <strong>"Dinero en efectivo"</strong> aquí abajo.
@@ -1785,6 +1796,12 @@
       allí sin problema, a cuenta bancaria o a recoger en efectivo. Se cobra en laris. Si
       tienes un conocido cubano en Tbilisi o en Batumi, le llega igual que a cualquier otro
       país de la lista.
+      <br><br>
+      <strong>Guyana.</strong> Las cuatro empresas de la tabla envían a Guyana. Wise lo
+      deposita en una cuenta bancaria en dólares guyaneses; Western Union, MoneyGram y
+      Remitly permiten además recogerlo en efectivo en agencias del país. Y si vives en
+      Guyana y quieres mandar a Cuba, las empresas de la tabla de arriba cobran por internet
+      con tarjeta, así que sirven desde allí igual que desde cualquier otro país.
       <br><br>
       <strong>Comprueba tú mismo cualquier empresa antes de usarla.</strong> Las de verdad
       están registradas y se pueden consultar en los registros públicos de cada país:
@@ -2064,13 +2081,14 @@ const DEVICE_ID = getDeviceId();
 const PERFIL_KEY = 'puentes_perfil';
 
 // Los paises que hoy tienen ficha propia en Tramites. El resto cae en "Otro".
-const PAISES_CON_FICHA = ['España', 'EEUU', 'México', 'Rusia'];
+const PAISES_CON_FICHA = ['España', 'EEUU', 'México', 'Rusia', 'Guyana'];
 
 const PAISES_PERFIL = [
   { id:'España', txt:'España'  },
   { id:'EEUU',   txt:'Estados Unidos' },
   { id:'México', txt:'México'  },
   { id:'Rusia',  txt:'Rusia'   },
+  { id:'Guyana', txt:'Guyana'  },
   { id:'Otro',   txt:'🌍 Otro país' },
   { id:'Cuba',   txt:'Sigo en Cuba' },
 ];
@@ -2238,6 +2256,10 @@ const tramitesData = {
   "Rusia": [
     {tag:"Trámites", title:"Portal estatal de servicios «Госуслуги» (Gosuslugi)", desc:"Es la ventanilla única del Estado ruso: desde ahí se piden y se siguen los trámites, se pagan tasas y se sacan citas, incluidas las de extranjería. Está solo en ruso. Un extranjero puede abrirse cuenta, pero con la cuenta sin confirmar solo se accede a una parte; para desbloquear el resto hay que verificar la identidad en persona.", date:"sep 2026", source:"https://www.gosuslugi.ru/", verificado:true},
   ],
+  "Guyana": [
+    {tag:"Entrada", title:"¿Hace falta visado para entrar a Guyana con pasaporte cubano? Las fuentes no coinciden", desc:"La lista oficial de la Cancillería de Guyana (actualizada el 17 de julio de 2025) solo exime de visado a los cubanos con pasaporte diplomático, oficial o de servicio; con pasaporte ordinario, según esa lista, hace falta visado. En cambio, la Organización Internacional para las Migraciones y la prensa de 2026 informan de que en la práctica los cubanos entran sin visado para estancias cortas. Antes de comprar el pasaje, confírmalo con la Embajada de Guyana en La Habana (Quinta Avenida n.º 4205, entre 42 y 44, Miramar; teléfono +53 7204 2249) o con tu aerolínea.", date:"nov 2026", source:"https://www.minfor.gov.gy/visa-information", verificado:true},
+    {tag:"Residencia", title:"Visados, prórrogas y permisos de entrada (landing permit) por internet", desc:"El Ministerio del Interior de Guyana (Ministry of Home Affairs) tramita en línea, con su plataforma Immigration Support Services, los visados de visita, negocios, empleo y estudios, las prórrogas de esos visados y los permisos de entrada (landing permit) por negocios, empleo o estudios. Hay que crear una cuenta y subir los documentos que pide cada trámite. Está en inglés.", date:"nov 2026", source:"https://moha.gov.gy/", verificado:true},
+  ],
   "Otro": [
     {tag:"General", title:"Selecciona o solicita tu país", desc:"Si tu país no aparece, sugiérelo con el formulario de abajo.", date:"—", source:null, verificado:false},
   ],
@@ -2267,18 +2289,23 @@ const community = [
 // Donde el proveedor no la publica, ponemos "Ver en el sitio" en vez de inventar.
 // El sello es opcional; sin el, la fila sale como "Comprobado por Puentes".
 // Ultima comprobacion de enlaces y tarifas: 2026-08-28.
+// Revision 2026-11-08: Safe Pay Today ya no publica tarifa fija (solo una
+// calculadora) y se mudo a safepaytoday.net. Se quito la fila de la tarjeta
+// Clasica: la emite Fincimex (GAESA, Lista Restringida de EEUU), y desde el
+// 30-sep-2026 la OFAC prohibe tambien las operaciones indirectas con ella.
+// Fonmoney: comprobado que ofrece MLC, Tropical (BANDEC) y efectivo a domicilio.
 // Las filas de "Entre paises (fuera de Cuba)" se agregaron el 2026-09-13.
 const remesas = [
-  ["Safe Pay Today — Tarjeta MLC", "Dinero a MLC/tarjeta", "7% + 1 USD", "Menos de 30 min",
-   "https://safepaytoday.com/servicios/"],
-  ["Safe Pay Today — Tarjeta Clásica (CUP)", "Dinero a MLC/tarjeta", "18% + 1 USD", "En minutos",
-   "https://safepaytoday.com/servicios/"],
-  ["Safe Pay Today — USD en efectivo", "Dinero en efectivo", "20% + reparto", "Mismo día, hasta 24 h (solo La Habana)",
-   "https://safepaytoday.com/servicios/"],
+  ["Safe Pay Today — Tarjeta MLC", "Dinero a MLC/tarjeta", "Ver en el sitio", "De 2 a 24 h laborables",
+   "https://safepaytoday.net/"],
+  ["Safe Pay Today — efectivo a domicilio", "Dinero en efectivo", "Ver en el sitio", "De 24 a 48 h (solo La Habana)",
+   "https://safepaytoday.net/"],
   ["sendvalu — entrega a domicilio", "Dinero en efectivo", "Ver en el sitio", "Ver en el sitio",
    "https://www.sendvalu.com/es/enviar-dinero-a-cuba"],
   ["Fonmoney", "Dinero a MLC/tarjeta", "Ver en el sitio", "Ver en el sitio",
    "https://www.fonmoney.es/"],
+  ["Fonmoney — efectivo a domicilio (CUP o USD)", "Dinero en efectivo", "Ver en el sitio", "Ver en el sitio",
+   "https://www.fonmoney.es/transferencias-a-cuba"],
   ["Cuballama", "Recarga móvil", "Ver en el sitio", "Ver en el sitio",
    "https://www.cuballama.com/recargas-a-cuba"],
   ["Cubatel", "Recarga móvil", "Ver en el sitio", "Ver en el sitio",
@@ -2358,6 +2385,15 @@ const tramitesEnlaces = {
     { icono: '🌐', nombre: 'Госуслуги — portal estatal de trámites (en ruso)', url: 'https://www.gosuslugi.ru/' },
     { icono: '🇨🇺', nombre: 'Consulado de Cuba en Rusia (pasaporte cubano)', url: 'https://misiones.cubaminrex.cu/es/rusia' },
   ],
+  // Guyana, comprobado el 2026-11-08. La plataforma de visados la enlaza el
+  // propio Ministerio del Interior (moha.gov.gy). La pagina de la Embajada de
+  // Cuba solo se pudo confirmar en su version en ingles (/en/guyana).
+  "Guyana": [
+    { icono: '📅', nombre: 'Visados, prórrogas y permisos (Immigration Support Services)', url: 'https://eservices.iss.gov.gy/' },
+    { icono: '🛂', nombre: 'Quién necesita visado (Cancillería de Guyana)', url: 'https://www.minfor.gov.gy/visa-information' },
+    { icono: '🏛️', nombre: 'Ministerio del Interior (inmigración)', url: 'https://moha.gov.gy/' },
+    { icono: '🇨🇺', nombre: 'Embajada de Cuba en Guyana (pasaporte cubano)', url: 'https://misiones.cubaminrex.cu/en/guyana' },
+  ],
   "Otro": [],
 };
 
@@ -2373,7 +2409,8 @@ const citaPreviaData = {
   "España": "https://icp.administracionelectronica.gob.es/icpplus/index.html",
   "EEUU": "https://my.uscis.gov/en/appointment/v2",
   "México": "https://www.inm.gob.mx/mpublic/publico/inm-tramites.html",
-  "Rusia": null,
+  "Rusia": "https://www.gosuslugi.ru/",
+  "Guyana": "https://eservices.iss.gov.gy/",
   "Otro": null,
 };
 
@@ -2382,6 +2419,7 @@ const gacetaOficialData = {
   "EEUU": { nombre: "Federal Register", url: "https://www.federalregister.gov" },
   "México": { nombre: "DOF (Diario Oficial de la Federación)", url: "https://www.dof.gob.mx" },
   "Rusia": { nombre: "Portal Oficial de Información Jurídica", url: "https://publication.pravo.gov.ru" },
+  "Guyana": { nombre: "Official Gazette of Guyana (boletín oficial)", url: "https://officialgazette.gov.gy/" },
   "Otro": null,
 };
 
@@ -2494,7 +2532,7 @@ const paisesVisadoLibre = [
   ["Barbados", "Estancia corta (turismo)"],
   ["Antigua y Barbuda", "Estancia corta (turismo)"],
   ["San Vicente y las Granadinas", "Estancia corta (turismo)"],
-  ["Guyana", "Tiempo limitado"],
+  ["Guyana", "Sin confirmar: la Cancillería de Guyana pide visado al pasaporte ordinario; la OIM dice que en la práctica no. Pregunta antes de viajar"],
   ["Malasia", "90 días"],
   ["Tailandia", "60 días"],
   ["Rusia", "Según acuerdo bilateral"],
@@ -3999,13 +4037,13 @@ const guias = [
     pregunta:'¿Cómo envío dinero a Cuba?',
     respuesta:'Qué cobra cada proveedor, cuánto tarda y por qué no se puede cobrar en la misma moneda.',
     href:'/guias/como-enviar-dinero-a-cuba/',
-    paises:['España','EEUU','México','Rusia','Otro','Cuba'],
+    paises:['España','EEUU','México','Rusia','Guyana','Otro','Cuba'],
   },
   {
     pregunta:'¿Dónde renuevo el pasaporte cubano?',
     respuesta:'El consulado que te toca según dónde vivas, con el directorio oficial de los 127 países.',
     href:'/guias/donde-renovar-pasaporte-cubano/',
-    paises:['España','EEUU','México','Rusia','Otro'],
+    paises:['España','EEUU','México','Rusia','Guyana','Otro'],
   },
   {
     pregunta:'¿Qué necesito para el arraigo social en España?',
@@ -4023,7 +4061,7 @@ const guias = [
     pregunta:'¿Qué puedo llevar a Cuba sin pagar aduana?',
     respuesta:'Lo que dicen las resoluciones vigentes sobre alimentos, aseo y medicamentos.',
     href:'/guias/que-puedo-llevar-a-cuba/',
-    paises:['España','EEUU','México','Rusia','Otro','Cuba'],
+    paises:['España','EEUU','México','Rusia','Guyana','Otro','Cuba'],
   },
 ];
 
