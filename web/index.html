@@ -489,6 +489,11 @@
   }
   .verify-link{color:var(--coral-txt);text-decoration:none;font-weight:500;}
   .verify-link:hover{text-decoration:underline;}
+  /* botones que llevan directo al tramite (no a la pagina informativa) */
+  .acciones-tramite{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .acciones-tramite a{display:inline-block;background:var(--gold);color:var(--ink);text-decoration:none;
+    padding:9px 16px;border-radius:999px;font-weight:600;font-size:0.88rem;max-width:100%;}
+  .acciones-tramite a:hover{opacity:0.88;}
 
   /* ---- Feed (Cambios en Cuba) ---- */
   .feed-item{
@@ -1468,6 +1473,7 @@
       <button class="chip" data-country="EEUU">Estados Unidos</button>
       <button class="chip" data-country="México">México</button>
       <button class="chip" data-country="Rusia">Rusia</button>
+      <button class="chip" data-country="Guyana">Guyana</button>
       <button class="chip" data-country="Otro">🌍 Otro país</button>
     </div>
 
@@ -1745,6 +1751,12 @@
       MLC. Y el CUP está muy devaluado frente a la calle, así que lo que recibe tu familiar
       vale bastante menos de lo que tú enviaste.
       <br><br>
+      <strong>Si envías desde Estados Unidos, ojo.</strong> Desde el 30 de septiembre de 2026
+      la OFAC prohíbe también las operaciones <em>indirectas</em> con las entidades de la
+      Lista Restringida de Cuba, entre ellas Fincimex y Orbit, S.A. Las remesas familiares
+      siguen permitidas, pero no si el dinero pasa por una de esas entidades. Pregunta a la
+      empresa por dónde llega antes de enviar.
+      <br><br>
       <strong>Por vía privada sí.</strong> Algunos servicios entregan <strong>USD en mano,
       a domicilio</strong>. Filtra por <strong>"Dinero en efectivo"</strong> aquí abajo.
       Cobran más comisión — pero llega la moneda de verdad, no su equivalente en pesos.
@@ -1785,6 +1797,12 @@
       allí sin problema, a cuenta bancaria o a recoger en efectivo. Se cobra en laris. Si
       tienes un conocido cubano en Tbilisi o en Batumi, le llega igual que a cualquier otro
       país de la lista.
+      <br><br>
+      <strong>Guyana.</strong> Las cuatro empresas de la tabla envían a Guyana. Wise lo
+      deposita en una cuenta bancaria en dólares guyaneses; Western Union, MoneyGram y
+      Remitly permiten además recogerlo en efectivo en agencias del país. Y si vives en
+      Guyana y quieres mandar a Cuba, las empresas de la tabla de arriba cobran por internet
+      con tarjeta, así que sirven desde allí igual que desde cualquier otro país.
       <br><br>
       <strong>Comprueba tú mismo cualquier empresa antes de usarla.</strong> Las de verdad
       están registradas y se pueden consultar en los registros públicos de cada país:
@@ -2064,13 +2082,14 @@ const DEVICE_ID = getDeviceId();
 const PERFIL_KEY = 'puentes_perfil';
 
 // Los paises que hoy tienen ficha propia en Tramites. El resto cae en "Otro".
-const PAISES_CON_FICHA = ['España', 'EEUU', 'México', 'Rusia'];
+const PAISES_CON_FICHA = ['España', 'EEUU', 'México', 'Rusia', 'Guyana'];
 
 const PAISES_PERFIL = [
   { id:'España', txt:'España'  },
   { id:'EEUU',   txt:'Estados Unidos' },
   { id:'México', txt:'México'  },
   { id:'Rusia',  txt:'Rusia'   },
+  { id:'Guyana', txt:'Guyana'  },
   { id:'Otro',   txt:'🌍 Otro país' },
   { id:'Cuba',   txt:'Sigo en Cuba' },
 ];
@@ -2224,6 +2243,12 @@ function formatDate(iso){
 const tramitesData = {
   "España": [
     {tag:"Familia", title:"Traer a tu familia desde Cuba: cambia dónde se presenta", desc:"Si vas a pedir un visado para alguien que sigue en Cuba, la solicitud ya no se entrega en el Consulado sino en el nuevo Centro de Solicitud de Visados de La Habana (Av. 31 e/ 18 y 14, casa 1419, Miramar). Para familiares de españoles y de ciudadanos de la UE, EEE y Suiza entra en vigor el 19 de octubre de 2026; los visados de estancia entraron el 5 y los nacionales el 12. Sigue haciendo falta cita previa y la decisión la toma solo el Consulado. Ojo: nadie vende citas — el Consulado ha alertado de citas falsas y de intermediarios que cobran por ellas.", date:"oct 2026", source:"https://www.exteriores.gob.es/Consulados/lahabana/es/Comunicacion/Noticias/Documents/FAQ%20-%20Centro%20de%20Solicitud%20de%20Visados%20para%20Espa%C3%B1a%20en%20Cuba.pdf", verificado:true},
+    // Nacionalidad por residencia, para cubanos que ya viven en Espana. Enlaces comprobados el 2026-11-08.
+    {tag:"Nacionalidad", title:"Nacionalidad española por residencia: los cubanos pueden pedirla a los 2 años", desc:"Cuba cuenta como país iberoamericano, así que basta con 2 años de residencia legal, continuada e inmediatamente anterior a la solicitud (artículo 22 del Código Civil); la regla general son 10. Lo que hay que aportar: la tarjeta de residencia (TIE), el pasaporte cubano completo y en vigor, el certificado de nacimiento y el certificado de antecedentes penales de Cuba, los dos legalizados, y el diploma de la prueba CCSE del Instituto Cervantes. Los cubanos no tienen que hacer el examen de idioma (DELE): se acredita con el pasaporte. Hay que pagar antes una tasa de 104,05 € (modelo 790-026). Si estás casado/a con español/a, naciste en España o eres hijo o nieto de español, la fuente oficial indica los documentos extra de tu caso.", date:"nov 2026", source:"https://www.mjusticia.gob.es/es/ciudadania/nacionalidad/informacion-nacionalidad", verificado:true},
+    {tag:"Nacionalidad", title:"Paso 1: aprobar la prueba CCSE del Instituto Cervantes", desc:"Es obligatoria para la nacionalidad por residencia: preguntas sobre la Constitución y la sociedad española. Hay convocatoria casi todos los meses. Para inscribirte tienes que crearte una cuenta en la tienda en línea del Instituto Cervantes y pagar allí el examen. El manual de preparación es gratuito y hay una app oficial para practicar. La inscripción para las convocatorias de 2027 se abre el 23 de noviembre de 2026. El precio se publica al inscribirse.", date:"nov 2026", source:"https://cervantes.org/es/examenes/dele", verificado:true, acciones:[{texto:"Inscribirme al examen CCSE", url:"https://tienda.cervantes.org/"},{texto:"Manual gratis (PDF)", url:"https://cervantes.org/sites/public/produccion/files/2026-10/manual-preparacion-prueba-ccse-2026.pdf"}]},
+    {tag:"Nacionalidad", title:"Paso 2: pagar la tasa (modelo 790-026, 104,05 €)", desc:"El impreso se descarga en la sede electrónica del Ministerio de Justicia y se paga en un banco colaborador de la Agencia Tributaria, siempre a nombre de quien pide la nacionalidad y con su NIE. Cada impreso lleva un código único: no lo fotocopies, descarga uno nuevo para cada solicitud.", date:"nov 2026", source:"https://sede.mjusticia.gob.es/es/tramites/nacionalidad-espanola", verificado:true, acciones:[{texto:"Descargar el modelo 790-026", url:"https://sede.mjusticia.gob.es/enares790?lang=es_es&idtramite=1288776962092&idpagina=1215197884559"}]},
+    {tag:"Nacionalidad", title:"Paso 3: presentar la solicitud por internet", desc:"Se presenta en la sede electrónica del Ministerio de Justicia con Cl@ve o certificado digital (también puede hacerlo un representante con poder). Tienes que escanear y adjuntar los documentos. Desde que la creas tienes dos meses para completarla y firmarla; si no, se borra sola. Guarda el número de expediente: lo necesitas para seguirla.", date:"nov 2026", source:"https://sede.mjusticia.gob.es/es/tramites/nacionalidad-espanola", verificado:true, acciones:[{texto:"Empezar la solicitud (Cl@ve)", url:"https://enares.mjusticia.gob.es/enares/clave/solicitud/Inicio.action?lang=es_es&idtramite=ENARES&idpagina=1215197884559"}]},
+    {tag:"Nacionalidad", title:"Paso 4: consultar cómo va tu expediente", desc:"En «¿Cómo va lo mío?», del Ministerio de Justicia, ves en qué fase está tu solicitud, sin certificado digital. Esa consulta no es una notificación: los avisos y resoluciones llegan por correo postal o por internet, en la Dirección Electrónica Habilitada Única (DEHú). Teléfonos de información del Ministerio: 918 372 295 y 902 007 214.", date:"nov 2026", source:"https://sede.mjusticia.gob.es/eConsultas/inicioNacionalidad", verificado:true, acciones:[{texto:"Consultar mi expediente", url:"https://sede.mjusticia.gob.es/eConsultas/inicioNacionalidad?idtramite=1215326299080&lang=es_es&idpagina=1215197884559"}]},
     {tag:"Residencia", title:"Regularización migratoria extraordinaria 2026", desc:"Real Decreto que abre un proceso de regularización para quienes estaban en España antes del 1 de enero de 2026 y acreditan 5 meses de estancia ininterrumpida. La autorización da derecho a trabajar un año.", date:"21 abr 2026", source:"https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/inclusion/paginas/2026/proceso-regularizacion-migratoria.aspx", verificado:true},
     {tag:"Residencia", title:"Nacionalidad — Ley de Memoria Democrática (PLAZO CERRADO)", desc:"El plazo para solicitar cita para esta vía de nacionalidad (nietos de españoles) se cerró el 22 de octubre de 2025. Solo se atienden quienes ya tenían cita solicitada antes de esa fecha.", date:"22 oct 2025", source:"https://www.boe.es/buscar/act.php?id=BOE-A-2022-17099", verificado:true},
     {tag:"Residencia", title:"Arraigo social", desc:"Autorización para extranjeros con mínimo 2 años en España, con vínculos familiares o un informe de integración social emitido por el ayuntamiento o comunidad autónoma correspondiente.", date:"abr 2026", source:"https://www.inclusion.gob.es/en/web/migraciones/w/autorizacion-residencia-temporal-por-circunstancias-excepcionales.-arraigo-social", verificado:true},
@@ -2237,6 +2262,10 @@ const tramitesData = {
   ],
   "Rusia": [
     {tag:"Trámites", title:"Portal estatal de servicios «Госуслуги» (Gosuslugi)", desc:"Es la ventanilla única del Estado ruso: desde ahí se piden y se siguen los trámites, se pagan tasas y se sacan citas, incluidas las de extranjería. Está solo en ruso. Un extranjero puede abrirse cuenta, pero con la cuenta sin confirmar solo se accede a una parte; para desbloquear el resto hay que verificar la identidad en persona.", date:"sep 2026", source:"https://www.gosuslugi.ru/", verificado:true},
+  ],
+  "Guyana": [
+    {tag:"Entrada", title:"¿Hace falta visado para entrar a Guyana con pasaporte cubano? Las fuentes no coinciden", desc:"La lista oficial de la Cancillería de Guyana (actualizada el 17 de julio de 2025) solo exime de visado a los cubanos con pasaporte diplomático, oficial o de servicio; con pasaporte ordinario, según esa lista, hace falta visado. En cambio, la Organización Internacional para las Migraciones y la prensa de 2026 informan de que en la práctica los cubanos entran sin visado para estancias cortas. Antes de comprar el pasaje, confírmalo con la Embajada de Guyana en La Habana (Quinta Avenida n.º 4205, entre 42 y 44, Miramar; teléfono +53 7204 2249) o con tu aerolínea.", date:"nov 2026", source:"https://www.minfor.gov.gy/visa-information", verificado:true},
+    {tag:"Residencia", title:"Visados, prórrogas y permisos de entrada (landing permit) por internet", desc:"El Ministerio del Interior de Guyana (Ministry of Home Affairs) tramita en línea, con su plataforma Immigration Support Services, los visados de visita, negocios, empleo y estudios, las prórrogas de esos visados y los permisos de entrada (landing permit) por negocios, empleo o estudios. Hay que crear una cuenta y subir los documentos que pide cada trámite. Está en inglés.", date:"nov 2026", source:"https://moha.gov.gy/", verificado:true},
   ],
   "Otro": [
     {tag:"General", title:"Selecciona o solicita tu país", desc:"Si tu país no aparece, sugiérelo con el formulario de abajo.", date:"—", source:null, verificado:false},
@@ -2267,18 +2296,23 @@ const community = [
 // Donde el proveedor no la publica, ponemos "Ver en el sitio" en vez de inventar.
 // El sello es opcional; sin el, la fila sale como "Comprobado por Puentes".
 // Ultima comprobacion de enlaces y tarifas: 2026-08-28.
+// Revision 2026-11-08: Safe Pay Today ya no publica tarifa fija (solo una
+// calculadora) y se mudo a safepaytoday.net. Se quito la fila de la tarjeta
+// Clasica: la emite Fincimex (GAESA, Lista Restringida de EEUU), y desde el
+// 30-sep-2026 la OFAC prohibe tambien las operaciones indirectas con ella.
+// Fonmoney: comprobado que ofrece MLC, Tropical (BANDEC) y efectivo a domicilio.
 // Las filas de "Entre paises (fuera de Cuba)" se agregaron el 2026-09-13.
 const remesas = [
-  ["Safe Pay Today — Tarjeta MLC", "Dinero a MLC/tarjeta", "7% + 1 USD", "Menos de 30 min",
-   "https://safepaytoday.com/servicios/"],
-  ["Safe Pay Today — Tarjeta Clásica (CUP)", "Dinero a MLC/tarjeta", "18% + 1 USD", "En minutos",
-   "https://safepaytoday.com/servicios/"],
-  ["Safe Pay Today — USD en efectivo", "Dinero en efectivo", "20% + reparto", "Mismo día, hasta 24 h (solo La Habana)",
-   "https://safepaytoday.com/servicios/"],
+  ["Safe Pay Today — Tarjeta MLC", "Dinero a MLC/tarjeta", "Ver en el sitio", "De 2 a 24 h laborables",
+   "https://safepaytoday.net/"],
+  ["Safe Pay Today — efectivo a domicilio", "Dinero en efectivo", "Ver en el sitio", "De 24 a 48 h (solo La Habana)",
+   "https://safepaytoday.net/"],
   ["sendvalu — entrega a domicilio", "Dinero en efectivo", "Ver en el sitio", "Ver en el sitio",
    "https://www.sendvalu.com/es/enviar-dinero-a-cuba"],
   ["Fonmoney", "Dinero a MLC/tarjeta", "Ver en el sitio", "Ver en el sitio",
    "https://www.fonmoney.es/"],
+  ["Fonmoney — efectivo a domicilio (CUP o USD)", "Dinero en efectivo", "Ver en el sitio", "Ver en el sitio",
+   "https://www.fonmoney.es/transferencias-a-cuba"],
   ["Cuballama", "Recarga móvil", "Ver en el sitio", "Ver en el sitio",
    "https://www.cuballama.com/recargas-a-cuba"],
   ["Cubatel", "Recarga móvil", "Ver en el sitio", "Ver en el sitio",
@@ -2309,6 +2343,7 @@ function renderTramites(country){
       <div class="post-card-row"><span class="tag">${item.tag}</span>${sello(nivelDe(item))}</div>
       <h3>${item.title}</h3>
       <p>${item.desc}</p>
+      ${item.acciones ? `<div class="acciones-tramite">${item.acciones.map(a => `<a href="${a.url}" target="_blank" rel="noopener">${a.texto} →</a>`).join('')}</div>` : ''}
       <div class="meta">
         <span>${nivelDe(item) === 'oficial' ? 'Verificado: ' + item.date
                 : nivelDe(item) === 'puentes' ? 'Comprobado por Puentes: ' + item.date
@@ -2358,6 +2393,15 @@ const tramitesEnlaces = {
     { icono: '🌐', nombre: 'Госуслуги — portal estatal de trámites (en ruso)', url: 'https://www.gosuslugi.ru/' },
     { icono: '🇨🇺', nombre: 'Consulado de Cuba en Rusia (pasaporte cubano)', url: 'https://misiones.cubaminrex.cu/es/rusia' },
   ],
+  // Guyana, comprobado el 2026-11-08. La plataforma de visados la enlaza el
+  // propio Ministerio del Interior (moha.gov.gy). La pagina de la Embajada de
+  // Cuba solo se pudo confirmar en su version en ingles (/en/guyana).
+  "Guyana": [
+    { icono: '📅', nombre: 'Visados, prórrogas y permisos (Immigration Support Services)', url: 'https://eservices.iss.gov.gy/' },
+    { icono: '🛂', nombre: 'Quién necesita visado (Cancillería de Guyana)', url: 'https://www.minfor.gov.gy/visa-information' },
+    { icono: '🏛️', nombre: 'Ministerio del Interior (inmigración)', url: 'https://moha.gov.gy/' },
+    { icono: '🇨🇺', nombre: 'Embajada de Cuba en Guyana (pasaporte cubano)', url: 'https://misiones.cubaminrex.cu/en/guyana' },
+  ],
   "Otro": [],
 };
 
@@ -2373,7 +2417,8 @@ const citaPreviaData = {
   "España": "https://icp.administracionelectronica.gob.es/icpplus/index.html",
   "EEUU": "https://my.uscis.gov/en/appointment/v2",
   "México": "https://www.inm.gob.mx/mpublic/publico/inm-tramites.html",
-  "Rusia": null,
+  "Rusia": "https://www.gosuslugi.ru/",
+  "Guyana": "https://eservices.iss.gov.gy/",
   "Otro": null,
 };
 
@@ -2382,6 +2427,7 @@ const gacetaOficialData = {
   "EEUU": { nombre: "Federal Register", url: "https://www.federalregister.gov" },
   "México": { nombre: "DOF (Diario Oficial de la Federación)", url: "https://www.dof.gob.mx" },
   "Rusia": { nombre: "Portal Oficial de Información Jurídica", url: "https://publication.pravo.gov.ru" },
+  "Guyana": { nombre: "Official Gazette of Guyana (boletín oficial)", url: "https://officialgazette.gov.gy/" },
   "Otro": null,
 };
 
@@ -2494,7 +2540,7 @@ const paisesVisadoLibre = [
   ["Barbados", "Estancia corta (turismo)"],
   ["Antigua y Barbuda", "Estancia corta (turismo)"],
   ["San Vicente y las Granadinas", "Estancia corta (turismo)"],
-  ["Guyana", "Tiempo limitado"],
+  ["Guyana", "Sin confirmar: la Cancillería de Guyana pide visado al pasaporte ordinario; la OIM dice que en la práctica no. Pregunta antes de viajar"],
   ["Malasia", "90 días"],
   ["Tailandia", "60 días"],
   ["Rusia", "Según acuerdo bilateral"],
@@ -4079,13 +4125,13 @@ const guias = [
     pregunta:'¿Cómo envío dinero a Cuba?',
     respuesta:'Qué cobra cada proveedor, cuánto tarda y por qué no se puede cobrar en la misma moneda.',
     href:'/guias/como-enviar-dinero-a-cuba/',
-    paises:['España','EEUU','México','Rusia','Otro','Cuba'],
+    paises:['España','EEUU','México','Rusia','Guyana','Otro','Cuba'],
   },
   {
     pregunta:'¿Dónde renuevo el pasaporte cubano?',
     respuesta:'El consulado que te toca según dónde vivas, con el directorio oficial de los 127 países.',
     href:'/guias/donde-renovar-pasaporte-cubano/',
-    paises:['España','EEUU','México','Rusia','Otro'],
+    paises:['España','EEUU','México','Rusia','Guyana','Otro'],
   },
   {
     pregunta:'¿Qué necesito para el arraigo social en España?',
@@ -4103,7 +4149,7 @@ const guias = [
     pregunta:'¿Qué puedo llevar a Cuba sin pagar aduana?',
     respuesta:'Lo que dicen las resoluciones vigentes sobre alimentos, aseo y medicamentos.',
     href:'/guias/que-puedo-llevar-a-cuba/',
-    paises:['España','EEUU','México','Rusia','Otro','Cuba'],
+    paises:['España','EEUU','México','Rusia','Guyana','Otro','Cuba'],
   },
 ];
 
