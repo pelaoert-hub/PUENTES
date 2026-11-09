@@ -13,20 +13,30 @@
 const { test, expect } = require('@playwright/test');
 
 const ARTICULOS = [
+  '1492-el-encuentro-que-cambio-cuba',
   '1933-la-revolucion-y-los-textos-del-34',
   '1952-el-golpe-y-los-estatutos',
+  'antes-de-cuba-primeros-habitantes',
+  'azucar-tabaco-y-transformacion-de-la-sociedad-cubana',
   'azucar-y-cuba-riqueza-y-dependencia',
   'constitucion-cuba-1940-2019',
+  'cuando-los-cubanos-se-preguntaron-quienes-eran',
+  'cuba-en-el-siglo-xviii',
   'cuba-fuera-de-cuba-emigracion',
   'cuba-nacion-antes-de-1959',
   'cultura-cubana-mas-que-simbolos',
   'derechos-ciudadania-republica-cuba',
+  'el-nacimiento-del-criollo',
   'el-son-cubano',
+  'espana-africa-america-raices-de-una-nueva-sociedad',
   'jose-marti-hombre-ideas-simbolo',
   'la-constituyente-de-1940',
+  'la-habana-ciudad-que-cambio-el-destino-de-cuba',
   'los-que-llegaron-a-cuba',
   'por-que-economia-cubana-no-despega',
-  'recuperar-identidad-del-cubano'
+  'primeras-villas-cubanas',
+  'recuperar-identidad-del-cubano',
+  'siglo-xix-el-nacimiento-de-una-nacion'
 ];
 
 // Que NO cuenta como error de la pagina:
