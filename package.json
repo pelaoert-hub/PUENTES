@@ -4,7 +4,7 @@
   "private": true,
   "description": "App de Puentes: guia y comunidad para cubanos dentro y fuera de la isla",
   "scripts": {
-    "serve": "powershell -ExecutionPolicy Bypass -File tools/serve.ps1",
+    "serve": "python3 tools/serve.py",
     "test": "playwright test",
     "sync": "cap sync",
     "android": "cap open android",

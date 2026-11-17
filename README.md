@@ -59,7 +59,8 @@ APP PUENTES/
 │
 ├── original/                   ← copia intacta del sitio publicado (referencia)
 ├── tools/
-│   ├── serve.ps1               ← servidor local para probar
+│   ├── serve.py                ← servidor local para probar (Mac/Linux/Windows)
+│   ├── serve.ps1               ← el mismo, solo para Windows (antiguo)
 │   └── icon-gen.html           ← genera los PNG de los iconos
 └── README.md
 ```
@@ -73,8 +74,11 @@ Los service workers **solo funcionan sobre HTTPS o localhost**. Abrir el
 `index.html` con doble clic no alcanza: hay que levantar un servidor.
 
 ```bash
-powershell -ExecutionPolicy Bypass -File tools/serve.ps1
+python3 tools/serve.py
 ```
+
+(o `npm run serve`). En Windows seguía valiendo
+`powershell -ExecutionPolicy Bypass -File tools/serve.ps1`.
 
 Después abrí http://localhost:8080
 

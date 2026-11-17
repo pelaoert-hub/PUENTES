@@ -3,12 +3,10 @@
   "configurations": [
     {
       "name": "puentes",
-      "runtimeExecutable": "powershell",
+      "runtimeExecutable": "python3",
       "runtimeArgs": [
-        "-NoProfile",
-        "-ExecutionPolicy", "Bypass",
-        "-File", "tools/serve.ps1",
-        "-Port", "8080"
+        "tools/serve.py",
+        "--port", "8080"
       ],
       "port": 8080
     }
