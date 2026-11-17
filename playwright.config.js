@@ -2,16 +2,17 @@
 //
 // Dos decisiones que no hay que deshacer sin entender por que:
 //
-//   1. channel: 'msedge'. El proxy de esta red corta la descarga del Chromium
-//      propio de Playwright (`npx playwright install` falla por timeout), asi
-//      que usamos el Edge que ya esta instalado en el sistema. Si algun dia la
-//      descarga funciona, se puede quitar el canal y usar el navegador propio.
+//   1. Navegador. En el PC con Windows se usaba el Edge del sistema
+//      (channel: 'msedge') porque el proxy de aquella red cortaba la descarga
+//      del Chromium propio de Playwright. En el Mac se usa el Chromium propio
+//      de Playwright; se baja una vez con:  npx playwright install chromium
+//      (Si prefieres el Chrome instalado en el Mac, anade channel: 'chrome'.)
 //
 //   2. serviceWorkers: 'block'. Con el service worker activo las pruebas leen
 //      copias guardadas en cache y mienten: pasan aunque la pagina este rota.
 //      Esto ya engano una vez.
 //
-// El servidor estatico se levanta solo (tools/serve.ps1, puerto 8080).
+// El servidor estatico se levanta solo (tools/serve.py, puerto 8080).
 
 const { defineConfig, devices } = require('@playwright/test');
 
@@ -28,7 +29,6 @@ module.exports = defineConfig({
   use: {
     baseURL: BASE,
     serviceWorkers: 'block',
-    channel: 'msedge',
     trace: 'on-first-retry'
   },
 
@@ -36,16 +36,16 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'movil',
-      use: { ...devices['Desktop Edge'], channel: 'msedge', viewport: { width: 390, height: 840 } }
+      use: { ...devices['Desktop Chrome'], viewport: { width: 390, height: 840 } }
     },
     {
       name: 'escritorio',
-      use: { ...devices['Desktop Edge'], channel: 'msedge', viewport: { width: 1280, height: 900 } }
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 900 } }
     }
   ],
 
   webServer: {
-    command: 'powershell -NoProfile -ExecutionPolicy Bypass -File tools/serve.ps1 -Port ' + PUERTO,
+    command: 'python3 tools/serve.py --port ' + PUERTO,
     url: BASE,
     reuseExistingServer: !process.env.CI,
     timeout: 60 * 1000
